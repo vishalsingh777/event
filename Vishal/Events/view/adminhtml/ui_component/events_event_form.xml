@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+events_event_form.xml
+Path: app/code/Vishal/Events/view/adminhtml/ui_component/events_event_form.xml
+-->
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">events_event_form.event_form_data_source</item>
+            <item name="deps" xsi:type="string">events_event_form.event_form_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Event Information</item>
+        <item name="config" xsi:type="array">
+            <item name="dataScope" xsi:type="string">data</item>
+            <item name="namespace" xsi:type="string">events_event_form</item>
+        </item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+        <item name="buttons" xsi:type="array">
+            <item name="back" xsi:type="string">Vishal\Events\Block\Adminhtml\Event\Edit\BackButton</item>
+            <item name="delete" xsi:type="string">Vishal\Events\Block\Adminhtml\Event\Edit\DeleteButton</item>
+            <item name="reset" xsi:type="string">Vishal\Events\Block\Adminhtml\Event\Edit\ResetButton</item>
+            <item name="save" xsi:type="string">Vishal\Events\Block\Adminhtml\Event\Edit\SaveButton</item>
+            <item name="save_and_continue" xsi:type="string">Vishal\Events\Block\Adminhtml\Event\Edit\SaveAndContinueButton</item>
+        </item>
+    </argument>
+    <dataSource name="event_form_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">Vishal\Events\Ui\Component\Form\Event\DataProvider</argument>
+            <argument name="name" xsi:type="string">event_form_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">event_id</argument>
+            <argument name="requestFieldName" xsi:type="string">event_id</argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="submit_url" xsi:type="url" path="events/event/save"/>
+                </item>
+            </argument>
+        </argument>
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+    </dataSource>
+    <fieldset name="general">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string" translate="true">General Information</item>
+                <item name="collapsible" xsi:type="boolean">true</item>
+                <item name="opened" xsi:type="boolean">true</item>
+                <item name="sortOrder" xsi:type="number">10</item>
+            </item>
+        </argument>
+        <field name="event_id">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="visible" xsi:type="boolean">false</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">event</item>
+                    <item name="dataScope" xsi:type="string">event_id</item>
+                </item>
+            </argument>
+        </field>
+        <field name="event_title">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Event Title</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">event</item>
+                    <item name="sortOrder" xsi:type="number">10</item>
+                    <item name="dataScope" xsi:type="string">event_title</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="event_venue">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Event Venue</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">event</item>
+                    <item name="sortOrder" xsi:type="number">20</item>
+                    <item name="dataScope" xsi:type="string">event_venue</item>
+                </item>
+            </argument>
+        </field>
+        <field name="url_key">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">URL Key</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">event</item>
+                    <item name="sortOrder" xsi:type="number">30</item>
+                    <item name="dataScope" xsi:type="string">url_key</item>
+                    <item name="notice" xsi:type="string" translate="true">Leave empty to auto-generate from title</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="validate-identifier" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="color">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Color</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">event</item>
+                    <item name="sortOrder" xsi:type="number">40</item>
+                    <item name="dataScope" xsi:type="string">color</item>
+                    <item name="notice" xsi:type="string" translate="true">Used for visual representation (e.g., #FF5733)</item>
+                </item>
+            </argument>
+        </field>
+        <field name="youtube_video_url">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">YouTube Video URL</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">event</item>
+                    <item name="sortOrder" xsi:type="number">50</item>
+                    <item name="dataScope" xsi:type="string">youtube_video_url</item>
+                    <item name="notice" xsi:type="string" translate="true">Example: https://www.youtube.com/watch?v=xxxxxxxxxxx</item>
+                </item>
+            </argument>
+        </field>
+        <field name="status">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Vishal\Events\Model\Source\IsActive</item>
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">int</item>
+                    <item name="label" xsi:type="string" translate="true">Status</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="source" xsi:type="string">event</item>
+                    <item name="sortOrder" xsi:type="number">60</item>
+                    <item name="dataScope" xsi:type="string">status</item>
+                    <item name="default" xsi:type="number">1</item>
+                </item>
+            </argument>
+        </field>
+    </fieldset>
+    <fieldset name="date_time">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string" translate="true">Date &amp; Time</item>
+                <item name="collapsible" xsi:type="boolean">true</item>
+                <item name="opened" xsi:type="boolean">true</item>
+                <item name="sortOrder" xsi:type="number">20</item>
+            </item>
+        </argument>
+        <field name="start_date">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">string</item>
+                    <item name="label" xsi:type="string" translate="true">Start Date &amp; Time</item>
+                    <item name="formElement" xsi:type="string">date</item>
+                    <item name="source" xsi:type="string">event</item>
+                    <item name="sortOrder" xsi:type="number">10</item>
+                    <item name="dataScope" xsi:type="string">start_date</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                    <item name="options" xsi:type="array">
+                        <item name="dateFormat" xsi:type="string">yyyy-MM-dd</item>
+                        <item name="timeFormat" xsi:type="string">HH:mm:ss</item>
+                        <item name="showsTime" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="end_date">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">string</item>
+                    <item name="label" xsi:type="string" translate="true">End Date &amp; Time</item>
+                    <item name="formElement" xsi:type="string">date</item>
+                    <item name="source" xsi:type="string">event</item>
+                    <item name="sortOrder" xsi:type="number">20</item>
+                    <item name="dataScope" xsi:type="string">end_date</item>
+                    <item name="notice" xsi:type="string" translate="true">Leave empty for single-day events</item>
+                    <item name="options" xsi:type="array">
+                        <item name="dateFormat" xsi:type="string">yyyy-MM-dd</item>
+                        <item name="timeFormat" xsi:type="string">HH:mm:ss</item>
+                        <item name="showsTime" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+    </fieldset>
+    <fieldset name="content">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string" translate="true">Content</item>
+                <item name="collapsible" xsi:type="boolean">true</item>
+                <item name="sortOrder" xsi:type="number">30</item>
+            </item>
+        </argument>
+        <field name="content">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Content</item>
+                    <item name="formElement" xsi:type="string">wysiwyg</item>
+                    <item name="source" xsi:type="string">event</item>
+                    <item name="wysiwyg" xsi:type="boolean">true</item>
+                    <item name="sortOrder" xsi:type="number">10</item>
+                    <item name="dataScope" xsi:type="string">content</item>
+                </item>
+            </argument>
+        </field>
+    </fieldset>
+    <fieldset name="recurring">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string" translate="true">Recurring</item>
+                <item name="collapsible" xsi:type="boolean">true</item>
+                <item name="sortOrder" xsi:type="number">40</item>
+            </item>
+        </argument>
+        <field name="recurring">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">boolean</item>
+                    <item name="label" xsi:type="string" translate="true">Is Recurring</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="source" xsi:type="string">event</item>
+                    <item name="sortOrder" xsi:type="number">10</item>
+                    <item name="dataScope" xsi:type="string">recurring</item>
+                    <item name="default" xsi:type="number">0</item>
+                    <item name="notice" xsi:type="string" translate="true">Set to yes if this is a recurring event</item>
+                    <item name="options" xsi:type="array">
+                        <item name="optionZero" xsi:type="array">
+                            <item name="value" xsi:type="number">0</item>
+                            <item name="label" xsi:type="string" translate="true">No</item>
+                        </item>
+                        <item name="optionOne" xsi:type="array">
+                            <item name="value" xsi:type="number">1</item>
+                            <item name="label" xsi:type="string" translate="true">Yes</item>
+                        </item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="repeat">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Vishal\Events\Model\Source\RepeatType</item>
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Repeat Type</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="source" xsi:type="string">event</item>
+                    <item name="sortOrder" xsi:type="number">20</item>
+                    <item name="dataScope" xsi:type="string">repeat</item>
+                    <item name="notice" xsi:type="string" translate="true">Select how often the event repeats</item>
+                </item>
+            </argument>
+        </field>
+        <field name="repeat_every">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Repeat Every</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">event</item>
+                    <item name="sortOrder" xsi:type="number">30</item>
+                    <item name="dataScope" xsi:type="string">repeat_every</item>
+                    <item name="notice" xsi:type="string" translate="true">Number of days/weeks/months/years between occurrences</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="validate-number" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+    </fieldset>
+    <fieldset name="contact">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string" translate="true">Contact Information</item>
+                <item name="collapsible" xsi:type="boolean">true</item>
+                <item name="sortOrder" xsi:type="number">50</item>
+            </item>
+        </argument>
+        <field name="contact_person">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Contact Person</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">event</item>
+                    <item name="sortOrder" xsi:type="number">10</item>
+                    <item name="dataScope" xsi:type="string">contact_person</item>
+                </item>
+            </argument>
+        </field>
+        <field name="phone">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Phone</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">event</item>
+                    <item name="sortOrder" xsi:type="number">20</item>
+                    <item name="dataScope" xsi:type="string">phone</item>
+                </item>
+            </argument>
+        </field>
+        <field name="fax">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Fax</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">event</item>
+                    <item name="sortOrder" xsi:type="number">30</item>
+                    <item name="dataScope" xsi:type="string">fax</item>
+                </item>
+            </argument>
+        </field>
+        <field name="email">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Email</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">event</item>
+                    <item name="sortOrder" xsi:type="number">40</item>
+                    <item name="dataScope" xsi:type="string">email</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="validate-email" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="address">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Address</item>
+                    <item name="formElement" xsi:type="string">textarea</item>
+                    <item name="source" xsi:type="string">event</item>
+                    <item name="sortOrder" xsi:type="number">50</item>
+                    <item name="dataScope" xsi:type="string">address</item>
+                </item>
+            </argument>
+        </field>
+    </fieldset>
+    <fieldset name="meta">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string" translate="true">Meta Information</item>
+                <item name="collapsible" xsi:type="boolean">true</item>
+                <item name="sortOrder" xsi:type="number">60</item>
+            </item>
+        </argument>
+        <field name="page_title">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Page Title</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">event</item>
+                    <item name="sortOrder" xsi:type="number">10</item>
+                    <item name="dataScope" xsi:type="string">page_title</item>
+                    <item name="notice" xsi:type="string" translate="true">Leave empty to use event title</item>
+                </item>
+            </argument>
+        </field>
+        <field name="meta_keywords">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Meta Keywords</item>
+                    <item name="formElement" xsi:type="string">textarea</item>
+                    <item name="source" xsi:type="string">event</item>
+                    <item name="sortOrder" xsi:type="number">20</item>
+                    <item name="dataScope" xsi:type="string">meta_keywords</item>
+                </item>
+            </argument>
+        </field>
+        <field name="meta_description">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Meta Description</item>
+                    <item name="formElement" xsi:type="string">textarea</item>
+                    <item name="source" xsi:type="string">event</item>
+                    <item name="sortOrder" xsi:type="number">30</item>
+                    <item name="dataScope" xsi:type="string">meta_description</item>
+                </item>
+            </argument>
+        </field>
+    </fieldset>
+    <fieldset name="stores">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string" translate="true">Store Views</item>
+                <item name="collapsible" xsi:type="boolean">true</item>
+                <item name="sortOrder" xsi:type="number">70</item>
+            </item>
+        </argument>
+        <field name="store_id">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Magento\Store\Model\System\Store</item>
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">int</item>
+                    <item name="label" xsi:type="string" translate="true">Store Views</item>
+                    <item name="formElement" xsi:type="string">multiselect</item>
+                    <item name="source" xsi:type="string">event</item>
+                    <item name="dataScope" xsi:type="string">store_id</item>
+                    <item name="default" xsi:type="string">0</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+    </fieldset>
+    <fieldset name="tickets">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string" translate="true">Tickets</item>
+                <item name="collapsible" xsi:type="boolean">true</item>
+                <item name="sortOrder" xsi:type="number">80</item>
+            </item>
+        </argument>
+        
+        <insertListing name="product_listing">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="autoRender" xsi:type="boolean">true</item>
+                    <item name="ns" xsi:type="string">event_product_listing</item>
+                    <item name="dataScope" xsi:type="string">event_product_listing</item>
+                    <item name="externalProvider" xsi:type="string">event_product_listing.event_product_listing_data_source</item>
+                    <item name="selectionsProvider" xsi:type="string">event_product_listing.event_product_listing.event_product_columns.ids</item>
+                    <item name="render_url" xsi:type="url" path="mui/index/render"/>
+                    <item name="realTimeLink" xsi:type="boolean">true</item>
+                    <item name="dataLinks" xsi:type="array">
+                        <item name="imports" xsi:type="boolean">true</item>
+                        <item name="exports" xsi:type="boolean">true</item>
+                    </item>
+                    <item name="behaviourType" xsi:type="string">simple</item>
+                    <item name="externalFilterMode" xsi:type="boolean">true</item>
+                    <item name="imports" xsi:type="array">
+                        <item name="event_id" xsi:type="string">${ $.provider }:data.event_id</item>
+                    </item>
+                    <item name="exports" xsi:type="array">
+                        <item name="event_id" xsi:type="string">${ $.externalProvider }:params.event_id</item>
+                    </item>
+                </item>
+            </argument>
+        </insertListing>
+
+        
+        <modal name="product_modal">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="isTemplate" xsi:type="boolean">false</item>
+                    <item name="componentType" xsi:type="string">modal</item>
+                    <item name="dataScope" xsi:type="string"></item>
+                    <item name="provider" xsi:type="string">events_event_form.event_form_data_source</item>
+                    <item name="options" xsi:type="array">
+                        <item name="title" xsi:type="string" translate="true">Add Products to Event</item>
+                        <item name="buttons" xsi:type="array">
+                            <item name="0" xsi:type="array">
+                                <item name="text" xsi:type="string" translate="true">Cancel</item>
+                                <item name="actions" xsi:type="array">
+                                    <item name="0" xsi:type="string">closeModal</item>
+                                </item>
+                            </item>
+                            <item name="1" xsi:type="array">
+                                <item name="text" xsi:type="string" translate="true">Add Selected Products</item>
+                                <item name="class" xsi:type="string">action-primary</item>
+                                <item name="actions" xsi:type="array">
+                                    <item name="0" xsi:type="array">
+                                        <item name="targetName" xsi:type="string">index = product_selection_listing</item>
+                                        <item name="actionName" xsi:type="string">save</item>
+                                    </item>
+                                    <item name="1" xsi:type="string">closeModal</item>
+                                </item>
+                            </item>
+                        </item>
+                    </item>
+                </item>
+            </argument>
+            <insertListing name="product_selection_listing">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="autoRender" xsi:type="boolean">false</item>
+                        <item name="ns" xsi:type="string">product_listing</item>
+                        <item name="externalProvider" xsi:type="string">product_listing.product_listing_data_source</item>
+                        <item name="selectionsProvider" xsi:type="string">product_listing.product_listing.product_columns.ids</item>
+                        <item name="dataLinks" xsi:type="array">
+                            <item name="imports" xsi:type="boolean">false</item>
+                            <item name="exports" xsi:type="boolean">true</item>
+                        </item>
+                        <item name="externalFilterMode" xsi:type="boolean">true</item>
+                        <item name="dataScope" xsi:type="string">product_tickets</item>
+                        <item name="save_parameters_in_session" xsi:type="boolean">true</item>
+                    </item>
+                </argument>
+            </insertListing>
+        </modal>
+    </fieldset>
+</form>  

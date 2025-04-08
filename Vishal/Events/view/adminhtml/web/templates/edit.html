@@ -1,0 +1,90 @@
+<div class="admin__field-complex" if="ticketRows().length || $data.additionalClasses">
+    <div class="admin__field-complex-title">
+        <span><translate args="'Manual Tickets'"/></span>
+    </div>
+    <div class="admin__field-complex-elements">
+        <div class="admin__field-complex-content">
+            <table class="admin__dynamic-rows data-grid">
+                <thead>
+                    <tr>
+                        <th><span><translate args="'Name'"/></span></th>
+                        <th><span><translate args="'SKU'"/></span></th>
+                        <th><span><translate args="'Price'"/></span></th>
+                        <th><span><translate args="'Position'"/></span></th>
+                        <th><span><translate args="'Actions'"/></span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- ko foreach: ticketRows -->
+                    <tr>
+                        <td>
+                            <input type="hidden" data-bind="
+                                attr: {
+                                    name: $parent.getInputName('ticket_id', ticketId),
+                                    id: $parent.getInputId('ticket_id', ticketId)
+                                },
+                                value: ticketId"
+                            />
+                            <input type="text" class="admin__control-text required-entry" data-bind="
+                                attr: {
+                                    name: $parent.getInputName('name', ticketId),
+                                    id: $parent.getInputId('name', ticketId),
+                                    placeholder: $t('Ticket Name')
+                                },
+                                value: name"
+                            />
+                        </td>
+                        <td>
+                            <input type="text" class="admin__control-text required-entry" data-bind="
+                                attr: {
+                                    name: $parent.getInputName('sku', ticketId),
+                                    id: $parent.getInputId('sku', ticketId),
+                                    placeholder: $t('SKU')
+                                },
+                                value: sku"
+                            />
+                        </td>
+                        <td>
+                            <input type="text" class="admin__control-text validate-number" data-bind="
+                                attr: {
+                                    name: $parent.getInputName('price', ticketId),
+                                    id: $parent.getInputId('price', ticketId),
+                                    placeholder: $t('Price')
+                                },
+                                value: price"
+                            />
+                        </td>
+                        <td>
+                            <input type="text" class="admin__control-text validate-number" data-bind="
+                                attr: {
+                                    name: $parent.getInputName('position', ticketId),
+                                    id: $parent.getInputId('position', ticketId),
+                                    placeholder: $t('Position')
+                                },
+                                value: position"
+                            />
+                        </td>
+                        <td>
+                            <button type="button" class="action-delete" data-bind="click: function() { $parent.removeTicket($data); }">
+                                <span><translate args="'Delete'"/></span>
+                            </button>
+                        </td>
+                    </tr>
+                    <!-- /ko -->
+                    <!-- ko if: !ticketRows().length -->
+                    <tr>
+                        <td colspan="5" class="empty-text">
+                            <span><translate args="'No tickets defined'"/></span>
+                        </td>
+                    </tr>
+                    <!-- /ko -->
+                </tbody>
+            </table>
+        </div>
+        <div class="admin__field-complex-action">
+            <button type="button" class="action-secondary" data-bind="click: addTicket">
+                <span><translate args="'Add Manual Ticket'"/></span>
+            </button>
+        </div>
+    </div>
+</div>

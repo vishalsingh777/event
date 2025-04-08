@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Vishal_Events::events" 
+             title="Events" 
+             translate="title" 
+             module="Vishal_Events" 
+             sortOrder="50" 
+             parent="Magento_Catalog::catalog" 
+             resource="Vishal_Events::events"/>
+        
+        <add id="Vishal_Events::event_manage" 
+             title="Manage Events" 
+             translate="title" 
+             module="Vishal_Events" 
+             sortOrder="10" 
+             parent="Vishal_Events::events" 
+             action="events/event/index" 
+             resource="Vishal_Events::event"/>
+        
+        <add id="Vishal_Events::event_configuration" 
+             title="Configuration" 
+             translate="title" 
+             module="Vishal_Events" 
+             sortOrder="20" 
+             parent="Vishal_Events::events" 
+             action="adminhtml/system_config/edit/section/vishal_events" 
+             resource="Vishal_Events::config"/>
+    </menu>
+</config>

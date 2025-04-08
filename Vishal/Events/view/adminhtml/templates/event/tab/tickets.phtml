@@ -1,0 +1,123 @@
+<?php
+/**
+ * tickets.phtml
+ * Path: app/code/Vishal/Events/view/adminhtml/templates/event/tab/tickets.phtml
+ */
+?>
+<?php
+/**
+ * @var \Vishal\Events\Block\Adminhtml\Event\Tab\TicketsJs $block
+ * @var \Magento\Framework\Escaper $escaper
+ */
+$event = $block->getEvent();
+$manualTickets = $block->getManualTickets();
+$productTicketsIds = $block->getProductTicketsIds();
+?>
+
+<div class="tickets-container">
+    <!-- Manual Tickets Section -->
+    <div class="manual-tickets">
+        <h2><?= $escaper->escapeHtml(__('Manual Tickets')) ?></h2>
+        <div id="tickets-container">
+            <div class="admin__control-table-wrapper">
+                <table id="manual-tickets-table" class="admin__control-table">
+                    <thead>
+                        <tr>
+                            <th><?= $escaper->escapeHtml(__('Name')) ?></th>
+                            <th><?= $escaper->escapeHtml(__('SKU')) ?></th>
+                            <th><?= $escaper->escapeHtml(__('Price')) ?></th>
+                            <th><?= $escaper->escapeHtml(__('Position')) ?></th>
+                            <th class="col-actions"><?= $escaper->escapeHtml(__('Action')) ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (count($manualTickets) > 0): ?>
+                            <?php foreach ($manualTickets as $ticket): ?>
+                                <tr data-ticket-id="<?= (int)$ticket->getId() ?>">
+                                    <td>
+                                        <input type="hidden" name="tickets[<?= (int)$ticket->getId() ?>][ticket_id]" value="<?= (int)$ticket->getId() ?>" />
+                                        <input type="text" class="admin__control-text" name="tickets[<?= (int)$ticket->getId() ?>][name]" value="<?= $escaper->escapeHtmlAttr($ticket->getName()) ?>" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="admin__control-text" name="tickets[<?= (int)$ticket->getId() ?>][sku]" value="<?= $escaper->escapeHtmlAttr($ticket->getSku()) ?>" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="admin__control-text" name="tickets[<?= (int)$ticket->getId() ?>][price]" value="<?= $escaper->escapeHtmlAttr($ticket->getPrice()) ?>" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="admin__control-text" name="tickets[<?= (int)$ticket->getId() ?>][position]" value="<?= (int)$ticket->getPosition() ?>" />
+                                    </td>
+                                    <td>
+                                        <button type="button" class="action-default scalable delete remove-ticket">
+                                            <span><?= $escaper->escapeHtml(__('Delete')) ?></span>
+                                        </button>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr id="no-tickets-row">
+                                <td colspan="5"><?= $escaper->escapeHtml(__('No manual tickets defined yet.')) ?></td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5" class="col-actions-add">
+                                <button id="add-ticket-button" type="button" class="action-default scalable add">
+                                    <span><?= $escaper->escapeHtml(__('Add Ticket')) ?></span>
+                                </button>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Tickets Section -->
+    <div class="product-tickets">
+        <h2><?= $escaper->escapeHtml(__('Product Tickets')) ?></h2>
+        <p><?= $escaper->escapeHtml(__('Select products to associate with this event as tickets. Customers will be able to purchase these products as event tickets.')) ?></p>
+        
+        <input type="hidden" id="product_tickets" name="product_tickets" value="<?= $escaper->escapeHtmlAttr($productTicketsIds) ?>" />
+        
+        <?= $block->getProductGridHtml() ?>
+    </div>
+</div>
+
+<script id="ticket-row-template" type="text/x-magento-template">
+    <tr data-ticket-id="<%- data.ticket_id %>">
+        <td>
+            <input type="hidden" name="<%- data.prefix %>[<%- data.ticket_id %>][ticket_id]" value="<%- data.ticket_id %>" />
+            <input type="text" class="admin__control-text" name="<%- data.prefix %>[<%- data.ticket_id %>][name]" placeholder="<?= $escaper->escapeHtmlAttr(__('Ticket Name')) ?>" />
+        </td>
+        <td>
+            <input type="text" class="admin__control-text" name="<%- data.prefix %>[<%- data.ticket_id %>][sku]" placeholder="<?= $escaper->escapeHtmlAttr(__('SKU')) ?>" />
+        </td>
+        <td>
+            <input type="text" class="admin__control-text" name="<%- data.prefix %>[<%- data.ticket_id %>][price]" placeholder="<?= $escaper->escapeHtmlAttr(__('Price')) ?>" />
+        </td>
+        <td>
+            <input type="text" class="admin__control-text" name="<%- data.prefix %>[<%- data.ticket_id %>][position]" placeholder="<?= $escaper->escapeHtmlAttr(__('Position')) ?>" />
+        </td>
+        <td>
+            <button type="button" class="action-default scalable delete remove-ticket">
+                <span><?= $escaper->escapeHtml(__('Delete')) ?></span>
+            </button>
+        </td>
+    </tr>
+</script>
+
+<script type="text/x-magento-init">
+{
+    ".tickets-container": {
+        "Vishal_Events/js/events": {
+            "ticketRowTemplate": "#ticket-row-template",
+            "ticketContainer": "#manual-tickets-table tbody",
+            "addButton": "#add-ticket-button",
+            "removeButton": ".remove-ticket",
+            "ticketPrefix": "tickets"
+        }
+    }
+}
+</script>

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+events_event_edit.xml
+Path: app/code/Vishal/Events/view/adminhtml/layout/events_event_edit.xml
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="styles"/>
+    <update handle="editor"/>
+    <body>
+        <referenceContainer name="content">
+            <uiComponent name="events_event_form"/>
+             <block class="Magento\Backend\Block\Template" name="event_product_grid_js" template="Vishal_Events::event/product-grid.phtml" after="-"/>
+        </referenceContainer>
+    </body>
+</page>

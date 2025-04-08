@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+events_index_view.xml
+Path: app/code/Vishal/Events/view/frontend/layout/events_index_view.xml
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Vishal_Events::css/events.css"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Vishal\Events\Block\EventView" name="event.view" template="Vishal_Events::event/view.phtml">
+                <block class="Vishal\Events\Block\Event\Tickets" name="event.tickets" template="Vishal_Events::event/tickets.phtml" />
+            </block>
+        </referenceContainer>
+    </body>
+</page>

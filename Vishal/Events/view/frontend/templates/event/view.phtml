@@ -1,0 +1,128 @@
+<?php
+/**
+ * view.phtml
+ * Path: app/code/Vishal/Events/view/frontend/templates/event/view.phtml
+ */
+?>
+<?php
+/**
+ * @var \Vishal\Events\Block\EventView $block
+ * @var \Magento\Framework\Escaper $escaper
+ */
+$event = $block->getEvent();
+$helper = $block->getEventHelper();
+
+if (!$event) {
+    return;
+}
+?>
+
+<div class="event-view" style="<?= $event->getColor() ? 'border-left-color: ' . $escaper->escapeHtmlAttr($event->getColor()) . ';' : '' ?>">
+    <div class="event-header">
+        <div class="event-info-main">
+            <h1 class="event-title"><?= $escaper->escapeHtml($event->getEventTitle()) ?></h1>
+            
+            <?php if ($event->getEventVenue()): ?>
+                <div class="event-venue">
+                    <strong><?= $escaper->escapeHtml(__('Venue')) ?>:</strong> 
+                    <?= $escaper->escapeHtml($event->getEventVenue()) ?>
+                </div>
+            <?php endif; ?>
+            
+            <div class="event-date">
+                <strong><?= $escaper->escapeHtml(__('Date')) ?>:</strong> 
+                <?= $escaper->escapeHtml($helper->formatDate($event->getStartDate(), 'M d, Y')) ?>
+                <?= $escaper->escapeHtml($helper->formatTime($event->getStartDate())) ?>
+                
+                <?php if ($event->getEndDate()): ?>
+                    - <?= $escaper->escapeHtml($helper->formatDate($event->getEndDate(), 'M d, Y')) ?>
+                    <?= $escaper->escapeHtml($helper->formatTime($event->getEndDate())) ?>
+                <?php endif; ?>
+            </div>
+            
+            <?php if ($event->getRecurring()): ?>
+                <div class="event-recurring">
+                    <strong><?= $escaper->escapeHtml(__('Recurring')) ?>:</strong>
+                    <?php if ($event->getRepeat() && $event->getRepeatEvery()): ?>
+                        <?= $escaper->escapeHtml(__('Every %1 %2', $event->getRepeatEvery(), ucfirst($event->getRepeat()))) ?>
+                    <?php else: ?>
+                        <?= $escaper->escapeHtml(__('Yes')) ?>
+                    <?php endif; ?>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+
+    <?php if ($event->getYoutubeVideoUrl()): ?>
+        <div class="event-video">
+            <div class="video-container">
+                <iframe width="560" height="315" 
+                    src="<?= $escaper->escapeUrl(str_replace('watch?v=', 'embed/', $event->getYoutubeVideoUrl())) ?>" 
+                    frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <?php if ($event->getContent()): ?>
+        <div class="event-content">
+            <?= /* @noEscape */ $block->getCmsFilteredContent($event->getContent()) ?>
+        </div>
+    <?php endif; ?>
+
+    <?php if ($block->hasTickets()): ?>
+        <div class="event-tickets">
+            <h2><?= $escaper->escapeHtml(__('Available Tickets')) ?></h2>
+            <?= $block->getChildHtml('event.tickets') ?>
+        </div>
+    <?php endif; ?>
+
+    <?php if ($event->getContactPerson() || $event->getPhone() || $event->getEmail() || $event->getAddress()): ?>
+        <div class="event-contact-info">
+            <h2><?= $escaper->escapeHtml(__('Contact Information')) ?></h2>
+            <div class="box">
+                <?php if ($event->getContactPerson()): ?>
+                    <div class="contact-item">
+                        <strong><?= $escaper->escapeHtml(__('Contact Person')) ?>:</strong> 
+                        <?= $escaper->escapeHtml($event->getContactPerson()) ?>
+                    </div>
+                <?php endif; ?>
+                
+                <?php if ($event->getPhone()): ?>
+                    <div class="contact-item">
+                        <strong><?= $escaper->escapeHtml(__('Phone')) ?>:</strong> 
+                        <?= $escaper->escapeHtml($event->getPhone()) ?>
+                    </div>
+                <?php endif; ?>
+                
+                <?php if ($event->getFax()): ?>
+                    <div class="contact-item">
+                        <strong><?= $escaper->escapeHtml(__('Fax')) ?>:</strong> 
+                        <?= $escaper->escapeHtml($event->getFax()) ?>
+                    </div>
+                <?php endif; ?>
+                
+                <?php if ($event->getEmail()): ?>
+                    <div class="contact-item">
+                        <strong><?= $escaper->escapeHtml(__('Email')) ?>:</strong> 
+                        <a href="mailto:<?= $escaper->escapeHtmlAttr($event->getEmail()) ?>">
+                            <?= $escaper->escapeHtml($event->getEmail()) ?>
+                        </a>
+                    </div>
+                <?php endif; ?>
+                
+                <?php if ($event->getAddress()): ?>
+                    <div class="contact-item">
+                        <strong><?= $escaper->escapeHtml(__('Address')) ?>:</strong> 
+                        <?= $escaper->escapeHtml($event->getAddress()) ?>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <div class="event-actions">
+        <a href="<?= $escaper->escapeUrl($block->getEventsUrl()) ?>" class="action secondary">
+            <?= $escaper->escapeHtml(__('Back to Events List')) ?>
+        </a>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+events_index_index.xml
+Path: app/code/Vishal/Events/view/frontend/layout/events_index_index.xml
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Vishal_Events::css/events.css"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Vishal\Events\Block\EventList" name="events.list" template="Vishal_Events::event/list.phtml">
+                <container name="event.list.pager.container" as="pager_container">
+                    <block class="Magento\Theme\Block\Html\Pager" name="event.list.pager" as="pager"/>
+                </container>
+            </block>
+        </referenceContainer>
+        <referenceBlock name="page.main.title">
+            <action method="setPageTitle">
+                <argument translate="true" name="title" xsi:type="string">Events</argument>
+            </action>
+        </referenceBlock>
+    </body>
+</page>
+

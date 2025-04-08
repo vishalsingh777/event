@@ -1,0 +1,78 @@
+<?php
+/**
+ * list.phtml
+ * Path: app/code/Vishal/Events/view/frontend/templates/event/list.phtml
+ */
+?>
+<?php
+/**
+ * @var \Vishal\Events\Block\EventList $block
+ * @var \Magento\Framework\Escaper $escaper
+ */
+$events = $block->getEvents();
+$helper = $block->getEventHelper();
+?>
+
+<div class="events-list">
+    <?php if ($events && count($events)): ?>
+        <div class="events-items">
+            <?php foreach ($events as $event): ?>
+                <div class="event-item" style="<?= $event->getColor() ? 'border-left-color: ' . $escaper->escapeHtmlAttr($event->getColor()) . ';' : '' ?>">
+                    <div class="event-info">
+                        <h3 class="event-title">
+                            <a href="<?= $escaper->escapeUrl($helper->getEventUrl($event)) ?>">
+                                <?= $escaper->escapeHtml($event->getEventTitle()) ?>
+                            </a>
+                        </h3>
+                        
+                        <?php if ($event->getEventVenue()): ?>
+                            <div class="event-venue">
+                                <strong><?= $escaper->escapeHtml(__('Venue')) ?>:</strong> 
+                                <?= $escaper->escapeHtml($event->getEventVenue()) ?>
+                            </div>
+                        <?php endif; ?>
+                        
+                        <div class="event-date">
+                            <strong><?= $escaper->escapeHtml(__('Date')) ?>:</strong> 
+                            <?= $escaper->escapeHtml($helper->formatDate($event->getStartDate(), 'M d, Y')) ?>
+                            <?= $escaper->escapeHtml($helper->formatTime($event->getStartDate())) ?>
+                            
+                            <?php if ($event->getEndDate()): ?>
+                                - <?= $escaper->escapeHtml($helper->formatDate($event->getEndDate(), 'M d, Y')) ?>
+                                <?= $escaper->escapeHtml($helper->formatTime($event->getEndDate())) ?>
+                            <?php endif; ?>
+                        </div>
+                        
+                        <?php if ($event->getRecurring()): ?>
+                            <div class="event-recurring">
+                                <strong><?= $escaper->escapeHtml(__('Recurring')) ?>:</strong>
+                                <?php if ($event->getRepeat() && $event->getRepeatEvery()): ?>
+                                    <?= $escaper->escapeHtml(__('Every %1 %2', $event->getRepeatEvery(), ucfirst($event->getRepeat()))) ?>
+                                <?php else: ?>
+                                    <?= $escaper->escapeHtml(__('Yes')) ?>
+                                <?php endif; ?>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                    
+                    <div class="event-actions">
+                        <a href="<?= $escaper->escapeUrl($helper->getEventUrl($event)) ?>" class="action primary">
+                            <?= $escaper->escapeHtml(__('View Details')) ?>
+                        </a>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+        
+        <?php if ($block->getPagerHtml()): ?>
+            <div class="events-toolbar toolbar bottom">
+                <?= $block->getPagerHtml() ?>
+            </div>
+        <?php endif; ?>
+    <?php else: ?>
+        <div class="message info empty">
+            <div><?= $escaper->escapeHtml(__('No events found.')) ?></div>
+        </div>
+    <?php endif; ?>
+</div>
+

@@ -1,0 +1,56 @@
+/**
+ * ticket/renderer.phtml
+ * Path: app/code/Vishal/Events/view/adminhtml/templates/event/ticket/renderer.phtml
+ */
+?>
+<?php
+/**
+ * @var \Magento\Framework\View\Element\Template $block
+ * @var \Magento\Framework\Escaper $escaper
+ */
+?>
+<div id="tickets-editor" data-bind="scope: 'tickets'">
+    <!-- ko template: getTemplate() --><!-- /ko -->
+</div>
+
+<script type="text/x-magento-init">
+{
+    "#tickets-editor": {
+        "Magento_Ui/js/core/app": {
+            "components": {
+                "tickets": {
+                    "component": "Vishal_Events/js/tickets/edit",
+                    "template": "Vishal_Events/tickets/edit",
+                    "provider": "events_event_form.event_form_data_source",
+                    "config": {
+                        "dataScope": "data.manual_tickets"
+                    }
+                }
+            }
+        }
+    }
+}
+</script>
+
+<script id="ticket-row-template" type="text/x-magento-template">
+    <tr data-ticket-id="<%- data.ticket_id %>">
+        <td>
+            <input type="hidden" name="<%- data.prefix %>[<%- data.ticket_id %>][ticket_id]" value="<%- data.ticket_id %>" />
+            <input type="text" class="admin__control-text" name="<%- data.prefix %>[<%- data.ticket_id %>][name]" placeholder="<?= $escaper->escapeHtmlAttr(__('Ticket Name')) ?>" />
+        </td>
+        <td>
+            <input type="text" class="admin__control-text" name="<%- data.prefix %>[<%- data.ticket_id %>][sku]" placeholder="<?= $escaper->escapeHtmlAttr(__('SKU')) ?>" />
+        </td>
+        <td>
+            <input type="text" class="admin__control-text" name="<%- data.prefix %>[<%- data.ticket_id %>][price]" placeholder="<?= $escaper->escapeHtmlAttr(__('Price')) ?>" />
+        </td>
+        <td>
+            <input type="text" class="admin__control-text" name="<%- data.prefix %>[<%- data.ticket_id %>][position]" placeholder="<?= $escaper->escapeHtmlAttr(__('Position')) ?>" />
+        </td>
+        <td>
+            <button type="button" class="action-default scalable delete remove-ticket">
+                <span><?= $escaper->escapeHtml(__('Delete')) ?></span>
+            </button>
+        </td>
+    </tr>
+</script>

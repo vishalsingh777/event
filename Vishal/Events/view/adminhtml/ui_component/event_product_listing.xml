@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">event_product_listing.event_product_listing_data_source</item>
+            <item name="deps" xsi:type="string">event_product_listing.event_product_listing_data_source</item>
+        </item>
+        <!-- Adding this configuration for selection handling -->
+        <item name="config" xsi:type="array">
+            <item name="selectProvider" xsi:type="string">event_product_listing.event_product_listing.event_product_columns.ids</item>
+        </item>
+    </argument>
+    <settings>
+        <spinner>event_product_columns</spinner>
+        <deps>
+            <dep>event_product_listing.event_product_listing_data_source</dep>
+        </deps>
+        <!-- The selectProvider element was moved to the config array above -->
+    </settings>
+    <dataSource name="event_product_listing_data_source" component="Magento_Ui/js/grid/provider">
+        <settings>
+            <storageConfig>
+                <param name="indexField" xsi:type="string">entity_id</param>
+            </storageConfig>
+            <updateUrl path="mui/index/render"/>
+        </settings>
+        <aclResource>Magento_Catalog::products</aclResource>
+        <dataProvider class="Vishal\Events\Ui\DataProvider\Event\ProductDataProvider" name="event_product_listing_data_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>entity_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <listingToolbar name="listing_top">
+        <bookmark name="bookmarks"/>
+        <columnsControls name="columns_controls"/>
+        <paging name="listing_paging"/>
+    </listingToolbar>
+    <columns name="event_product_columns">
+        <selectionsColumn name="ids">
+            <settings>
+                <indexField>entity_id</indexField>
+                <preserveSelectionsOnFilter>true</preserveSelectionsOnFilter>
+            </settings>
+        </selectionsColumn>
+        <column name="entity_id">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">ID</label>
+                <sorting>asc</sorting>
+            </settings>
+        </column>
+        <column name="name">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Name</label>
+            </settings>
+        </column>
+        <column name="sku">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">SKU</label>
+            </settings>
+        </column>
+        <column name="price" class="Magento\Catalog\Ui\Component\Listing\Columns\Price">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Price</label>
+            </settings>
+        </column>
+        <column name="position" class="Vishal\Events\Ui\Component\Listing\Columns\Position">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Position</label>
+                <editor>
+                    <editorType>text</editorType>
+                </editor>
+            </settings>
+        </column>
+    </columns>
+</listing>

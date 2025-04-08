@@ -1,0 +1,229 @@
+/**
+ * _module.less
+ * Path: app/code/Vishal/Events/view/frontend/web/css/source/_module.less
+ */
+
+//
+//  Variables
+//
+@events-border-color: #cccccc;
+@events-background: #f5f5f5;
+@event-item-margin: 0 0 30px;
+@event-item-padding: 20px;
+@event-item-border-left-width: 4px;
+@event-item-border-left-color: #1979c3;
+
+//
+//  Common
+//
+& when (@media-common = true) {
+    .events-list {
+        .events-items {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .event-item {
+            margin: @event-item-margin;
+            padding: @event-item-padding;
+            background: @events-background;
+            border: 1px solid @events-border-color;
+            border-left-width: @event-item-border-left-width;
+            border-left-color: @event-item-border-left-color;
+            border-radius: 3px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            
+            .event-info {
+                flex-basis: 70%;
+                
+                .event-title {
+                    margin-top: 0;
+                    margin-bottom: 10px;
+                    
+                    a {
+                        color: #333333;
+                        text-decoration: none;
+                        
+                        &:hover {
+                            text-decoration: underline;
+                        }
+                    }
+                }
+                
+                .event-venue,
+                .event-date,
+                .event-recurring {
+                    margin-bottom: 5px;
+                }
+            }
+            
+            .event-actions {
+                flex-basis: 25%;
+                align-self: center;
+                text-align: right;
+            }
+        }
+    }
+    
+    .event-view {
+        margin: 0 0 40px;
+        padding: 30px;
+        background: @events-background;
+        border: 1px solid @events-border-color;
+        border-left-width: @event-item-border-left-width;
+        border-left-color: @event-item-border-left-color;
+        border-radius: 3px;
+        
+        .event-header {
+            margin-bottom: 20px;
+            
+            .event-title {
+                margin-top: 0;
+                margin-bottom: 10px;
+            }
+            
+            .event-venue,
+            .event-date,
+            .event-recurring {
+                margin-bottom: 5px;
+            }
+        }
+        
+        .event-video {
+            margin-bottom: 20px;
+            
+            .video-container {
+                position: relative;
+                padding-bottom: 56.25%;
+                height: 0;
+                overflow: hidden;
+                
+                iframe {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+        }
+        
+        .event-content {
+            margin-bottom: 30px;
+        }
+        
+        .event-tickets {
+            margin-bottom: 30px;
+            
+            h2 {
+                margin-bottom: 20px;
+            }
+            
+            .event-tickets-list {
+                .ticket-item {
+                    margin-bottom: 15px;
+                    padding: 15px;
+                    background: #ffffff;
+                    border: 1px solid @events-border-color;
+                    border-radius: 3px;
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: space-between;
+                    
+                    .ticket-info {
+                        flex-basis: 70%;
+                        
+                        .ticket-name {
+                            margin-top: 0;
+                            margin-bottom: 5px;
+                        }
+                    }
+                    
+                    .ticket-actions {
+                        flex-basis: 25%;
+                        align-self: center;
+                        text-align: right;
+                    }
+                }
+            }
+        }
+        
+        .event-contact-info {
+            margin-bottom: 30px;
+            
+            h2 {
+                margin-bottom: 20px;
+            }
+            
+            .box {
+                padding: 15px;
+                background: #ffffff;
+                border: 1px solid @events-border-color;
+                border-radius: 3px;
+                
+                .contact-item {
+                    margin-bottom: 10px;
+                    
+                    &:last-child {
+                        margin-bottom: 0;
+                    }
+                }
+            }
+        }
+        
+        .event-actions {
+            margin-top: 20px;
+        }
+    }
+}
+
+//
+//  Mobile
+//
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .events-list {
+        .event-item {
+            flex-direction: column;
+            
+            .event-info,
+            .event-actions {
+                flex-basis: 100%;
+            }
+            
+            .event-actions {
+                text-align: left;
+                margin-top: 15px;
+            }
+        }
+    }
+    
+    .event-view {
+        .event-tickets {
+            .event-tickets-list {
+                .ticket-item {
+                    flex-direction: column;
+                    
+                    .ticket-info,
+                    .ticket-actions {
+                        flex-basis: 100%;
+                    }
+                    
+                    .ticket-actions {
+                        text-align: left;
+                        margin-top: 15px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+//
+//  Desktop
+//
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    // Enhanced styling for desktop can be added here
+}

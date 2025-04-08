@@ -1,0 +1,29 @@
+<?php
+/**
+ * @var \Magento\Backend\Block\Template $block
+ */
+$eventId = $block->getRequest()->getParam('event_id');
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$selectedProducts = [];
+
+if ($eventId) {
+    $ticketRepository = $objectManager->create(\Vishal\Events\Model\EventTicketRepository::class);
+    $tickets = $ticketRepository->getTicketsForEvent($eventId);
+    
+    foreach ($tickets as $ticket) {
+        if ($ticket->getProductId()) {
+            $selectedProducts[] = $ticket->getProductId();
+        }
+    }
+}
+?>
+
+<input type="hidden" id="event_products" name="product_tickets" value="<?= implode(',', $selectedProducts) ?>" />
+
+<script type="text/x-magento-init">
+{
+    "#event_products": {
+        "Vishal_Events/js/event-product-grid": {}
+    }
+}
+</script>
