@@ -1,0 +1,107 @@
+<div class="admin__field" visible="visible" css="$data.additionalClasses">
+    <label class="admin__field-label" if="$data.label" attr="for: uid">
+        <span translate="label" attr="'data-config-scope': $data.scopeLabel"></span>
+    </label>
+    <div class="admin__field-control" attr="'data-index': index">
+        <div class="tickets-container" data-bind="visible: visible">
+            <div class="admin__data-grid-wrap">
+                <table class="data-grid">
+                    <thead>
+                        <tr>
+                            <th class="data-grid-th" translate="'Name'"></th>
+                            <th class="data-grid-th" translate="'SKU'"></th>
+                            <th class="data-grid-th" translate="'Price'"></th>
+                            <th class="data-grid-th" translate="'Product'"></th>
+                            <th class="data-grid-th" translate="'Position'"></th>
+                            <th class="data-grid-th" translate="'Action'"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- ko foreach: { data: ticketsData, as: 'ticket', afterRender: $data.afterRender } -->
+                        <tr>
+                            <td>
+                                <input type="hidden" 
+                                       data-bind="attr: {
+                                           name: 'tickets[' + $index() + '][ticket_id]'
+                                       }, 
+                                       value: ticket.ticket_id" />
+                                <input type="text" 
+                                       class="admin__control-text required-entry" 
+                                       data-bind="attr: {
+                                           name: 'tickets[' + $index() + '][name]'
+                                       }, 
+                                       value: ticket.name" />
+                            </td>
+                            <td>
+                                <input type="text" 
+                                       class="admin__control-text" 
+                                       data-bind="attr: {
+                                           name: 'tickets[' + $index() + '][sku]'
+                                       }, 
+                                       value: ticket.sku" />
+                            </td>
+                            <td>
+                                <input type="text" 
+                                       class="admin__control-text validate-number validate-greater-than-zero" 
+                                       data-bind="attr: {
+                                           name: 'tickets[' + $index() + '][price]'
+                                       }, 
+                                       value: ticket.price" />
+                            </td>
+                            <td>
+                                <div class="field-product">
+                                    <input type="hidden" 
+                                           data-bind="attr: {
+                                               name: 'tickets[' + $index() + '][product_id]',
+                                               id: 'product_id_' + $index()
+                                           }, 
+                                           value: ticket.product_id" />
+                                    <input type="text" 
+                                           class="admin__control-text" 
+                                           readonly 
+                                           data-bind="attr: {
+                                               name: 'tickets[' + $index() + '][product_name]',
+                                               id: 'product_name_' + $index()
+                                           }, 
+                                           value: ticket.product_name" />
+                                    <button type="button" 
+                                            class="action-choose" 
+                                            data-bind="click: function() { $parent.openProductSelector($index()) }">
+                                        <span translate="'Choose Product'"></span>
+                                    </button>
+                                </div>
+                            </td>
+                            <td>
+                                <input type="text" 
+                                       class="admin__control-text validate-number" 
+                                       data-bind="attr: {
+                                           name: 'tickets[' + $index() + '][position]'
+                                       }, 
+                                       value: ticket.position" />
+                            </td>
+                            <td>
+                                <button type="button" 
+                                        class="action-delete" 
+                                        data-bind="click: function() { $parent.removeItem($index()) }">
+                                    <span translate="'Delete'"></span>
+                                </button>
+                            </td>
+                        </tr>
+                        <!-- /ko -->
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="6" class="a-right">
+                                <button type="button" 
+                                        class="action-add primary" 
+                                        data-bind="click: addItem">
+                                    <span translate="'Add Ticket'"></span>
+                                </button>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Event Repository -->
+    <preference for="Vishal\Events\Api\EventRepositoryInterface" type="Vishal\Events\Model\EventRepository" />
+    <preference for="Vishal\Events\Api\Data\EventInterface" type="Vishal\Events\Model\Event" />
+    
+    <!-- Add Search Results Interfaces -->
+    <virtualType name="Vishal\Events\Model\Api\SearchCriteria\EventCollectionProcessor" type="Magento\Framework\Api\SearchCriteria\CollectionProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="filters" xsi:type="object">Magento\Framework\Api\SearchCriteria\CollectionProcessor\FilterProcessor</item>
+                <item name="sorting" xsi:type="object">Magento\Framework\Api\SearchCriteria\CollectionProcessor\SortingProcessor</item>
+                <item name="pagination" xsi:type="object">Magento\Framework\Api\SearchCriteria\CollectionProcessor\PaginationProcessor</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    
+    <type name="Vishal\Events\Model\EventRepository">
+        <arguments>
+            <argument name="collectionProcessor" xsi:type="object">Vishal\Events\Model\Api\SearchCriteria\EventCollectionProcessor</argument>
+        </arguments>
+    </type>
+    
+    <!-- Data Providers for UI Components -->
+    <virtualType name="Vishal\Events\Model\ResourceModel\Event\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">vishal_events</argument>
+            <argument name="resourceModel" xsi:type="string">Vishal\Events\Model\ResourceModel\Event</argument>
+        </arguments>
+    </virtualType>
+    
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="events_listing_data_source" xsi:type="string">Vishal\Events\Model\ResourceModel\Event\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <!-- Event Repository -->
+    <preference for="Vishal\Events\Api\EventRepositoryInterface" type="Vishal\Events\Model\EventRepository" />
+    <preference for="Vishal\Events\Api\Data\EventInterface" type="Vishal\Events\Model\Event" />
+    <preference for="Vishal\Events\Api\Data\EventSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
+</config>

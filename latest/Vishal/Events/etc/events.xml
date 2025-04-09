@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<!--
+events.xml
+Path: app/code/Vishal/Events/etc/events.xml
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="vishal_events_event_save_after">
+        <observer name="vishal_events_generate_url_rewrites" instance="Vishal\Events\Observer\GenerateEventUrlRewrite" />
+    </event>
+</config>

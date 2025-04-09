@@ -1,0 +1,102 @@
+<?php
+namespace Vishal\Events\Block;
+
+use Magento\Framework\View\Element\Template;
+use Magento\Framework\View\Element\Template\Context;
+use Vishal\Events\Model\ResourceModel\Event\CollectionFactory;
+use Vishal\Events\Model\Event;
+use Magento\Store\Model\StoreManagerInterface;
+use Vishal\Events\Helper\Data as EventHelper;
+
+class EventList extends Template
+{
+    /**
+     * @var CollectionFactory
+     */
+    protected $eventCollectionFactory;
+
+    /**
+     * @var StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
+     * @var EventHelper
+     */
+    protected $eventHelper;
+
+    /**
+     * @param Context $context
+     * @param CollectionFactory $eventCollectionFactory
+     * @param StoreManagerInterface $storeManager
+     * @param EventHelper $eventHelper
+     * @param array $data
+     */
+    public function __construct(
+        Context $context,
+        CollectionFactory $eventCollectionFactory,
+        StoreManagerInterface $storeManager,
+        EventHelper $eventHelper,
+        array $data = []
+    ) {
+        $this->eventCollectionFactory = $eventCollectionFactory;
+        $this->storeManager = $storeManager;
+        $this->eventHelper = $eventHelper;
+        parent::__construct($context, $data);
+    }
+
+    /**
+     * Get events
+     *
+     * @return \Vishal\Events\Model\ResourceModel\Event\Collection
+     */
+    public function getEvents()
+    {
+        $collection = $this->eventCollectionFactory->create();
+        $collection->addFieldToFilter('status', Event::STATUS_ENABLED)
+            ->addStoreFilter($this->storeManager->getStore())
+            ->addFieldToFilter('end_date', ['gteq' => date('Y-m-d H:i:s')])
+            ->setOrder('start_date', 'ASC');
+        
+        return $collection;
+    }
+
+    /**
+     * Get event URL
+     *
+     * @param Event $event
+     * @return string
+     */
+    public function getEventUrl($event)
+    {
+        return $this->getUrl('events/event/view', ['url_key' => $event->getUrlKey()]);
+    }
+
+    /**
+     * Format date
+     *
+     * @param string|null $date
+     * @param int $format
+     * @param bool $showTime
+     * @param string|null $timezone
+     * @return string
+     */
+    public function formatDate($date = null, $format = \IntlDateFormatter::SHORT, $showTime = false, $timezone = null)
+    {
+        if ($date !== null) {
+            return $this->eventHelper->formatDate($date);
+        }
+        return parent::formatDate($date, $format, $showTime, $timezone);
+    }
+
+    /**
+     * Format time
+     *
+     * @param string $date
+     * @return string
+     */
+    public function formatEventTime($date)
+    {
+        return $this->eventHelper->formatTime($date);
+    }
+}

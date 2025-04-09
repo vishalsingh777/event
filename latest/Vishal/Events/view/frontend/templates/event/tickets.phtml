@@ -1,0 +1,64 @@
+<?php
+/**
+ * tickets.phtml
+ * Path: app/code/Vishal/Events/view/frontend/templates/event/tickets.phtml
+ */
+?>
+<?php
+/**
+ * @var \Vishal\Events\Block\Event\Tickets $block
+ * @var \Magento\Framework\Escaper $escaper
+ */
+$tickets = $block->getTickets();
+?>
+
+<?php if ($tickets && count($tickets)): ?>
+    <div class="event-tickets-list">
+        <?php foreach ($tickets as $ticket): ?>
+            <div class="ticket-item">
+                <div class="ticket-info">
+                    <h3 class="ticket-name"><?= $escaper->escapeHtml($ticket->getName()) ?></h3>
+                    <div class="ticket-price">
+                        <?= $escaper->escapeHtml(__('Price')) ?>: 
+                        <?= /* @noEscape */ $block->formatPrice(2) ?>
+                    </div>
+                </div>
+                
+                <div class="ticket-actions">
+                    <?php if ($ticket->getProductId()): ?>
+                        <form data-role="tocart-form" 
+                              action="<?= $escaper->escapeUrl($block->getAddToCartUrlForProduct($block->getProductById($ticket->getProductId()))) ?>" 
+                              method="post">
+                            <?= $block->getBlockHtml('formkey') ?>
+                            <input type="hidden" name="product" value="<?= (int)$ticket->getProductId() ?>">
+                            <input type="hidden" name="qty" value="1">
+                            
+                            <button type="submit" 
+                                    title="<?= $escaper->escapeHtmlAttr(__('Buy Ticket')) ?>" 
+                                    class="action primary tocart">
+                                <span><?= $escaper->escapeHtml(__('Buy Ticket')) ?></span>
+                            </button>
+                        </form>
+                    <?php else: ?>
+                        <form data-role="tocart-form" 
+                              action="<?= $escaper->escapeUrl($block->getAddToCartUrl($ticket)) ?>" 
+                              method="post">
+                            <?= $block->getBlockHtml('formkey') ?>
+                            <input type="hidden" name="ticket_id" value="<?= (int)$ticket->getId() ?>">
+                            
+                            <button type="submit" 
+                                    title="<?= $escaper->escapeHtmlAttr(__('Buy Ticket')) ?>" 
+                                    class="action primary tocart">
+                                <span><?= $escaper->escapeHtml(__('Buy Ticket')) ?></span>
+                            </button>
+                        </form>
+                    <?php endif; ?>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
+<?php else: ?>
+    <div class="message info empty">
+        <div><?= $escaper->escapeHtml(__('No tickets available for this event.')) ?></div>
+    </div>
+<?php endif; ?>

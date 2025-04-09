@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Vishal\Events\Api\EventRepositoryInterface" type="Vishal\Events\Model\EventRepository" />
+    <preference for="Vishal\Events\Api\Data\EventInterface" type="Vishal\Events\Model\Event" />
+</config>
