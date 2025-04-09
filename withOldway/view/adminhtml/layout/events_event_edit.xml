@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <!-- Add JavaScript file to the admin page -->
+        <referenceContainer name="head.additional">
+            <block class="Magento\Framework\View\Element\Template" name="js_vars" template="Vishal_Events::js/vars.phtml"/>
+        </referenceContainer>
+        <referenceContainer name="left">
+            <block class="Vishal\Events\Block\Adminhtml\Event\Edit\Tabs" name="events.event.tabs">
+                <block class="Vishal\Events\Block\Adminhtml\Event\Edit\Tab\Tickets" name="events.event.tab.tickets"/>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">tickets_products</argument>
+                    <argument name="block" xsi:type="string">events.event.tab.tickets</argument>
+                </action>
+            </block>
+        </referenceContainer>
+        <referenceContainer name="content">
+            <block class="Vishal\Events\Block\Adminhtml\Event\Edit" name="events.event.edit"/>
+        </referenceContainer>
+    </body>
+</page>

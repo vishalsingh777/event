@@ -1,0 +1,182 @@
+<?php
+/**
+ * @var $block \Vishal\Events\Block\Adminhtml\Event\Edit\Tab\Tickets\Grid
+ */
+?>
+<div class="tickets-container">
+    <div class="grid-header">
+        <table class="data-grid">
+            <thead>
+                <tr>
+                    <th class="data-grid-th"><?= $block->escapeHtml(__('Name')) ?></th>
+                    <th class="data-grid-th"><?= $block->escapeHtml(__('SKU')) ?></th>
+                    <th class="data-grid-th"><?= $block->escapeHtml(__('Price')) ?></th>
+                    <th class="data-grid-th"><?= $block->escapeHtml(__('Product')) ?></th>
+                    <th class="data-grid-th"><?= $block->escapeHtml(__('Position')) ?></th>
+                    <th class="data-grid-th"><?= $block->escapeHtml(__('Action')) ?></th>
+                </tr>
+            </thead>
+            <tbody id="ticket-items-container">
+                <?php foreach ($block->getTickets() as $ticket): ?>
+                <tr id="ticket-item-<?= $block->escapeHtmlAttr($ticket->getId()) ?>">
+                    <td>
+                        <input type="hidden" name="tickets[<?= $block->escapeHtmlAttr($ticket->getId()) ?>][ticket_id]" 
+                               value="<?= $block->escapeHtmlAttr($ticket->getId()) ?>" />
+                        <input type="text" class="input-text required-entry" 
+                               name="tickets[<?= $block->escapeHtmlAttr($ticket->getId()) ?>][name]" 
+                               value="<?= $block->escapeHtmlAttr($ticket->getName()) ?>" />
+                    </td>
+                    <td>
+                        <input type="text" class="input-text" 
+                               name="tickets[<?= $block->escapeHtmlAttr($ticket->getId()) ?>][sku]" 
+                               value="<?= $block->escapeHtmlAttr($ticket->getSku()) ?>" />
+                    </td>
+                    <td>
+                        <input type="text" class="input-text validate-number validate-greater-than-zero" 
+                               name="tickets[<?= $block->escapeHtmlAttr($ticket->getId()) ?>][price]" 
+                               value="<?= $block->escapeHtmlAttr($ticket->getPrice()) ?>" />
+                    </td>
+                    <td>
+                        <div class="field-product">
+                            <input type="hidden" id="product_id_<?= $block->escapeHtmlAttr($ticket->getId()) ?>"
+                                   name="tickets[<?= $block->escapeHtmlAttr($ticket->getId()) ?>][product_id]"
+                                   value="<?= $block->escapeHtmlAttr($ticket->getProductId()) ?>"/>
+                            <input type="text" id="product_name_<?= $block->escapeHtmlAttr($ticket->getId()) ?>"
+                                   name="tickets[<?= $block->escapeHtmlAttr($ticket->getId()) ?>][product_name]"
+                                   value="<?= $block->escapeHtmlAttr($ticket->getProductName()) ?>"
+                                   class="input-text"
+                                   readonly />
+                            <button type="button" class="action-choose"
+                                    onclick="ProductChooser.showChooser('product_id_<?= $block->escapeHtmlAttr($ticket->getId()) ?>', 'product_name_<?= $block->escapeHtmlAttr($ticket->getId()) ?>')">
+                                <span><?= $block->escapeHtml(__('Choose Product')) ?></span>
+                            </button>
+                        </div>
+                    </td>
+                    <td>
+                        <input type="text" class="input-text validate-number" 
+                               name="tickets[<?= $block->escapeHtmlAttr($ticket->getId()) ?>][position]" 
+                               value="<?= $block->escapeHtmlAttr($ticket->getPosition()) ?>" />
+                    </td>
+                    <td>
+                        <button type="button" class="action-delete" 
+                                onclick="ticketControl.removeItem('<?= $block->escapeHtml($ticket->getId()) ?>')">
+                            <span><?= $block->escapeHtml(__('Delete')) ?></span>
+                        </button>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="6" class="a-right">
+                        <?= $block->getAddButtonHtml() ?>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+<script type="text/x-magento-template" id="ticket-item-template">
+    <tr id="ticket-item-<%- data.id %>">
+        <td>
+            <input type="hidden" name="tickets[<%- data.id %>][ticket_id]" value="" />
+            <input type="text" class="input-text required-entry" name="tickets[<%- data.id %>][name]" />
+        </td>
+        <td>
+            <input type="text" class="input-text" name="tickets[<%- data.id %>][sku]" />
+        </td>
+        <td>
+            <input type="text" class="input-text validate-number validate-greater-than-zero" name="tickets[<%- data.id %>][price]" />
+        </td>
+        <td>
+            <div class="field-product">
+                <input type="hidden" id="product_id_<%- data.id %>" name="tickets[<%- data.id %>][product_id]" value=""/>
+                <input type="text" id="product_name_<%- data.id %>" name="tickets[<%- data.id %>][product_name]" class="input-text" readonly />
+                <button type="button" class="action-choose" onclick="ProductChooser.showChooser('product_id_<%- data.id %>', 'product_name_<%- data.id %>')">
+                    <span><?= $block->escapeHtml(__('Choose Product')) ?></span>
+                </button>
+            </div>
+        </td>
+        <td>
+            <input type="text" class="input-text validate-number" name="tickets[<%- data.id %>][position]" value="0" />
+        </td>
+        <td>
+            <button type="button" class="action-delete" onclick="ticketControl.removeItem('<%- data.id %>')">
+                <span><?= $block->escapeHtml(__('Delete')) ?></span>
+            </button>
+        </td>
+    </tr>
+</script>
+
+<script>
+require([
+    'jquery',
+    'mage/template',
+    'Magento_Ui/js/modal/modal',
+    'mage/adminhtml/grid',
+    'prototype'
+], function(jQuery, mageTemplate) {
+    'use strict';
+
+    window.ticketControl = {
+        itemCount: 0,
+        itemsContainerId: 'ticket-items-container',
+        itemTemplate: 'ticket-item-template',
+        
+        addItem: function () {
+            var data = {
+                id: '_' + this.itemCount++
+            };
+            var template = mageTemplate(this.itemTemplate);
+            var newRow = template({
+                data: data
+            });
+            jQuery('#' + this.itemsContainerId).append(newRow);
+            return false;
+        },
+        
+        removeItem: function (id) {
+            jQuery('#ticket-item-' + id).remove();
+            return false;
+        }
+    };
+
+    window.ProductChooser = {
+        showChooser: function(productIdElement, productNameElement) {
+            var url = '<?= $block->getUrl('catalog/product_widget/chooser', ['form' => 'edit_form']) ?>';
+            url += 'product_id_element/' + productIdElement + '/product_name_element/' + productNameElement;
+            
+            this.dialogWindow = jQuery('<div></div>').modal({
+                title: '<?= $block->escapeJs(__('Choose Product')) ?>',
+                type: 'slide',
+                buttons: [],
+                closed: function(e, modal) {
+                    modal.modal.remove();
+                }
+            });
+            
+            this.dialogWindow.modal('openModal');
+            this.dialogWindow.trigger('openModal');
+            this.dialogWindow.on('modalclosed', function() {
+                this.dialogWindow = null;
+            }.bind(this));
+
+            new Ajax.Request(url, {
+                parameters: {},
+                onSuccess: function(response) {
+                    this.dialogWindow.html(response.responseText);
+                }.bind(this)
+            });
+        },
+        
+        closeChooser: function() {
+            this.dialogWindow.modal('closeModal');
+        }
+    };
+
+    jQuery('#add_new_ticket').click(function () {
+        ticketControl.addItem();
+    });
+});
+</script>

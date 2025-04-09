@@ -1,0 +1,68 @@
+<?php
+/**
+ * @var $block \Vishal\Events\Block\EventView
+ */
+?>
+<?php $event = $block->getEvent(); ?>
+<?php if ($event): ?>
+    <div class="event-view">
+        <h1><?= $block->escapeHtml($event->getEventTitle()) ?></h1>
+        
+        <div class="event-details">
+            <div class="detail-item">
+                <strong><?= $block->escapeHtml(__('Date:')) ?></strong>
+                <?= $block->escapeHtml($block->formatDate($event->getStartDate())) ?>
+                <?= $block->escapeHtml(__('at')) ?>
+                <?= $block->escapeHtml($block->formatEventTime($event->getStartDate())) ?>
+                
+                <?php if ($event->getEndDate()): ?>
+                    <?= $block->escapeHtml(__('to')) ?>
+                    <?= $block->escapeHtml($block->formatDate($event->getEndDate())) ?>
+                    <?= $block->escapeHtml(__('at')) ?>
+                    <?= $block->escapeHtml($block->formatEventTime($event->getEndDate())) ?>
+                <?php endif; ?>
+            </div>
+            
+            <?php if ($event->getEventVenue()): ?>
+                <div class="detail-item">
+                    <strong><?= $block->escapeHtml(__('Venue:')) ?></strong>
+                    <?= $block->escapeHtml($event->getEventVenue()) ?>
+                </div>
+            <?php endif; ?>
+            
+            <?php if ($event->getContent()): ?>
+          
+        <?php endif; ?>
+            
+            <?php $tickets = $block->getTickets(); ?>
+            <?php if (count($tickets)): ?>
+                <div class="event-tickets">
+                    <h2><?= $block->escapeHtml(__('Available Tickets')) ?></h2>
+                    <div class="tickets-list">
+                        <?php foreach ($tickets as $ticket): ?>
+                            <div class="ticket-item">
+                                <div class="ticket-name"><?= $block->escapeHtml($ticket->getName()) ?></div>
+                                <div class="ticket-price"><?= $block->escapeHtml(__('Price: %1', $block->escapeHtml($ticket->getPrice()))) ?></div>
+                                <div class="ticket-actions">
+                                    <button class="action primary">
+                                        <?= $block->escapeHtml(__('Buy Ticket')) ?>
+                                    </button>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            <?php endif; ?>
+            
+            <div class="event-actions">
+                <a href="<?= $block->escapeUrl($block->getUrl('events')) ?>" class="action">
+                    <?= $block->escapeHtml(__('Back to Events List')) ?>
+                </a>
+            </div>
+        </div>
+    </div>
+<?php else: ?>
+    <div class="message info empty">
+        <div><?= $block->escapeHtml(__('Event not found.')) ?></div>
+    </div>
+<?php endif; ?> 
