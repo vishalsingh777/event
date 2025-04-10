@@ -1,0 +1,29 @@
+<textarea class="admin__control-textarea" data-bind="
+    value: value,
+    valueUpdate: valueUpdate,
+    hasFocus: focused,
+    attr: {
+        name: inputName,
+        cols: cols,
+        rows: rows,
+        'aria-describedby': noticeId,
+        placeholder: placeholder,
+        id: uid,
+        disabled: disabled,
+        maxlength: characterCounter.limit
+    },
+    event: {keyup: characterCounter.updateCharacterCount}"></textarea>
+
+<!-- Add a list of current blocked dates for better visualization -->
+<div class="block-dates-visual" data-bind="if: blockedDates.length">
+    <div class="block-dates-list">
+        <div class="block-dates-list-title" data-bind="i18n: 'Currently Blocked Dates:'"></div>
+        <ul class="block-dates-items">
+            <!-- ko foreach: blockedDates -->
+            <li class="block-date-item">
+                <span data-bind="text: $data"></span>
+            </li>
+            <!-- /ko -->
+        </ul>
+    </div>
+</div>

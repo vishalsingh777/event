@@ -1,0 +1,106 @@
+/* Blocked dates list styles */
+.blocked-dates-list {
+    margin-top: 15px;
+    padding: 15px;
+    background: #f8f8f8;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.blocked-dates-title {
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.blocked-dates-items {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.blocked-date-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    margin-bottom: 5px;
+    background: #ffebee;
+    border: 1px solid #f44336;
+    border-radius: 4px;
+}
+
+.blocked-date-item .action-remove {
+    background: none;
+    border: none;
+    color: #f44336;
+    cursor: pointer;
+    padding: 0 10px;
+    font-size: 12px;
+}
+
+.blocked-date-item .action-remove:hover {
+    text-decoration: underline;
+}
+
+.empty-dates-message {
+    font-style: italic;
+    color: #999;
+    padding: 10px 0;
+}
+
+/* Time slots grid */
+.admin__field.field-time_slots_grid .admin__field-option {
+    margin-bottom: 10px;
+}
+
+
+
+/* Style the multiselect dropdown */
+select.admin__control-multiselect {
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 8px;
+    font-size: 14px;
+    background-color: #fff;
+    color: #333;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    height: auto;
+    min-height: 200px;
+    max-height: 350px;
+    overflow-y: auto;
+    transition: border 0.3s ease-in-out;
+}
+
+/* Add hover effect */
+select.admin__control-multiselect:hover {
+    border-color: #3f8efc;
+}
+
+/* Scrollbar styles for better look */
+select.admin__control-multiselect::-webkit-scrollbar {
+    width: 8px;
+}
+
+select.admin__control-multiselect::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 4px;
+}
+
+select.admin__control-multiselect::-webkit-scrollbar-thumb:hover {
+    background-color: #888;
+}
+
+/* Style the individual options */
+select.admin__control-multiselect option {
+    padding: 6px 10px;
+    margin: 2px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+/* Hover effect for options (for modern browsers that support it) */
+select.admin__control-multiselect option:hover,
+select.admin__control-multiselect option:focus {
+    background-color: #e0f7fa;
+    color: #000;
+    cursor: pointer;
+}
