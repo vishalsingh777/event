@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="vishal_events" resource="default" engine="innodb" comment="Events Table">
+        <column xsi:type="int" name="event_id" padding="10" unsigned="true" nullable="false" identity="true"
+                comment="Event ID"/>
+        <column xsi:type="varchar" name="event_title" nullable="false" length="255" comment="Event Title"/>
+        <column xsi:type="varchar" name="event_venue" nullable="true" length="255" comment="Event Venue"/>
+        <column xsi:type="varchar" name="url_key" nullable="true" length="255" comment="URL Key"/>
+        <column xsi:type="varchar" name="color" nullable="true" length="50" comment="Color"/>
+        <column xsi:type="datetime" name="start_date" nullable="true" comment="Start Date"/>
+        <column xsi:type="datetime" name="end_date" nullable="true" comment="End Date"/>
+        <column xsi:type="text" name="content" nullable="true" comment="Content"/>
+        <column xsi:type="varchar" name="youtube_video_url" nullable="true" length="255" comment="YouTube Video URL"/>
+        <column xsi:type="smallint" name="status" padding="5" unsigned="true" nullable="false" default="0" comment="Status"/>
+        <column xsi:type="smallint" name="recurring" padding="5" unsigned="true" nullable="false" default="0" comment="Recurring"/>
+        <column xsi:type="varchar" name="repeat" nullable="true" length="50" comment="Repeat"/>
+        <column xsi:type="smallint" name="repeat_every" padding="5" unsigned="true" nullable="true" comment="Repeat Every"/>
+        <column xsi:type="text" name="contact_person" nullable="true" comment="Contact Person"/>
+        <column xsi:type="varchar" name="phone" nullable="true" length="50" comment="Phone"/>
+        <column xsi:type="varchar" name="fax" nullable="true" length="50" comment="Fax"/>
+        <column xsi:type="varchar" name="email" nullable="true" length="255" comment="Email"/>
+        <column xsi:type="text" name="address" nullable="true" comment="Address"/>
+        <column xsi:type="varchar" name="page_title" nullable="true" length="255" comment="Page Title"/>
+        <column xsi:type="text" name="keywords" nullable="true" comment="Keywords"/>
+        <column xsi:type="text" name="description" nullable="true" comment="Description"/>
+        <column xsi:type="varchar" name="product_sku" nullable="true" length="64" comment="Product SKU"/>
+        <column xsi:type="varchar" name="event_price" nullable="true" length="64" comment="Event Price"/>
+        <column xsi:type="smallint" name="store_id" padding="5" unsigned="true" nullable="false" comment="Store ID"/>
+        <column xsi:type="varchar" name="customer_group" nullable="true" length="255" comment="Customer Group"/>
+        <!-- New columns for dynamic event scheduling -->
+        <!-- New columns for simplified event scheduling -->
+        <column xsi:type="text" name="available_days" nullable="true" comment="Available Days of Week (JSON)"/>
+        <column xsi:type="text" name="time_slots" nullable="true" comment="Time Slots (JSON)"/>
+        <column xsi:type="text" name="block_dates" nullable="true" comment="Blocked Dates (JSON)"/>
+        <!-- Add this column definition to the vishal_events table -->
+        <column xsi:type="text" name="selected_time_slots" nullable="true" comment="Selected Time Slots (JSON)"/>
+        
+        <column xsi:type="datetime" name="created_at" nullable="false" on_update="false" default="CURRENT_TIMESTAMP" comment="Created At"/>
+        <column xsi:type="datetime" name="updated_at" nullable="false" on_update="true" default="CURRENT_TIMESTAMP" comment="Updated At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="event_id"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="VISHAL_EVENTS_URL_KEY">
+            <column name="url_key"/>
+        </constraint>
+        <index referenceId="VISHAL_EVENTS_EVENT_TITLE" indexType="btree">
+            <column name="event_title"/>
+        </index>
+    </table>
+
+    <table name="vishal_event_store" resource="default" engine="innodb" comment="Event To Store Relation Table">
+        <column xsi:type="int" name="event_id" padding="10" unsigned="true" nullable="false" comment="Event ID"/>
+        <column xsi:type="smallint" name="store_id" padding="5" unsigned="true" nullable="false" comment="Store ID"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="event_id"/>
+            <column name="store_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="VISHAL_EVENT_STORE_EVENT_ID_VISHAL_EVENTS_EVENT_ID" 
+                    table="vishal_event_store" column="event_id" 
+                    referenceTable="vishal_events" referenceColumn="event_id" 
+                    onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="VISHAL_EVENT_STORE_STORE_ID_STORE_STORE_ID" 
+                    table="vishal_event_store" column="store_id" 
+                    referenceTable="store" referenceColumn="store_id" 
+                    onDelete="CASCADE"/>
+    </table>
+</schema>

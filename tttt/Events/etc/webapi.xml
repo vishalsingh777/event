@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+    <!-- Event Repository API -->
+    <route url="/V1/events/:eventId" method="GET">
+        <service class="Vishal\Events\Api\EventRepositoryInterface" method="getById"/>
+        <resources>
+            <resource ref="Vishal_Events::events" />
+        </resources>
+    </route>
+    <route url="/V1/events" method="GET">
+        <service class="Vishal\Events\Api\EventRepositoryInterface" method="getList"/>
+        <resources>
+            <resource ref="Vishal_Events::events" />
+        </resources>
+    </route>
+    <route url="/V1/events" method="POST">
+        <service class="Vishal\Events\Api\EventRepositoryInterface" method="save"/>
+        <resources>
+            <resource ref="Vishal_Events::manage_events" />
+        </resources>
+    </route>
+    <route url="/V1/events/:eventId" method="PUT">
+        <service class="Vishal\Events\Api\EventRepositoryInterface" method="save"/>
+        <resources>
+            <resource ref="Vishal_Events::manage_events" />
+        </resources>
+    </route>
+    <route url="/V1/events/:eventId" method="DELETE">
+        <service class="Vishal\Events\Api\EventRepositoryInterface" method="deleteById"/>
+        <resources>
+            <resource ref="Vishal_Events::manage_events" />
+        </resources>
+    </route>
+    <route url="/V1/events/urlKey/:urlKey" method="GET">
+        <service class="Vishal\Events\Api\EventRepositoryInterface" method="getByUrlKey"/>
+        <resources>
+            <resource ref="Vishal_Events::events" />
+        </resources>
+    </route>
+</routes>
