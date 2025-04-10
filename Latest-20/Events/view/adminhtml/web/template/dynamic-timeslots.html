@@ -1,0 +1,47 @@
+<!-- app/code/Vishal/Events/view/adminhtml/web/template/dynamic-timeslots.html -->
+<div class="dynamic-timeslots-container">
+    <div class="admin__field-note">
+        <span>Configure multiple time slots for this event. Start with initial time slot and add more as needed.</span>
+    </div>
+    
+    <!-- Loop through time slots array -->
+    <div class="timeslots-wrapper" data-bind="foreach: timeSlots">
+        <div class="timeslot-pair" data-bind="attr: {'data-id': id}">
+            <!-- Start Time Field -->
+            <div class="admin__field field-start-time">
+                <label class="admin__field-label">
+                    <span data-bind="i18n: 'Start Time'"></span>
+                </label>
+                <div class="admin__field-control">
+                    <input class="admin__control-text time-input" type="time" 
+                           data-bind="value: startTime, event: {change: function(data, event) { $parent.updateStartTime($index(), event.target.value); }}">
+                </div>
+            </div>
+            
+            <!-- End Time Field -->
+            <div class="admin__field field-end-time">
+                <label class="admin__field-label">
+                    <span data-bind="i18n: 'End Time'"></span>
+                </label>
+                <div class="admin__field-control">
+                    <input class="admin__control-text time-input" type="time" 
+                           data-bind="value: endTime, event: {change: function(data, event) { $parent.updateEndTime($index(), event.target.value); }}">
+                </div>
+            </div>
+            
+            <!-- Remove Button (only show if there's more than one time slot) -->
+            <div class="actions-toolbar" data-bind="if: $parent.timeSlots().length > 1">
+                <button type="button" class="action-delete" data-bind="click: function() { $parent.removeTimeSlot($index()); }">
+                    <span data-bind="i18n: 'Remove'"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add Button -->
+    <div class="actions-toolbar-add-timeslot">
+        <button type="button" class="action-add" data-bind="click: addTimeSlot">
+            <span data-bind="i18n: 'Add Time Slot'"></span>
+        </button>
+    </div>
+</div>

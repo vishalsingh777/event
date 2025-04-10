@@ -1,0 +1,517 @@
+<div class="date-time-component">
+    <!-- Date Section -->
+    <div class="date-section">
+        <h4>Date</h4>
+        
+        <!-- Start Date -->
+        <div class="field">
+            <label class="label">
+                <span>Start date</span>
+                <span class="required">*</span>
+            </label>
+            <div class="control">
+                <input type="text" 
+                       class="admin__control-text" 
+                       name="start_date" 
+                       id="start_date" 
+                       data-validate="{required:true}"
+                />
+            </div>
+        </div>
+        
+        <!-- Repeats -->
+        <div class="field">
+            <label class="label">
+                <span>Repeats</span>
+            </label>
+            <div class="control">
+                <select class="admin__control-select" name="repeat" id="repeat_type">
+                    <option value="once">Once</option>
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly</option>
+                    <option value="monthly">Monthly</option>
+                </select>
+            </div>
+        </div>
+        
+        <!-- Repeat Every (shown only when repeat type is not 'once') -->
+        <div class="field repeat-options" id="repeat_options" style="display: none;">
+            <label class="label">
+                <span>Repeat every</span>
+            </label>
+            <div class="control">
+                <input type="number" 
+                       class="admin__control-text" 
+                       name="repeat_every" 
+                       id="repeat_every" 
+                       value="1" 
+                       min="1"
+                />
+                <span id="repeat_unit">days</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Time Section -->
+    <div class="time-section">
+        <h4>Time</h4>
+        
+        <!-- Time mode selection tabs -->
+        <div class="time-mode-tabs">
+            <div class="time-mode-tab single-time-tab active">Single time</div>
+            <div class="time-mode-tab multiple-times-tab">Multiple times</div>
+        </div>
+        
+        <!-- Single Time Container -->
+        <div class="single-time-container">
+            <div class="time-row">
+                <!-- Start Time -->
+                <div class="time-column">
+                    <label class="label">
+                        <span>Start time</span>
+                        <span class="required">*</span>
+                    </label>
+                    <div class="control time-controls">
+                        <select class="admin__control-select" name="single_start_hour">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9" selected>9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                        </select>
+                        <span class="time-separator">:</span>
+                        <select class="admin__control-select" name="single_start_minute">
+                            <option value="00" selected>00</option>
+                            <option value="15">15</option>
+                            <option value="30">30</option>
+                            <option value="45">45</option>
+                        </select>
+                        <select class="admin__control-select" name="single_start_period">
+                            <option value="AM" selected>AM</option>
+                            <option value="PM">PM</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- End Time -->
+                <div class="time-column">
+                    <label class="label">
+                        <span>End time</span>
+                        <span class="required">*</span>
+                    </label>
+                    <div class="control time-controls">
+                        <select class="admin__control-select" name="single_end_hour">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5" selected>5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                        </select>
+                        <span class="time-separator">:</span>
+                        <select class="admin__control-select" name="single_end_minute">
+                            <option value="00" selected>00</option>
+                            <option value="15">15</option>
+                            <option value="30">30</option>
+                            <option value="45">45</option>
+                        </select>
+                        <select class="admin__control-select" name="single_end_period">
+                            <option value="AM">AM</option>
+                            <option value="PM" selected>PM</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Multiple Times Container -->
+        <div class="multiple-times-container" style="display: none;">
+            <!-- Time Slots Container -->
+            <div class="time-slots-container">
+                <!-- Time Slot Row Template -->
+                <div class="time-slot-row">
+                    <!-- Start Time -->
+                    <div class="time-column">
+                        <label class="label">
+                            <span>Start time</span>
+                            <span class="required">*</span>
+                        </label>
+                        <div class="control time-controls">
+                            <select class="admin__control-select time-start-hour" name="time_slots[0][start_hour]">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9" selected>9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                            </select>
+                            <span class="time-separator">:</span>
+                            <select class="admin__control-select time-start-minute" name="time_slots[0][start_minute]">
+                                <option value="00" selected>00</option>
+                                <option value="15">15</option>
+                                <option value="30">30</option>
+                                <option value="45">45</option>
+                            </select>
+                            <select class="admin__control-select time-start-period" name="time_slots[0][start_period]">
+                                <option value="AM" selected>AM</option>
+                                <option value="PM">PM</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- End Time -->
+                    <div class="time-column">
+                        <label class="label">
+                            <span>End time</span>
+                            <span class="required">*</span>
+                        </label>
+                        <div class="control time-controls">
+                            <select class="admin__control-select time-end-hour" name="time_slots[0][end_hour]">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5" selected>5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                            </select>
+                            <span class="time-separator">:</span>
+                            <select class="admin__control-select time-end-minute" name="time_slots[0][end_minute]">
+                                <option value="00" selected>00</option>
+                                <option value="15">15</option>
+                                <option value="30">30</option>
+                                <option value="45">45</option>
+                            </select>
+                            <select class="admin__control-select time-end-period" name="time_slots[0][end_period]">
+                                <option value="AM">AM</option>
+                                <option value="PM" selected>PM</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Remove Button -->
+                    <div class="time-actions">
+                        <button type="button" class="action-delete remove-time-slot">
+                            <span class="delete-icon">×</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Add Slot Button -->
+            <div class="add-time-slot-container">
+                <button type="button" class="action-add add-time-slot">
+                    <span class="add-icon">+</span>
+                    <span>Add a time slot</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Hidden Fields -->
+    <input type="hidden" name="is_multiple_times" value="0" />
+    <input type="hidden" name="time_slots_json" id="time_slots_json" />
+</div>
+
+<style>
+/* Basic Layout */
+.date-time-component {
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    margin-bottom: 30px;
+    padding: 15px;
+    background: #f8f8f8;
+    border: 1px solid #e8e8e8;
+    border-radius: 5px;
+}
+
+.date-time-component h4 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #333;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.date-section, .time-section {
+    margin-bottom: 20px;
+}
+
+/* Time Mode Tabs */
+.time-mode-tabs {
+    display: flex;
+    background: #eaeaea;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.time-mode-tab {
+    flex: 1;
+    text-align: center;
+    padding: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.time-mode-tab.active {
+    background: #514943;
+    color: white;
+    font-weight: 600;
+}
+
+.time-mode-tab:not(.active):hover {
+    background: #d5d5d5;
+}
+
+/* Time Controls */
+.time-row, .time-slot-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+    align-items: flex-end;
+}
+
+.time-column {
+    flex: 1;
+}
+
+.time-controls {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.time-separator {
+    font-weight: bold;
+    margin: 0 2px;
+}
+
+select.admin__control-select {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.time-actions {
+    padding-bottom: 22px;
+    display: flex;
+    align-items: center;
+}
+
+/* Action Buttons */
+.action-delete, .action-add {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+}
+
+.action-delete {
+    color: #e41c1c;
+}
+
+.delete-icon {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.action-add {
+    color: #006bb4;
+    padding: 10px 15px;
+    border: 1px dashed #ccc;
+    border-radius: 4px;
+    margin-top: 15px;
+    background: white;
+}
+
+.action-add:hover {
+    background: #f0f8ff;
+}
+
+.add-icon {
+    margin-right: 5px;
+}
+
+/* Multiple Times Container */
+.multiple-times-container {
+    border: 1px solid #e8e8e8;
+    padding: 15px;
+    border-radius: 4px;
+    background: #f9f9f9;
+}
+
+/* Repeat Options */
+.field.repeat-options .control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.field.repeat-options .admin__control-text {
+    width: 60px;
+}
+</style>
+
+<script>
+    require(['jquery'], function($) {
+        $(document).ready(function() {
+            // Initialize datepicker
+            $('#start_date').datepicker({
+                dateFormat: 'mm/dd/yy',
+                showButtonPanel: true
+            });
+            
+            // Handle repeat type change
+            $('#repeat_type').on('change', function() {
+                var value = $(this).val();
+                if (value === 'once') {
+                    $('#repeat_options').hide();
+                    $('input[name="recurring"]').val(0);
+                } else {
+                    $('#repeat_options').show();
+                    $('input[name="recurring"]').val(1);
+                    
+                    // Update repeat unit text
+                    if (value === 'daily') {
+                        $('#repeat_unit').text('days');
+                    } else if (value === 'weekly') {
+                        $('#repeat_unit').text('weeks');
+                    } else if (value === 'monthly') {
+                        $('#repeat_unit').text('months');
+                    }
+                }
+            });
+            
+            // Handle tab switching
+            $('.single-time-tab').click(function() {
+                $('.multiple-times-tab').removeClass('active');
+                $('.single-time-tab').addClass('active');
+                $('.multiple-times-container').hide();
+                $('.single-time-container').show();
+                $('input[name="is_multiple_times"]').val('0');
+                updateTimeSlots();
+            });
+            
+            $('.multiple-times-tab').click(function() {
+                $('.single-time-tab').removeClass('active');
+                $('.multiple-times-tab').addClass('active');
+                $('.single-time-container').hide();
+                $('.multiple-times-container').show();
+                $('input[name="is_multiple_times"]').val('1');
+                updateTimeSlots();
+            });
+            
+            // Add time slot
+            $('.add-time-slot').click(function() {
+                var slotCount = $('.time-slot-row').length;
+                var clonedSlot = $('.time-slot-row').first().clone();
+                
+                // Update names to avoid conflicts
+                clonedSlot.find('select[name^="time_slots"]').each(function() {
+                    var name = $(this).attr('name');
+                    name = name.replace(/\[\d+\]/, '[' + slotCount + ']');
+                    $(this).attr('name', name);
+                });
+                
+                $('.time-slots-container').append(clonedSlot);
+                updateTimeSlots();
+            });
+            
+            // Remove time slot
+            $(document).on('click', '.remove-time-slot', function() {
+                if ($('.time-slot-row').length > 1) {
+                    $(this).closest('.time-slot-row').remove();
+                    updateTimeSlots();
+                }
+            });
+            
+            // Update time slots when any select changes
+            $(document).on('change', 'select[name^="time_slots"], select[name^="single_"]', function() {
+                updateTimeSlots();
+            });
+            
+            // Function to update the hidden time_slots_json field
+            function updateTimeSlots() {
+                var isMultiple = $('input[name="is_multiple_times"]').val() === '1';
+                var timeSlots = [];
+                
+                if (isMultiple) {
+                    // Gather data from multiple time slots
+                    $('.time-slot-row').each(function(index) {
+                        var startHour = $(this).find('.time-start-hour').val();
+                        var startMinute = $(this).find('.time-start-minute').val();
+                        var startPeriod = $(this).find('.time-start-period').val();
+                        var endHour = $(this).find('.time-end-hour').val();
+                        var endMinute = $(this).find('.time-end-minute').val();
+                        var endPeriod = $(this).find('.time-end-period').val();
+                        
+                        var startTime = formatTime(startHour, startMinute, startPeriod);
+                        var endTime = formatTime(endHour, endMinute, endPeriod);
+                        
+                        timeSlots.push(startTime + '-' + endTime);
+                    });
+                } else {
+                    // Get data from single time
+                    var startHour = $('select[name="single_start_hour"]').val();
+                    var startMinute = $('select[name="single_start_minute"]').val();
+                    var startPeriod = $('select[name="single_start_period"]').val();
+                    var endHour = $('select[name="single_end_hour"]').val();
+                    var endMinute = $('select[name="single_end_minute"]').val();
+                    var endPeriod = $('select[name="single_end_period"]').val();
+                    
+                    var startTime = formatTime(startHour, startMinute, startPeriod);
+                    var endTime = formatTime(endHour, endMinute, endPeriod);
+                    
+                    timeSlots.push(startTime + '-' + endTime);
+                }
+                
+                // Set the hidden input value
+                $('#time_slots_json').val(JSON.stringify(timeSlots));
+                $('input[name="time_slots"]').val(JSON.stringify(timeSlots));
+            }
+            
+            // Function to convert 12h to 24h format
+            function formatTime(hour, minute, period) {
+                hour = parseInt(hour);
+                
+                if (period === 'PM' && hour < 12) {
+                    hour += 12;
+                } else if (period === 'AM' && hour === 12) {
+                    hour = 0;
+                }
+                
+                return (hour < 10 ? '0' + hour : hour) + ':' + minute;
+            }
+            
+            // Initial update
+            updateTimeSlots();
+        });
+    });
+</script>
