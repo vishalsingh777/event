@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Vishal_Events::css/events.css"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <uiComponent name="events_form"/>
+        </referenceContainer>
+        <block class="Vishal\Events\Block\Adminhtml\Event\Edit\DateTimeModal" 
+               name="events.edit.datetime.modal" 
+               template="Vishal_Events::event/datetime-modal.phtml" />
+    </body>
+</page>

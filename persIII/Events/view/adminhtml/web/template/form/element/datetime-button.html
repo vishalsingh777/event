@@ -1,0 +1,15 @@
+<div class="add-datetime-button-container">
+    <button type="button"
+            class="add-datetime-button action-secondary"
+            id="add-event-datetime"
+            data-bind="
+                attr: {
+                    title: title,
+                    disabled: disabled
+                },
+                click: action,
+                css: buttonClasses
+            ">
+        <span data-bind="text: title"></span>
+    </button>
+</div>

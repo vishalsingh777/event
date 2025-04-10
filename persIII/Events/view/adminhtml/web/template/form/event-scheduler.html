@@ -1,0 +1,137 @@
+<div class="event-scheduler-container">
+    <div class="time-slots-section">
+        <h4 data-bind="i18n: 'Available Time Slots'"></h4>
+        <p data-bind="i18n: 'Select time slots available for this event:'"></p>
+        
+        <div class="time-slots-grid">
+            <!-- ko foreach: timeSlotOptions -->
+            <div class="time-slot" 
+                 data-bind="css: { selected: $parent.isTimeSlotSelected($data) }, click: $parent.toggleTimeSlot.bind($parent, $data)">
+                <span data-bind="text: label"></span>
+            </div>
+            <!-- /ko -->
+        </div>
+    </div>
+    
+    <div class="date-selection-section">
+        <h4 data-bind="i18n: 'Date Selection'"></h4>
+        
+        <div class="calendar-container">
+            <div id="event-date-picker"></div>
+        </div>
+        
+        <!-- ko if: selectedDates().length -->
+        <div class="selected-dates">
+            <h5 data-bind="i18n: 'Selected Dates'"></h5>
+            <ul class="dates-list">
+                <!-- ko foreach: selectedDates -->
+                <li>
+                    <span data-bind="text: $parent.formatDate($data)"></span>
+                    <button type="button" class="action-remove" data-bind="click: $parent.removeDate.bind($parent, $data)">
+                        <span data-bind="i18n: 'Remove'"></span>
+                    </button>
+                </li>
+                <!-- /ko -->
+            </ul>
+        </div>
+        <!-- /ko -->
+    </div>
+    
+    <div class="blocked-dates-section">
+        <h4 data-bind="i18n: 'Blocked Dates'"></h4>
+        <p data-bind="i18n: 'Select dates to block for this event:'"></p>
+        
+        <div class="calendar-container">
+            <div id="blocked-dates-picker"></div>
+        </div>
+        
+        <!-- ko if: blockedDates().length -->
+        <div class="blocked-dates">
+            <h5 data-bind="i18n: 'Blocked Dates'"></h5>
+            <ul class="dates-list">
+                <!-- ko foreach: blockedDates -->
+                <li>
+                    <span data-bind="text: $parent.formatDate($data)"></span>
+                    <button type="button" class="action-remove" data-bind="click: $parent.removeBlockedDate.bind($parent, $data)">
+                        <span data-bind="i18n: 'Remove'"></span>
+                    </button>
+                </li>
+                <!-- /ko -->
+            </ul>
+        </div>
+        <!-- /ko -->
+    </div>
+    
+    <!-- Hidden fields to store the actual values -->
+    <input type="hidden" data-bind="attr: { name: 'selected_time_slots' }, value: ko.toJSON(selectedTimeSlots)" />
+    <input type="hidden" data-bind="attr: { name: 'block_dates' }, value: ko.toJSON(blockedDates)" />
+</div>
+
+<style>
+.event-scheduler-container {
+    margin: 20px 0;
+}
+
+.time-slots-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.time-slot {
+    border: 1px solid #cccccc;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.time-slot:hover {
+    border-color: #1979c3;
+    background-color: #f0f7fc;
+}
+
+.time-slot.selected {
+    background-color: #1979c3;
+    color: #ffffff;
+    border-color: #1979c3;
+}
+
+.calendar-container {
+    margin: 15px 0;
+    max-width: 350px;
+}
+
+.dates-list {
+    list-style: none;
+    padding: 0;
+}
+
+.dates-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.action-remove {
+    background: none;
+    border: none;
+    color: #eb5202;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.action-remove:hover {
+    text-decoration: underline;
+}
+
+.date-selection-section,
+.time-slots-section,
+.blocked-dates-section {
+    margin-bottom: 30px;
+}
+</style>

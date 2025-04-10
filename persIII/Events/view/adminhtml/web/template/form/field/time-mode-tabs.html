@@ -1,0 +1,15 @@
+<div class="time-mode-tabs-container">
+    <div class="time-mode-tabs">
+        <div class="time-mode-tab single-time-tab" data-value="single">Single time</div>
+        <div class="time-mode-tab multiple-times-tab" data-value="multiple">Multiple times</div>
+    </div>
+    <input class="admin__control-text" type="hidden" 
+           data-bind="
+               attr: {
+                   name: inputName,
+                   id: uid,
+                   disabled: disabled
+               },
+               value: value
+           "/>
+</div>

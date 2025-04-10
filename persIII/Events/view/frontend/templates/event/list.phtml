@@ -1,0 +1,49 @@
+<?php
+/**
+ * @var $block \Vishal\Events\Block\EventList
+ */
+?>
+<div class="events-list">
+    <h1><?= $block->escapeHtml(__('Events')) ?></h1>
+    
+    <?php $events = $block->getEvents(); ?>
+    <?php if ($events && count($events)): ?>
+        <div class="events-items">
+            <?php foreach ($events as $event): ?>
+                <div class="event-item" style="border-left: 4px solid <?= $block->escapeHtmlAttr($event->getColor()) ?>; margin-bottom: 20px; padding: 10px 20px;">
+                    <h2 class="event-title">
+                        <a href="<?= $block->escapeUrl($block->getEventUrl($event)) ?>">
+                            <?= $block->escapeHtml($event->getEventTitle()) ?>
+                        </a>
+                    </h2>
+                    <div class="event-details">
+                        <div class="event-date">
+                            <strong><?= $block->escapeHtml(__('Date:')) ?></strong>
+                            <?= $block->escapeHtml($block->formatDate($event->getStartDate())) ?>
+                            <?= $block->escapeHtml($block->formatTime($event->getStartDate())) ?>
+                            -
+                            <?= $block->escapeHtml($block->formatDate($event->getEndDate())) ?>
+                            <?= $block->escapeHtml($block->formatTime($event->getEndDate())) ?>
+                        </div>
+                        
+                        <?php if ($event->getEventVenue()): ?>
+                            <div class="event-venue">
+                                <strong><?= $block->escapeHtml(__('Venue:')) ?></strong>
+                                <?= $block->escapeHtml($event->getEventVenue()) ?>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                    <div class="event-action">
+                        <a href="<?= $block->escapeUrl($block->getEventUrl($event)) ?>" class="action primary">
+                            <?= $block->escapeHtml(__('View Event')) ?>
+                        </a>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    <?php else: ?>
+        <div class="message info empty">
+            <div><?= $block->escapeHtml(__('No events are currently scheduled.')) ?></div>
+        </div>
+    <?php endif; ?>
+</div>

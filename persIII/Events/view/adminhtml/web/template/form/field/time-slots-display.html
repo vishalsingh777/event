@@ -1,0 +1,18 @@
+<div class="time-slots-display">
+    <!-- ko if: hasTimeSlots() -->
+    <div class="time-slots-list">
+        <h4 data-bind="i18n: 'Current Time Slots'"></h4>
+        <div class="slots-container" data-bind="foreach: getTimeSlots()">
+            <div class="time-slot-item">
+                <span class="time-slot-text" data-bind="text: $data"></span>
+            </div>
+        </div>
+    </div>
+    <!-- /ko -->
+    
+    <!-- ko ifnot: hasTimeSlots() -->
+    <div class="empty-time-slots">
+        <p data-bind="i18n: 'No time slots added yet. Click the button below to add dates and times.'"></p>
+    </div>
+    <!-- /ko -->
+</div>

@@ -1,0 +1,157 @@
+<div id="event-datetime-modal" style="display: none;">
+    <div class="event-datetime-container">
+        <div class="modal-header">
+            <h2 class="modal-title"><?= $block->escapeHtml(__('Add dates and times')) ?></h2>
+        </div>
+        
+        <div class="modal-content">
+            <!-- Date Section -->
+            <div class="date-section">
+                <h3 class="section-title"><?= $block->escapeHtml(__('Date')) ?></h3>
+                
+                <div class="field required">
+                    <label class="label" for="modal-start-date">
+                        <span><?= $block->escapeHtml(__('Start date')) ?></span>
+                    </label>
+                    <div class="control">
+                        <input type="text" 
+                               id="modal-start-date" 
+                               name="modal_start_date" 
+                               class="input-text required-entry" 
+                               data-validate="{required:true}"
+                               value="<?= $block->escapeHtmlAttr(date('m/d/Y')) ?>"
+                        />
+                    </div>
+                </div>
+                
+                <div class="field required">
+                    <label class="label" for="modal-repeats">
+                        <span><?= $block->escapeHtml(__('Repeats')) ?></span>
+                    </label>
+                    <div class="control">
+                        <select id="modal-repeats" name="modal_repeats" class="select">
+                            <option value="once"><?= $block->escapeHtml(__('Once')) ?></option>
+                            <option value="daily"><?= $block->escapeHtml(__('Daily')) ?></option>
+                            <option value="weekly"><?= $block->escapeHtml(__('Weekly')) ?></option>
+                            <option value="monthly"><?= $block->escapeHtml(__('Monthly')) ?></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Time Section -->
+            <div class="time-section">
+                <h3 class="section-title"><?= $block->escapeHtml(__('Time')) ?></h3>
+                
+                <div class="time-mode-tabs">
+                    <div class="time-mode-tab single-time-tab active" data-mode="single"><?= $block->escapeHtml(__('Single time')) ?></div>
+                    <div class="time-mode-tab multiple-times-tab" data-mode="multiple"><?= $block->escapeHtml(__('Multiple times')) ?></div>
+                </div>
+                
+                <div class="time-slot-generator">
+                    <div class="generator-toggle">
+                        <span class="generator-icon">⚙️</span>
+                        <span><?= $block->escapeHtml(__('Generate time slots')) ?></span>
+                        <span class="toggle-icon">▾</span>
+                    </div>
+                </div>
+                
+                <div class="time-slots-container">
+                    <div class="time-slot-row">
+                        <div class="field required start-time-field">
+                            <label class="label" for="time-start-0">
+                                <span><?= $block->escapeHtml(__('Start time')) ?></span>
+                            </label>
+                            <div class="control">
+                                <input type="text" 
+                                       id="time-start-0" 
+                                       name="time_slots[0][start_time]" 
+                                       class="input-text required-entry validate-time"
+                                       value="19:00"
+                                       data-validate="{required:true, 'validate-time':true}"
+                                />
+                                <div class="error-message" style="display: none;"><?= $block->escapeHtml(__('Time slot is duplicated')) ?></div>
+                            </div>
+                        </div>
+                        
+                        <div class="field required end-time-field">
+                            <label class="label" for="time-end-0">
+                                <span><?= $block->escapeHtml(__('End time')) ?></span>
+                            </label>
+                            <div class="control">
+                                <input type="text" 
+                                       id="time-end-0" 
+                                       name="time_slots[0][end_time]" 
+                                       class="input-text required-entry validate-time"
+                                       value="22:00"
+                                       data-validate="{required:true, 'validate-time':true}"
+                                />
+                                <span class="time-duration">(3 hrs)</span>
+                                <div class="error-message" style="display: none;"><?= $block->escapeHtml(__('Time slot is duplicated')) ?></div>
+                            </div>
+                        </div>
+                        
+                        <div class="action-remove-container">
+                            <button type="button" class="action-remove" title="<?= $block->escapeHtmlAttr(__('Remove')) ?>">
+                                <span class="delete-icon"></span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="time-slot-row">
+                        <div class="field required start-time-field">
+                            <label class="label" for="time-start-1">
+                                <span><?= $block->escapeHtml(__('Start time')) ?></span>
+                            </label>
+                            <div class="control">
+                                <input type="text" 
+                                       id="time-start-1" 
+                                       name="time_slots[1][start_time]" 
+                                       class="input-text required-entry validate-time"
+                                       value="19:00"
+                                       data-validate="{required:true, 'validate-time':true}"
+                                />
+                                <div class="error-message"><?= $block->escapeHtml(__('Time slot is duplicated')) ?></div>
+                            </div>
+                        </div>
+                        
+                        <div class="field required end-time-field">
+                            <label class="label" for="time-end-1">
+                                <span><?= $block->escapeHtml(__('End time')) ?></span>
+                            </label>
+                            <div class="control">
+                                <input type="text" 
+                                       id="time-end-1" 
+                                       name="time_slots[1][end_time]" 
+                                       class="input-text required-entry validate-time"
+                                       value="22:00"
+                                       data-validate="{required:true, 'validate-time':true}"
+                                />
+                                <span class="time-duration">(3 hrs)</span>
+                                <div class="error-message"><?= $block->escapeHtml(__('Time slot is duplicated')) ?></div>
+                            </div>
+                        </div>
+                        
+                        <div class="action-remove-container">
+                            <button type="button" class="action-remove" title="<?= $block->escapeHtmlAttr(__('Remove')) ?>">
+                                <span class="delete-icon"></span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="add-time-slot-container">
+                        <button type="button" id="add-time-slot" class="action-add">
+                            <span class="add-icon"></span>
+                            <span><?= $block->escapeHtml(__('Add a time slot')) ?></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal-footer">
+            <button type="button" class="action-cancel"><?= $block->escapeHtml(__('Cancel')) ?></button>
+            <button type="button" class="action-save primary"><?= $block->escapeHtml(__('Save')) ?></button>
+        </div>
+    </div>
+</div>

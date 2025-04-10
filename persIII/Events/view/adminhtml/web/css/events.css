@@ -1,0 +1,301 @@
+/* Time slots grid */
+.admin__field.field-time_slots_grid .admin__field-option {
+    margin-bottom: 10px;
+}
+
+/* Style the multiselect dropdown */
+select.admin__control-multiselect {
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 8px;
+    font-size: 14px;
+    background-color: #fff;
+    color: #333;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    height: auto;
+    min-height: 200px;
+    max-height: 350px;
+    overflow-y: auto;
+    transition: border 0.3s ease-in-out;
+}
+
+/* Add hover effect */
+select.admin__control-multiselect:hover {
+    border-color: #3f8efc;
+}
+
+/* Scrollbar styles for better look */
+select.admin__control-multiselect::-webkit-scrollbar {
+    width: 8px;
+}
+
+select.admin__control-multiselect::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 4px;
+}
+
+select.admin__control-multiselect::-webkit-scrollbar-thumb:hover {
+    background-color: #888;
+}
+
+/* Style the individual options */
+select.admin__control-multiselect option {
+    padding: 6px 10px;
+    margin: 2px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+/* Hover effect for options (for modern browsers that support it) */
+select.admin__control-multiselect option:hover,
+select.admin__control-multiselect option:focus {
+    background-color: #e0f7fa;
+    color: #000;
+    cursor: pointer;
+}
+
+/* New styles for the date-time component */
+.event-date-time-component {
+    padding: 15px;
+    border: 1px solid #e8e8e8;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    background: #fcfcfc;
+}
+
+.event-date-time-component h4 {
+    border-bottom: 1px solid #e8e8e8;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.time-mode-selector {
+    margin-bottom: 25px;
+}
+
+.time-slot-row.has-error {
+    margin-bottom: 5px;
+}
+
+/* Disable button styling */
+.action-delete[disabled],
+.action-add[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Multiple time slots UI */
+.multiple-times-container {
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    padding: 15px;
+    background: #f9f9f9;
+}
+
+
+/* Modal header styles */
+.modal-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Date section styles */
+.date-section-container {
+    margin-bottom: 30px;
+}
+
+.date-section-container .admin__field-label {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.start-date-field .admin__field-control {
+    width: 100%;
+}
+
+.repeat-field .admin__field-control {
+    width: 100%;
+}
+
+/* Time section styles */
+.time-section-container {
+    margin-top: 30px;
+}
+
+.time-section-container .admin__field-label {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* Time mode tabs */
+.time-mode-tabs {
+    display: flex;
+    background: #f8f8f8;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.time-mode-tab {
+    flex: 1;
+    text-align: center;
+    padding: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.time-mode-tab.active {
+    background: #4b6fff;
+    color: white;
+}
+
+.time-mode-tab:not(.active) {
+    background: #f0f0f0;
+    color: #666;
+}
+
+/* Time slot generator */
+.time-slot-generator-container {
+    margin: 20px 0;
+    cursor: pointer;
+}
+
+.generator-toggle {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background: #f8f8f8;
+    border-radius: 4px;
+}
+
+.generator-icon {
+    margin-right: 10px;
+}
+
+.toggle-icon {
+    margin-left: auto;
+}
+
+/* Time slots dynamic rows */
+.time-slots-dynamic-container {
+    margin-top: 20px;
+}
+
+.time-slot-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.time-field {
+    flex: 1;
+}
+
+.time-field input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.time-field.has-error input {
+    border-color: #e22626;
+}
+
+.delete-time-slot {
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    color: #666;
+    cursor: pointer;
+    background: none;
+    border: none;
+}
+
+.time-slot-error {
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+.error-message {
+    color: #e22626;
+    font-size: 12px;
+}
+
+.add-time-slot-action {
+    margin-top: 10px;
+}
+
+button.action-add {
+    background: none;
+    border: none;
+    color: #4b6fff;
+    padding: 5px 0;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+button.action-add:before {
+    content: '+';
+    margin-right: 5px;
+    font-size: 16px;
+}
+
+.add-datetime-button-container {
+    margin: 20px 0;
+}
+
+.add-datetime-button {
+    background: #4b6fff;
+    border: 1px solid #4b6fff;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 3px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.add-datetime-button:hover {
+    background: #3659e0;
+    border-color: #3659e0;
+}
+
+/* Time slots display */
+.time-slots-display {
+    margin: 20px 0;
+    padding: 15px;
+    background: #f8f8f8;
+    border: 1px solid #e3e3e3;
+    border-radius: 4px;
+}
+
+.time-slots-display h4 {
+    margin-top: 0;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.slots-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.time-slot-item {
+    background: #ffffff;
+    border: 1px solid #c2c2c2;
+    border-radius: 4px;
+    padding: 8px 12px;
+    display: inline-block;
+}
+
+.empty-time-slots p {
+    color: #666;
+    font-style: italic;
+    margin: 0;
+}

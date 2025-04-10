@@ -1,0 +1,16 @@
+<div class="time-slot-generator-container">
+    <div class="generator-toggle">
+        <span class="generator-icon">⚙️</span>
+        <span class="generator-label" data-bind="text: 'Generate time slots'"></span>
+        <span class="toggle-icon">▾</span>
+    </div>
+    <input class="admin__control-text" type="hidden" 
+           data-bind="
+               attr: {
+                   name: inputName,
+                   id: uid,
+                   disabled: disabled
+               },
+               value: value
+           "/>
+</div>

@@ -1,0 +1,13 @@
+<div class="time-slots-dynamic-container">
+    <div class="time-slots-list" data-bind="foreach: elems">
+        <div class="time-slot-row" data-bind="template: getTemplate()"></div>
+        <div class="time-slot-error" data-bind="if: error">
+            <div class="error-message">Time slot is duplicated</div>
+        </div>
+    </div>
+    <div class="add-time-slot-action">
+        <button type="button" class="action-add" data-bind="click: addChild">
+            <span data-bind="text: addButtonLabel"></span>
+        </button>
+    </div>
+</div>

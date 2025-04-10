@@ -1,0 +1,65 @@
+<input class="admin__control-text" type="text" 
+       data-bind="
+        attr: {
+            name: inputName,
+            placeholder: placeholder,
+            'aria-describedby': noticeId,
+            id: uid,
+            disabled: disabled
+        },
+        hasFocus: focused,
+        afterRender: initElement
+        "/>
+
+<div class="selected-dates-container">
+    <div class="selected-dates-title" data-bind="i18n: 'Selected Blocked Dates:'"></div>
+    <div class="selected-dates-list" data-bind="attr: { id: uid + '_selected_dates' }"></div>
+</div>
+
+<style>
+.selected-dates-container {
+    margin-top: 15px;
+    padding: 10px;
+    background: #f8f8f8;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.selected-dates-title {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.selected-date-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    margin-bottom: 5px;
+    background: #ffebee;
+    border: 1px solid #f44336;
+    border-radius: 4px;
+}
+
+.selected-date-item .action-remove {
+    background: none;
+    border: none;
+    color: #f44336;
+    cursor: pointer;
+    padding: 0 10px;
+}
+
+.selected-date-item .action-remove:hover {
+    text-decoration: underline;
+}
+
+.empty-dates-message {
+    font-style: italic;
+    color: #999;
+}
+
+.ui-datepicker .ui-state-active {
+    background-color: #1979c3 !important;
+    color: #ffffff !important;
+}
+</style>
