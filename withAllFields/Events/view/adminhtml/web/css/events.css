@@ -1,0 +1,354 @@
+/* Error States */
+.validation-failed {
+    border-color: #e22626 !important;
+    background-color: #fff0f0 !important;
+}
+
+/* Button styling */
+button[data-action="add_new_row"] {
+    background: #4285f4;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 10px;
+    display: inline-block;
+}
+
+button[data-action="add_new_row"]:hover {
+    background: #3367d6;
+}/* Date Fields Side by Side */
+.date-fields-container {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 15px;
+}
+
+.date-fields-container .admin__field {
+    flex: 1;
+    margin-bottom: 0 !important;
+}
+
+/* Overrides for side-by-side date fields */
+.date-fields-container .admin__field-label,
+.date-fields-container .admin__field-control {
+    float: none !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    text-align: left !important;
+}
+
+/* Make sure the calendar icon is properly positioned */
+.date-fields-container ._has-datepicker {
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* Error message positioning */
+.date-validation-error {
+    color: #e22626;
+    font-size: 12px;
+    margin-top: 5px;
+    display: none;
+    width: 100%;
+    clear: both;
+}/* Event Form Styling - Modernized UI */
+
+/* General Form Styling */
+.admin__fieldset:not([name="content_fieldset"]) {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Exclude content fieldset from all styling */
+[name="content_fieldset"] {
+    /* Use default Magento admin styling for this fieldset */
+}
+
+/* Modal Header */
+.modal-header {
+    border-bottom: 1px solid #e8e8e8;
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #757575;
+}
+
+/* Section Titles */
+.section-title {
+    color: #1a1a1a;
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 24px;
+    margin-bottom: 16px;
+}
+
+/* Label Styling */
+.admin__fieldset:not([name="content_fieldset"]) .admin__field-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #414141;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.admin__fieldset:not([name="content_fieldset"]) .required .admin__field-label:after {
+    content: '*';
+    color: #e22626;
+    margin-left: 3px;
+}
+
+/* Field Notice */
+.admin__field-note {
+    color: #757575;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+/* Input Fields - excluding content fieldset */
+.admin__fieldset:not([name="content_fieldset"]) .admin__control-text,
+.admin__fieldset:not([name="content_fieldset"]) .admin__control-select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #333;
+    background-color: #fff;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.admin__fieldset:not([name="content_fieldset"]) .admin__control-text:focus,
+.admin__fieldset:not([name="content_fieldset"]) .admin__control-select:focus {
+    border-color: #4285f4;
+    box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.25);
+    outline: none;
+}
+
+/* Date Picker */
+.admin__control-text._has-datepicker {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
+    padding-right: 35px;
+}
+
+/* Select Dropdowns */
+.admin__control-select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 14px;
+    padding-right: 35px;
+}
+
+/* Time Segment Tabs */
+.time-segment-tabs {
+    display: flex;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid #d1d1d1;
+    margin-bottom: 20px;
+}
+
+.time-segment-tab {
+    flex: 1;
+    text-align: center;
+    padding: 12px;
+    background: #f5f5f5;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border: none;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.time-segment-tab.active {
+    background: #4285f4;
+    color: white;
+}
+
+/* Time Slots Container */
+.time-slots-container {
+    margin-top: 15px;
+}
+
+/* Generate Time Slots Button */
+.generate-slots-button {
+    display: flex;
+    align-items: center;
+    background: none;
+    border: none;
+    color: #4285f4;
+    padding: 8px 0;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+.generate-slots-button svg {
+    margin-right: 8px;
+}
+
+.generate-slots-button-icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+}
+
+/* Time Slot Row */
+.time-slot-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+    align-items: flex-start;
+    position: relative;
+}
+
+.time-field-container {
+    flex: 1;
+    position: relative;
+}
+
+/* Error Message */
+.time-error-message {
+    color: #e22626;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.error-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #e22626;
+    width: 16px;
+    height: 16px;
+}
+
+.admin__control-text.error,
+.admin__control-select.error {
+    border-color: #e22626;
+}
+
+/* Delete Button */
+.delete-time-slot {
+    background: none;
+    border: none;
+    color: #757575;
+    cursor: pointer;
+    padding: 10px 6px;
+    align-self: center;
+}
+
+.delete-icon {
+    width: 18px;
+    height: 18px;
+}
+
+/* Add Button */
+.add-time-slot {
+    display: flex;
+    align-items: center;
+    background: none;
+    border: none;
+    color: #4285f4;
+    padding: 8px 0;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.add-icon {
+    width: 14px;
+    height: 14px;
+    margin-right: 8px;
+}
+
+/* Dynamic Rows Container */
+.admin__dynamic-rows {
+    margin-top: 20px;
+}
+
+/* Action Buttons */
+.modal-footer {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #e8e8e8;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.action-primary {
+    background: #4285f4;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.action-primary:hover {
+    background: #3367d6;
+}
+
+.action-secondary {
+    background: white;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 10px 16px;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.action-secondary:hover {
+    background: #f5f5f5;
+    border-color: #999;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .time-slot-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .delete-time-slot {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+}
