@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+         <!-- Remove sidebar blocks -->
+        <referenceContainer name="sidebar.main" remove="true"/>
+        <referenceContainer name="sidebar.additional" remove="true"/>
+        
+        <!-- Remove Compare Products block -->
+        <referenceBlock name="catalog.compare.sidebar" remove="true"/>
+        
+        
+
+        <referenceContainer name="content">
+            <block class="Vishal\Events\Block\EventView" name="events.view" template="Vishal_Events::event/view.phtml" />
+        </referenceContainer>
+    </body>
+</page>

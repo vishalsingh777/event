@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<csp_whitelist xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Csp:etc/csp_whitelist.xsd">
+    <policies>
+        <policy id="script-src">
+            <values>
+                <value id="vishal-events-scripts" type="host">*.local</value>
+                <value id="vishal-events-inline" type="host">'self'</value>
+            </values>
+        </policy>
+        <policy id="style-src">
+            <values>
+                <value id="vishal-events-styles" type="host">*.local</value>
+                <value id="vishal-events-inline-styles" type="host">'self'</value>
+                <value id="vishal-events-unsafe-inline" type="host">'unsafe-inline'</value>
+            </values>
+        </policy>
+    </policies>
+</csp_whitelist>

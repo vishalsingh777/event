@@ -1,0 +1,674 @@
+<?php
+/**
+ * @var $block \Vishal\Events\Block\EventView
+ */
+?>
+
+<div class="events-wrapper">
+    <?php $event = $block->getEvent(); ?>
+    <?php if ($event): ?>
+        <div class="event-view">
+            <div class="event-header">
+                <h1 class="event-title"><?= $block->escapeHtml($event->getEventTitle()) ?></h1>
+                
+                <div class="event-date-badge">
+                    <div class="date-month"><?= $block->escapeHtml(date('M', strtotime($event->getStartDate()))) ?></div>
+                    <div class="date-day"><?= $block->escapeHtml(date('d', strtotime($event->getStartDate()))) ?></div>
+                    <div class="date-year"><?= $block->escapeHtml(date('Y', strtotime($event->getStartDate()))) ?></div>
+                </div>
+            </div>
+            
+            <div class="event-details">
+                <div class="event-info-grid">
+                    <div class="detail-item date-time">
+                        <div class="icon-wrapper">
+                            <span class="event-icon calendar-icon"></span>
+                        </div>
+                        <div class="detail-content">
+                            <strong><?= $block->escapeHtml(__('Date & Time:')) ?></strong>
+                            
+                            <?php if (!$event->getRecurring()): ?>
+                                <!-- Display for non-recurring event -->
+                                <div class="event-datetime">
+                                    <p class="event-date">
+                                        <?= $block->escapeHtml($block->formatDate($event->getStartDate())) ?>
+                                        <?php if ($event->getSingleStartTime() && $event->getSingleEndTime()): ?>
+                                            <span class="event-time">
+                                                <?= $block->escapeHtml($block->formatTimeRange($event->getSingleStartTime(), $event->getSingleEndTime())) ?>
+                                            </span>
+                                        <?php endif; ?>
+                                    </p>
+                                    
+                                    <?php if ($event->getEventTimezone()): ?>
+                                        <p class="event-timezone">
+                                            <span class="timezone-label"><?= $block->escapeHtml(__('Time Zone:')) ?></span>
+                                            <span class="timezone-value"><?= $block->escapeHtml($event->getEventTimezone()) ?></span>
+                                        </p>
+                                    <?php endif; ?>
+                                </div>
+                            <?php else: ?>
+                                <!-- Display for recurring event -->
+                                <div class="event-recurring-info">
+                                    <p class="recurrence-pattern">
+                                        <span class="recurring-badge">
+                                            <?= $block->escapeHtml($block->getRecurrenceText($event)) ?>
+                                        </span>
+                                    </p>
+                                    
+                                    <p class="date-range">
+                                        <span><?= $block->escapeHtml(__('From')) ?></span>
+                                        <strong><?= $block->escapeHtml($block->formatDate($event->getStartDate())) ?></strong>
+                                        <?php if ($event->getEndDate()): ?>
+                                            <span><?= $block->escapeHtml(__('to')) ?></span>
+                                            <strong><?= $block->escapeHtml($block->formatDate($event->getEndDate())) ?></strong>
+                                        <?php endif; ?>
+                                    </p>
+                                    
+                                    <?php if ($event->getEventTimezone()): ?>
+                                        <p class="event-timezone">
+                                            <span class="timezone-label"><?= $block->escapeHtml(__('Time Zone:')) ?></span>
+                                            <span class="timezone-value"><?= $block->escapeHtml($event->getEventTimezone()) ?></span>
+                                        </p>
+                                    <?php endif; ?>
+                                    
+                                    <?php $timeSlots = $block->getFormattedTimeSlots(); ?>
+                                    <?php if (!empty($timeSlots)): ?>
+                                        <div class="event-time-slots">
+                                            <p class="time-slots-heading"><?= $block->escapeHtml(__('Available Time Slots:')) ?></p>
+                                            <ul class="time-slots-list">
+                                                <?php foreach ($timeSlots as $slot): ?>
+                                                    <li class="time-slot-item"><?= $block->escapeHtml($slot) ?></li>
+                                                <?php endforeach; ?>
+                                            </ul>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    
+                    <?php if ($event->getEventVenue()): ?>
+                        <div class="detail-item venue">
+                            <div class="icon-wrapper">
+                                <span class="event-icon location-icon"></span>
+                            </div>
+                            <div class="detail-content">
+                                <strong><?= $block->escapeHtml(__('Venue:')) ?></strong>
+                                <p><?= $block->escapeHtml($event->getEventVenue()) ?></p>
+                                
+                                <?php if ($event->getAddress()): ?>
+                                    <div class="event-address">
+                                        <p><?= $block->escapeHtml($event->getAddress()) ?></p>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                    
+                    <?php if ($event->getContactPerson() || $event->getPhone() || $event->getEmail()): ?>
+                        <div class="detail-item contact">
+                            <div class="icon-wrapper">
+                                <span class="event-icon contact-icon"></span>
+                            </div>
+                            <div class="detail-content">
+                                <strong><?= $block->escapeHtml(__('Contact Information:')) ?></strong>
+                                <?php if ($event->getContactPerson()): ?>
+                                    <p><strong><?= $block->escapeHtml(__('Contact:')) ?></strong> <?= $block->escapeHtml($event->getContactPerson()) ?></p>
+                                <?php endif; ?>
+                                
+                                <?php if ($event->getPhone()): ?>
+                                    <p><strong><?= $block->escapeHtml(__('Phone:')) ?></strong> <?= $block->escapeHtml($event->getPhone()) ?></p>
+                                <?php endif; ?>
+                                
+                                <?php if ($event->getEmail()): ?>
+                                    <p><strong><?= $block->escapeHtml(__('Email:')) ?></strong> <a href="mailto:<?= $block->escapeHtmlAttr($event->getEmail()) ?>"><?= $block->escapeHtml($event->getEmail()) ?></a></p>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                
+                <?php if ($event->getYoutubeVideoUrl()): ?>
+                    <div class="detail-item video">
+                        <h2 class="content-title"><?= $block->escapeHtml(__('Event Video')) ?></h2>
+                        <div class="event-video">
+                            <div class="video-container">
+                                <?php
+                                // Extract YouTube video ID from URL
+                                $videoId = '';
+                                $url = $event->getYoutubeVideoUrl();
+                                if (preg_match('/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/', $url, $match)) {
+                                    $videoId = $match[1];
+                                }
+                                ?>
+                                <?php if ($videoId): ?>
+                                    <iframe width="560" height="315" src="https://www.youtube.com/embed/<?= $block->escapeHtmlAttr($videoId) ?>" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                <?php else: ?>
+                                    <p><?= $block->escapeHtml(__('Invalid YouTube URL')) ?></p>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
+                
+                <?php if ($event->getContent()): ?>
+                    <div class="detail-item content">
+                        <h2 class="content-title"><?= $block->escapeHtml(__('About This Event')) ?></h2>
+                        <div class="event-content">
+                            <?= /* @noEscape */ $block->getContentHtml($event->getContent()) ?>
+                        </div>
+                    </div>
+                <?php endif; ?>
+                
+                <!-- Simple registration form for all event types -->
+                <div class="event-registration-section">
+                    <h2 class="section-title"><?= $block->escapeHtml(__('Registration')) ?></h2>
+                    
+                    <div class="registration-form-container">
+                        <form id="event-registration-form" class="event-registration-form" action="<?= $block->escapeUrl($block->getUrl('events/ticket/register')) ?>" method="post">
+                            <?= $block->getBlockHtml('formkey') ?>
+                            <input type="hidden" name="event_id" value="<?= $block->escapeHtmlAttr($event->getId()) ?>" />
+                            
+                            <?php if ($event->getRecurring()): ?>
+                                <div class="field date required">
+                                    <label class="label" for="event_date">
+                                        <span><?= $block->escapeHtml(__('Select Date')) ?></span>
+                                    </label>
+                                    <div class="control">
+                                        <select name="event_date" id="event_date" class="required-entry">
+                                            <option value=""><?= $block->escapeHtml(__('-- Please Select --')) ?></option>
+                                            <?php 
+                                            // Generate some sample dates for demonstration
+                                            $startDate = strtotime($event->getStartDate());
+                                            $endDate = strtotime($event->getEndDate() ?: '+30 days');
+                                            
+                                            // For a recurring event, show dates based on the recurrence pattern
+                                            for ($date = $startDate; $date <= $endDate; $date = strtotime('+1 day', $date)) {
+                                                // Skip days not in available days for weekly events
+                                                if ($event->getRepeat() == 'weekly') {
+                                                    $dayOfWeek = date('w', $date);
+                                                    $availableDays = $event->getAvailableDays();
+                                                    if (!in_array($dayOfWeek, $availableDays)) {
+                                                        continue;
+                                                    }
+                                                }
+                                                
+                                                // For monthly events, only show same day of month
+                                                if ($event->getRepeat() == 'monthly') {
+                                                    $dayOfMonth = date('j', $startDate);
+                                                    if (date('j', $date) != $dayOfMonth) {
+                                                        continue;
+                                                    }
+                                                }
+                                                
+                                                $dateStr = date('Y-m-d', $date);
+                                                $displayDate = date('l, F j, Y', $date);
+                                                echo '<option value="' . $block->escapeHtmlAttr($dateStr) . '">' . 
+                                                     $block->escapeHtml($displayDate) . '</option>';
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <?php $timeSlots = $block->getFormattedTimeSlots(); ?>
+                                <?php if (!empty($timeSlots)): ?>
+                                <div class="field time required">
+                                    <label class="label" for="event_time">
+                                        <span><?= $block->escapeHtml(__('Select Time')) ?></span>
+                                    </label>
+                                    <div class="control">
+                                        <select name="event_time" id="event_time" class="required-entry">
+                                            <option value=""><?= $block->escapeHtml(__('-- Please Select --')) ?></option>
+                                            <?php foreach ($timeSlots as $slot): ?>
+                                                <option value="<?= $block->escapeHtmlAttr($slot) ?>"><?= $block->escapeHtml($slot) ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <?php endif; ?>
+                            <?php endif; ?>
+                            
+                            <!-- Contact Fields -->
+                            <div class="field name required">
+                                <label class="label" for="name">
+                                    <span><?= $block->escapeHtml(__('Name')) ?></span>
+                                </label>
+                                <div class="control">
+                                    <input type="text" name="name" id="name" class="input-text required-entry" />
+                                </div>
+                            </div>
+                            
+                            <div class="field email required">
+                                <label class="label" for="email">
+                                    <span><?= $block->escapeHtml(__('Email')) ?></span>
+                                </label>
+                                <div class="control">
+                                    <input type="email" name="email" id="email" class="input-text required-entry validate-email" />
+                                </div>
+                            </div>
+                            
+                            <div class="field telephone">
+                                <label class="label" for="telephone">
+                                    <span><?= $block->escapeHtml(__('Phone')) ?></span>
+                                </label>
+                                <div class="control">
+                                    <input type="tel" name="telephone" id="telephone" class="input-text validate-telephone" />
+                                </div>
+                            </div>
+                            
+                            <div class="actions-toolbar">
+                                <div class="primary">
+                                    <button type="submit" class="action primary" title="<?= $block->escapeHtmlAttr(__('Register')) ?>">
+                                        <span><?= $block->escapeHtml(__('Register Now')) ?></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="event-actions">
+                    <a href="<?= $block->escapeUrl($block->getUrl('events')) ?>" class="action secondary">
+                        <span class="back-icon"></span><?= $block->escapeHtml(__('Back to Events List')) ?>
+                    </a>
+                    
+                    <?php if ($event->getProductSku()): ?>
+                        <a href="<?= $block->escapeUrl($block->getAddToCartUrl($event->getProductSku())) ?>" class="action primary">
+                            <span><?= $block->escapeHtml(__('Add to Cart')) ?></span>
+                        </a>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    <?php else: ?>
+        <div class="message info empty">
+            <div><?= $block->escapeHtml(__('Event not found.')) ?></div>
+        </div>
+    <?php endif; ?>
+</div>
+
+<style>
+.recurring-badge {
+    display: inline-block;
+    background-color: #1979c3;
+    color: white;
+    font-size: 12px;
+    padding: 3px 8px;
+    border-radius: 12px;
+    margin-top: 5px;
+}
+
+/* Event Page Styles */
+.events-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.event-view {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+    overflow: hidden;
+}
+
+.event-header {
+    position: relative;
+    padding: 30px 35px;
+    background: linear-gradient(135deg, #4A90E2 0%, #1B5EB8 100%);
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.event-title {
+    font-size: 28px;
+    font-weight: 600;
+    margin: 0;
+    max-width: 80%;
+}
+
+.event-date-badge {
+    background-color: #ffffff;
+    color: #333333;
+    padding: 10px;
+    border-radius: 6px;
+    text-align: center;
+    min-width: 80px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.date-month {
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #1979c3;
+}
+
+.date-day {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1;
+    margin: 2px 0;
+}
+
+.date-year {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.event-details {
+    padding: 30px;
+}
+
+.event-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+.detail-item {
+    margin-bottom: 25px;
+}
+
+.detail-item.date-time,
+.detail-item.venue,
+.detail-item.contact {
+    display: flex;
+    align-items: flex-start;
+}
+
+.icon-wrapper {
+    margin-right: 15px;
+    padding-top: 3px;
+}
+
+.event-icon {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.calendar-icon {
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzFiNWViOCI+PHBhdGggZD0iTTE5LDNoLTFWMWgtMnYySDhWMUg2djJINUM0LjQsMyA0LDMuNCw0LDR2MTZjMCwwLjYsMC40LDEsMSwxaDE0YzAuNiwwLDEtMC40LDEtMVY0QzIwLDMuNCwxOS42LDMsMTksM3ogTTE4LDE5SDZWOGgxMlYxOXogTTE4LDdINlY1aDEyVjd6IE04LDEyaDJ2Mkg4VjEyeiBNMTQsMTJoMnYyaC0yVjEyeiBNOCwxNWgydjJIOFYxNXogTTE0LDE1aDJ2MmgtMlYxNXoiLz48L3N2Zz4=');
+}
+
+.location-icon {
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzFiNWViOCI+PHBhdGggZD0iTTEyLDJDOC4xLDIgNSw1LjEgNSw5YzAsNS4yLDcsMTMsNywxM3M3LTcuOCw3LTEzQzE5LDUuMSwxNS45LDIsMTIsMnogTTEyLDExLjVjLTEuNCwwLTIuNS0xLjEtMi41LTIuNXMxLjEtMi41LDIuNS0yLjVzMi41LDEuMSwyLjUsMi41UzEzLjQsMTEuNSwxMiwxMS41eiIvPjwvc3ZnPg==');
+}
+
+.contact-icon {
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzFiNWViOCI+PHBhdGggZD0iTTEyLDRjNC40LDAsOCwzLjYsOCw4cy0zLjYsOC04LDhzLTgtMy42LTgtOFM3LjYsNCwxMiw0eiBNMTIsMmMtNS41LDAtMTAsNC41LTEwLDEwczQuNSwxMCwxMCwxMHMxMC00LjUsMTAtMTBTMTcuNSwyLDEyLDJ6IE03LDE3LjlWMThoMTB2LTAuMWM1LTAuNSw0LTYuOSwwLTcuOWMtMSwxLTIuNSwxLjktMy41LDEuOWMtMS0wLTIuNS0wLjktMy41LTEuOUM2LDExLDMuOSwxNy40LDcsMTcuOXogTTEyLDUuNWMtMC44LDAtMS41LDAuNy0xLjUsMS41czAuNywxLjUsMS41LDEuNXMxLjUtMC43LDEuNS0xLjVTMTIuOCw1LjUsMTIsNS41eiIvPjwvc3ZnPg==');
+}
+
+.detail-content {
+    flex: 1;
+}
+
+.detail-content strong {
+    display: block;
+    margin-bottom: 5px;
+    color: #333333;
+    font-size: 16px;
+}
+
+.detail-content p {
+    margin: 0;
+    line-height: 1.6;
+    color: #666666;
+}
+
+.event-time {
+    font-weight: 600;
+    margin-left: 8px;
+    color: #1979c3;
+}
+
+.timezone-label {
+    font-weight: 600;
+    margin-right: 5px;
+}
+
+.time-slots-heading {
+    margin-top: 15px;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.time-slots-list {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.time-slot-item {
+    display: inline-block;
+    background: #f0f7fc;
+    border: 1px solid #cce5ff;
+    border-radius: 4px;
+    padding: 6px 12px;
+    color: #1979c3;
+    font-size: 13px;
+}
+
+.event-timezone,
+.event-end-date,
+.event-recurring {
+    margin-top: 10px;
+}
+
+.date-range {
+    margin: 10px 0;
+}
+
+.date-range strong {
+    display: inline;
+    margin: 0 5px;
+}
+
+.detail-item.content {
+    border-top: 1px solid #e8e8e8;
+    padding-top: 25px;
+}
+
+.content-title, .section-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #333333;
+}
+
+.event-content {
+    line-height: 1.7;
+    color: #494949;
+}
+
+/* Registration Form */
+.event-registration-section {
+    margin: 30px 0;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-radius: 6px;
+    border-top: 1px solid #e8e8e8;
+    padding-top: 25px;
+}
+
+.registration-form-container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.event-registration-form .field {
+    margin-bottom: 20px;
+}
+
+.event-registration-form .label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.event-registration-form .control {
+    position: relative;
+}
+
+.event-registration-form .input-text,
+.event-registration-form select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.event-registration-form .input-text:focus,
+.event-registration-form select:focus {
+    border-color: #1979c3;
+    outline: none;
+    box-shadow: 0 0 0 1px rgba(25, 121, 195, 0.25);
+}
+
+.actions-toolbar {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.actions-toolbar .action.primary {
+    background: #1979c3;
+    border: 1px solid #1979c3;
+    color: #fff;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.actions-toolbar .action.primary:hover {
+    background: #0e578f;
+    border-color: #0e578f;
+}
+
+/* Video container */
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+    height: 0;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.event-actions {
+    display: flex;
+    margin-top: 30px;
+    justify-content: space-between;
+}
+
+.event-actions .action {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 25px;
+    border-radius: 4px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.event-actions .action.secondary {
+    background-color: #f4f4f4;
+    color: #666666;
+    border: 1px solid #cccccc;
+}
+
+.event-actions .action.secondary:hover {
+    background-color: #e8e8e8;
+    color: #494949;
+}
+
+.event-actions .action.primary {
+    background-color: #1979c3;
+    color: #ffffff;
+    border: 1px solid #1979c3;
+}
+
+.event-actions .action.primary:hover {
+    background-color: #1b5eb8;
+    border-color: #1b5eb8;
+}
+
+.back-icon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzY2NjY2NiI+PHBhdGggZD0iTTIwLDExSDcuOGw1LjYtNS42TDEyLDRsLTgsOGw4LDhsMS40LTEuNEw3LjgsMTNIMjBWMTF6Ii8+PC9zdmc+');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.message.info.empty {
+    background: #f8f8f8;
+    padding: 15px;
+    border-left: 3px solid #1979c3;
+    margin: 20px 0;
+    font-size: 14px;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 767px) {
+    .event-header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
+    }
+    
+    .event-title {
+        max-width: 100%;
+        margin-bottom: 15px;
+    }
+    
+    .event-details {
+        padding: 20px;
+    }
+    
+    .event-info-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .event-actions {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .event-actions .action {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .time-slots-list {
+        flex-direction: column;
+    }
+}
+</style>
