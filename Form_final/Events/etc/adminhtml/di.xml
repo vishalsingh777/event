@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- UI Component Form Modifier Pool -->
+    <virtualType name="Vishal\Events\Ui\DataProvider\Event\Form\Modifier\Pool" type="Magento\Ui\DataProvider\Modifier\Pool">
+        <arguments>
+            <argument name="modifiers" xsi:type="array">
+                <item name="time-slots" xsi:type="array">
+                    <item name="class" xsi:type="string">Vishal\Events\Ui\Component\Form\Modifier\TimeSlots</item>
+                    <item name="sortOrder" xsi:type="number">10</item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+    
+    <type name="Vishal\Events\Ui\Component\Form\Event\DataProvider">
+        <arguments>
+            <argument name="pool" xsi:type="object">Vishal\Events\Ui\DataProvider\Event\Form\Modifier\Pool</argument>
+        </arguments>
+    </type>
+</config>
