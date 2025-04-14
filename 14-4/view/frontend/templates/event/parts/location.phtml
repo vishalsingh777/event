@@ -1,0 +1,29 @@
+<?php
+/**
+ * @var $block \Vishal\Events\Block\EventView
+ * @var $event \Vishal\Events\Model\Event
+ */
+?>
+
+<?php if ($event->getEventVenue()): ?>
+<div class="event-info-card">
+    <h3 class="card-title"><?= $block->escapeHtml(__('Location')) ?></h3>
+    <div class="location-info">
+        <div class="location-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+        </div>
+        <div>
+            <div class="venue-name"><?= $block->escapeHtml($event->getEventVenue()) ?></div>
+            <?php if ($event->getVenueAddress()): ?>
+            <div class="venue-address"><?= $block->escapeHtml($event->getVenueAddress()) ?></div>
+            <?php endif; ?>
+            <a href="https://maps.google.com/?q=<?= $block->escapeUrl($event->getEventVenue()) ?>" target="_blank" class="map-link" id="show-map">
+                <?= $block->escapeHtml(__('Show map')) ?>
+            </a>
+        </div>
+    </div>
+</div>
+<?php endif; ?>

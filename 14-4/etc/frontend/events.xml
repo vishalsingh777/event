@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <!-- Event observer for cart item addition -->
+    <event name="checkout_cart_product_add_after">
+        <observer name="vishal_events_cart_product_add" instance="Vishal\Events\Observer\EventCartItemUpdateObserver" />
+    </event>
+    
+    <!-- Event observer for cart update -->
+    <event name="sales_quote_item_set_product">
+        <observer name="vishal_events_quote_item_set_product" instance="Vishal\Events\Observer\EventCartItemUpdateObserver" />
+    </event>
+</config> 

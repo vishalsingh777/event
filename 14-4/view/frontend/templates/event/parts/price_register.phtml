@@ -1,0 +1,47 @@
+<?php
+/**
+ * @var $block \Vishal\Events\Block\EventView
+ * @var $event \Vishal\Events\Model\Event
+ */
+?>
+
+<div class="event-info-card">
+    <div class="price-section">
+        <?php if ($isPaidEvent): ?>
+            <div class="event-price"><?= $block->getFormattedEventPrice() ?></div>
+            <?php if ($event->getProductSku() && $event->getRegistrationType() == '0'): ?>
+                <div class="early-bird-badge"><?= $block->escapeHtml(__('Early bird discount')) ?></div>
+            <?php endif; ?>
+        <?php else: ?>
+            <div class="event-price"><?= $block->escapeHtml(__('Free')) ?></div>
+        <?php endif; ?>
+    </div>
+    
+    <?php if ($event->getStatus() == 1 && !$isEventSoldOut): ?>
+        <?php if ($isPaidEvent && $event->getProductSku()): ?>
+            <!-- Register & Pay Option -->
+            <a href="<?= $block->escapeUrl($block->getUrl('events/product/addtocart', [
+                'product_sku' => $event->getProductSku(),
+                'event_id' => $event->getId()
+            ])) ?>" 
+               class="register-button" id="register-pay-button"
+               <?= $needsTimeSlotSelection ? 'data-validate-time-slot="true"' : '' ?>>
+                <?= $block->escapeHtml(__('Get tickets')) ?>
+            </a>
+        <?php elseif ($event->getRegistrationType() == '1'): ?>
+            <button id="register-only-button" class="register-button"
+                    <?= $needsTimeSlotSelection ? 'data-validate-time-slot="true"' : '' ?>>
+                <?= $block->escapeHtml(__('Register')) ?>
+            </button>
+        <?php elseif ($event->getRegistrationType() == '2'): ?>
+            <button id="register-approval-button" class="register-button"
+                    <?= $needsTimeSlotSelection ? 'data-validate-time-slot="true"' : '' ?>>
+                <?= $block->escapeHtml(__('Request Registration')) ?>
+            </button>
+        <?php endif; ?>
+    <?php elseif ($isEventSoldOut): ?>
+        <div class="sold-out-message"><?= $block->escapeHtml(__('Sold Out')) ?></div>
+    <?php else: ?>
+        <div class="event-unavailable-message"><?= $block->escapeHtml(__('Registration Unavailable')) ?></div>
+    <?php endif; ?>
+</div>

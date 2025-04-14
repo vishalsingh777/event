@@ -1,0 +1,106 @@
+<?php
+/**
+ * @var $block \Vishal\Events\Block\EventView
+ * @var $event \Vishal\Events\Model\Event
+ */
+
+// Generate selectable dates based on recurrence pattern
+$selectableDates = [];
+
+// Case 1: No recurrence (Once)
+if ($repeat == "0" || $repeat == 0) {
+    $isMultiDay = false; // Force single day view
+    
+    // Only add start date
+    $selectableDates[] = [
+        'date' => $startDateObj->format('Y-m-d'),
+        'display' => $startDateObj->format('F j, Y') . ' (' . $startDateObj->format('l') . ')'
+    ];
+}
+// Case 2: Daily recurrence
+else if ($repeat == "1" || $repeat == 1) {
+    // Generate daily dates from start to end
+    $currentDate = clone $startDateObj;
+    
+    while ($currentDate <= $endDateObj) {
+        $selectableDates[] = [
+            'date' => $currentDate->format('Y-m-d'),
+            'display' => $currentDate->format('F j, Y') . ' (' . $currentDate->format('l') . ')'
+        ];
+        
+        // Advance by repeat interval (days)
+        $currentDate->modify('+' . $repeatEvery . ' day');
+    }
+}
+// Case 3: Weekly recurrence
+else if ($repeat == "2" || $repeat == 2) {
+    // Get available days of week (default to start date's day if not specified)
+    $availableDays = $event->getAvailableDays() ?: [$startDateObj->format('w')];
+    
+    // Generate weekly dates
+    $currentDate = clone $startDateObj;
+    $weekCounter = 0;
+    
+    while ($currentDate <= $endDateObj) {
+        $currentDayOfWeek = $currentDate->format('w'); // 0 (Sun) through 6 (Sat)
+        
+        // Check if current day is in available days and if we're on the right week interval
+        if (in_array($currentDayOfWeek, $availableDays) && ($weekCounter % $repeatEvery == 0)) {
+            $selectableDates[] = [
+                'date' => $currentDate->format('Y-m-d'),
+                'display' => $currentDate->format('F j, Y') . ' (' . $currentDate->format('l') . ')'
+            ];
+        }
+        
+        // Move to next day
+        $currentDate->modify('+1 day');
+        
+        // If we hit Sunday, increment week counter
+        if ($currentDate->format('w') == '0') {
+            $weekCounter++;
+        }
+    }
+}
+// Case 4: Monthly recurrence
+else if ($repeat == "3" || $repeat == 3) {
+    // Get day of month from start date
+    $dayOfMonth = $startDateObj->format('j');
+    
+    // Generate monthly dates
+    $currentMonth = (int)$startDateObj->format('n'); // 1-12
+    $currentYear = (int)$startDateObj->format('Y');
+    $endMonth = (int)$endDateObj->format('n');
+    $endYear = (int)$endDateObj->format('Y');
+    
+    // Calculate total months to iterate
+    $totalMonths = (($endYear - $currentYear) * 12) + ($endMonth - $currentMonth);
+    
+    for ($i = 0; $i <= $totalMonths; $i += $repeatEvery) {
+        // Calculate target month and year
+        $targetMonth = $currentMonth + ($i % 12);
+        $yearsToAdd = floor(($currentMonth + $i - 1) / 12);
+        $targetYear = $currentYear + $yearsToAdd;
+        
+        // Adjust for month overflow
+        if ($targetMonth > 12) {
+            $targetMonth -= 12;
+            $targetYear++;
+        }
+        
+        // Check for valid day in month (handle February, etc.)
+        $maxDays = cal_days_in_month(CAL_GREGORIAN, $targetMonth, $targetYear);
+        $actualDay = min($dayOfMonth, $maxDays);
+        
+        // Create date object
+        $dateStr = sprintf('%04d-%02d-%02d', $targetYear, $targetMonth, $actualDay);
+        $currentDate = new \DateTime($dateStr);
+        
+        // Only add if within range
+        if ($currentDate >= $startDateObj && $currentDate <= $endDateObj) {
+            $selectableDates[] = [
+                'date' => $currentDate->format('Y-m-d'),
+                'display' => $currentDate->format('F j, Y') . ' (' . $currentDate->format('l') . ')'
+            ];
+        }
+    }
+}

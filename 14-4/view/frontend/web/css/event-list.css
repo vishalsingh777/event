@@ -1,0 +1,887 @@
+/* Full Width Layout */
+.full-width-container {
+    width: 100%;
+    max-width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+    margin: 0;
+}
+
+.full-width-content {
+    width: 100%;
+    max-width: 100%;
+}
+
+.page-main-full-width {
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.cart.item .actions .action-edit {
+    display: none !important;
+}
+
+
+/* INSEAD Brand Colors and Typography */
+:root {
+    --insead-blue: #00558c;
+    --insead-teal: #007a87;
+    --insead-red: #c8102e;
+    --insead-light-blue: #8ec6e2;
+    --insead-dark-blue: #0a2240;
+    --insead-light-grey: #f0f0f0;
+    --insead-mid-grey: #999999;
+    --insead-dark-grey: #333333;
+    --insead-orange: #f5851f;
+}
+
+body {
+    font-family: 'Open Sans', Arial, sans-serif;
+    color: var(--insead-dark-grey);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Bree Serif', Georgia, serif;
+    font-weight: normal;
+}
+
+/* Event Detail Layout */
+.event-detail-container {
+    margin: 0;
+    width: 100%;
+    background-color: #f8f9fa;
+}
+
+/* Banner Styling - Modern and Immersive */
+.event-banner {
+    width: 100%;
+    height: 320px;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 0;
+    background: linear-gradient(90deg, var(--insead-blue) 0%, var(--insead-teal) 100%);
+}
+
+.event-banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.event-banner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.banner-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1024px;
+    padding: 0 20px;
+}
+
+.banner-title-container {
+    flex: 1;
+    color: #fff;
+}
+
+.banner-event-type {
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    color: var(--insead-light-blue);
+}
+
+.banner-title {
+    font-size: 36px;
+    margin-bottom: 10px;
+    line-height: 1.2;
+    font-weight: 400;
+    color: #fff;
+}
+
+.banner-subtitle {
+    font-size: 18px;
+    line-height: 1.4;
+    font-weight: 300;
+    margin-bottom: 0;
+}
+
+.banner-details {
+    width: 250px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 5px;
+    margin-left: 30px;
+}
+
+.banner-date-time {
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: var(--insead-dark-grey);
+}
+
+.banner-location {
+    font-size: 14px;
+    color: var(--insead-dark-grey);
+}
+
+/* Event Header Section */
+.event-header {
+    max-width: 1024px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.event-date-info {
+    color: var(--insead-mid-grey);
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.event-title-main {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--insead-dark-blue);
+}
+
+.event-description-short {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: var(--insead-dark-grey);
+    margin-bottom: 30px;
+}
+
+/* Main Content Area */
+.event-main-content {
+    max-width: 1024px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+/* Left Column - Date and Time */
+.event-left-column {
+    flex: 0 0 350px;
+}
+
+/* Right Column - Event Info */
+.event-right-column {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Card Styling */
+.event-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    margin-bottom: 30px;
+}
+
+/* Date and Time Card */
+.date-time-card {
+    position: relative;
+}
+
+.card-title {
+    font-size: 1.3rem;
+    font-weight: 400;
+    margin-bottom: 20px;
+    color: var(--insead-dark-blue);
+}
+
+/* Date Boxes - Month Calendar Style */
+.date-month-boxes {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.date-box {
+    background: var(--insead-light-grey);
+    border-radius: 4px;
+    width: 70px;
+    text-align: center;
+    margin-right: 15px;
+    overflow: hidden;
+}
+
+.date-box-month {
+    background-color: var(--insead-red);
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 3px 0;
+    text-transform: uppercase;
+}
+
+.date-box-day {
+    font-size: 24px;
+    font-weight: 700;
+    padding: 6px 0;
+}
+
+.date-box-year {
+    font-size: 14px;
+    color: var(--insead-mid-grey);
+    padding-bottom: 5px;
+}
+
+.date-separator {
+    display: flex;
+    align-items: center;
+    margin: 0 10px;
+    color: var(--insead-mid-grey);
+}
+
+/* Date Selector */
+.date-selector-container {
+    margin-bottom: 20px;
+}
+
+.date-selector-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--insead-dark-grey);
+}
+
+.date-selector-container select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: #fff;
+}
+
+.date-selector-container select:focus {
+    outline: none;
+    border-color: var(--insead-blue);
+}
+
+/* Time Slots */
+.time-slots-header {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--insead-dark-grey);
+}
+
+.time-slots-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+.time-slot-option {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.time-slot-option:hover {
+    background-color: #f9f9f9;
+    border-color: #ccc;
+}
+
+.time-slot-option.selected {
+    border-color: var(--insead-blue);
+    background-color: rgba(142, 198, 226, 0.1);
+}
+
+.time-slot-option.past {
+    opacity: 0.6;
+    text-decoration: line-through;
+    cursor: not-allowed;
+    background-color: var(--insead-light-grey);
+}
+
+.time-slot-option input[type="radio"] {
+    margin-right: 10px;
+}
+
+.time-slot-text {
+    font-size: 1rem;
+}
+
+/* Price and Ticket Section */
+.price-ticket-section {
+    margin-top: 25px;
+}
+
+.price-display {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--insead-dark-grey);
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.price-display.free {
+    color: #27ae60;
+}
+
+.early-bird-badge {
+    display: inline-block;
+    background-color: var(--insead-orange);
+    color: white;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    margin: 0 auto 15px;
+    display: table;
+}
+
+/* Ticket Button */
+.ticket-button {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background-color: var(--insead-orange);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    font-weight: 600;
+}
+
+.ticket-button:hover {
+    background-color: #e67e22;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(230, 126, 34, 0.3);
+}
+
+/* Event Content Sections */
+.event-content-card {
+    padding: 25px;
+}
+
+.section-title {
+    font-size: 1.3rem;
+    font-weight: 400;
+    margin-bottom: 20px;
+    color: var(--insead-dark-blue);
+    border-bottom: 1px solid var(--insead-light-grey);
+    padding-bottom: 10px;
+}
+
+/* Event Description */
+.event-description-content {
+    line-height: 1.8;
+    color: var(--insead-dark-grey);
+    font-size: 1.1rem;
+}
+
+.event-description-content p {
+    margin-bottom: 20px;
+}
+
+.event-description-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+    margin: 20px 0;
+}
+
+/* Location Section */
+.location-title {
+    font-size: 1.3rem;
+    font-weight: 400;
+    margin-bottom: 15px;
+    color: var(--insead-dark-blue);
+}
+
+.location-address {
+    font-size: 1.1rem;
+    color: var(--insead-dark-grey);
+    margin-bottom: 15px;
+}
+
+.show-map-link {
+    color: var(--insead-blue);
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+.show-map-link a {
+    color: var(--insead-blue);
+    text-decoration: none;
+}
+
+.show-map-link a:hover {
+    text-decoration: underline;
+}
+
+/* Refund Policy Section */
+.refund-policy-card {
+    padding: 20px;
+}
+
+.refund-policy-title {
+    font-size: 1.3rem;
+    font-weight: 400;
+    margin-bottom: 15px;
+    color: var(--insead-dark-blue);
+}
+
+.refund-policy-text {
+    font-size: 1rem;
+    color: var(--insead-dark-grey);
+}
+
+/* Validation Message */
+.time-slot-validation-message {
+    color: var(--insead-red);
+    font-size: 0.9rem;
+    margin-top: 10px;
+    display: none;
+    text-align: center;
+}
+
+/* Registration Modal */
+.registration-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(3px);
+}
+
+.modal-content {
+    position: relative;
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 40px;
+    width: 90%;
+    max-width: 700px;
+    border-radius: 8px;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+    animation: modalFadeIn 0.4s ease;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.close-modal {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    color: var(--insead-mid-grey);
+    cursor: pointer;
+    transition: color 0.2s ease;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.close-modal:hover {
+    color: var(--insead-dark-grey);
+    background-color: var(--insead-light-grey);
+}
+
+#registration-form-title {
+    font-size: 2.2rem;
+    font-weight: 400;
+    margin-bottom: 30px;
+    color: var(--insead-dark-blue);
+    text-align: center;
+}
+
+.event-registration-form {
+    margin-top: 25px;
+}
+
+.form-field {
+    margin-bottom: 25px;
+}
+
+.form-field label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--insead-dark-grey);
+    font-size: 1rem;
+}
+
+.form-field label.required::after {
+    content: '*';
+    color: var(--insead-red);
+    margin-left: 4px;
+}
+
+.form-field input,
+.form-field select {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-field input:focus,
+.form-field select:focus {
+    outline: none;
+    border-color: var(--insead-blue);
+    box-shadow: 0 0 0 3px rgba(0, 85, 140, 0.2);
+}
+
+.form-fields-inline {
+    display: flex;
+    gap: 20px;
+}
+
+.form-fields-inline .form-field {
+    flex: 1;
+}
+
+.form-actions {
+    margin-top: 35px;
+    text-align: right;
+}
+
+.form-actions button {
+    padding: 14px 30px;
+    border-radius: 4px;
+    background-color: var(--insead-blue);
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.form-actions button:hover {
+    background-color: var(--insead-dark-blue);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 34, 64, 0.3);
+}
+
+.validation-failed {
+    border-color: var(--insead-red) !important;
+    background-color: rgba(200, 16, 46, 0.05) !important;
+}
+
+.validation-message {
+    color: var(--insead-red);
+    font-size: 0.9rem;
+    margin-top: 8px;
+    display: block;
+    font-weight: 500;
+}
+
+/* Registration Modal */
+.registration-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(3px);
+}
+
+.modal-content {
+    position: relative;
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 40px;
+    width: 90%;
+    max-width: 700px;
+    border-radius: 16px;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+    animation: modalFadeIn 0.4s ease;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.close-modal {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #999;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.close-modal:hover {
+    color: #333;
+    background-color: #f5f5f5;
+}
+
+#registration-form-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    color: #333;
+    text-align: center;
+}
+
+.event-registration-form {
+    margin-top: 25px;
+}
+
+.form-field {
+    margin-bottom: 25px;
+}
+
+.form-field label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #555;
+    font-size: 1rem;
+}
+
+.form-field label.required::after {
+    content: '*';
+    color: #e74c3c;
+    margin-left: 4px;
+}
+
+.form-field input,
+.form-field select {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-field input:focus,
+.form-field select:focus {
+    outline: none;
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+}
+
+.form-fields-inline {
+    display: flex;
+    gap: 20px;
+}
+
+.form-fields-inline .form-field {
+    flex: 1;
+}
+
+.form-actions {
+    margin-top: 35px;
+    text-align: right;
+}
+
+.form-actions button {
+    padding: 14px 30px;
+    border-radius: 8px;
+    background-color: #4a90e2;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.form-actions button:hover {
+    background-color: #3a80d2;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(74, 144, 226, 0.3);
+}
+
+.validation-failed {
+    border-color: #e74c3c !important;
+    background-color: #fff8f8 !important;
+}
+
+.validation-message {
+    color: #e74c3c;
+    font-size: 0.9rem;
+    margin-top: 8px;
+    display: block;
+    font-weight: 500;
+}
+
+/* Time slot validation message */
+.time-slot-validation-message {
+    color: #e74c3c;
+    font-size: 0.9rem;
+    margin-top: 10px;
+    display: none;
+    text-align: center;
+}
+
+/* Responsive Styles */
+@media (max-width: 1200px) {
+    .event-content-wrapper {
+        max-width: 95%;
+    }
+}
+
+@media (max-width: 991px) {
+    .event-main-content {
+        flex-direction: column;
+    }
+    
+    .event-right-column {
+        order: 1;
+    }
+    
+    .event-left-column {
+        order: 2;
+    }
+    
+    .event-banner {
+        height: 400px;
+    }
+    
+    .event-title {
+        font-size: 2.8rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .event-banner {
+        height: 350px;
+    }
+    
+    .form-fields-inline {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .event-date-boxes {
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+    
+    .date-separator {
+        display: none;
+    }
+    
+    .event-title {
+        font-size: 2.4rem;
+    }
+    
+    .event-subtitle {
+        font-size: 1.4rem;
+    }
+    
+    .modal-content {
+        padding: 30px 20px;
+        width: 95%;
+        margin: 10% auto;
+    }
+    
+    #registration-form-title {
+        font-size: 1.8rem;
+    }
+    
+    .form-actions {
+        text-align: center;
+    }
+    
+    .form-actions button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .event-banner {
+        height: 300px;
+    }
+    
+    .banner-content {
+        padding: 0 15px;
+        bottom: 20px;
+    }
+    
+    .event-title {
+        font-size: 2rem;
+    }
+    
+    .event-subtitle {
+        font-size: 1.2rem;
+    }
+    
+    .event-price {
+        font-size: 1.8rem;
+    }
+    
+    .event-info-card, 
+    .event-content-sections {
+        padding: 20px;
+    }
+    
+    .section-title {
+        font-size: 1.6rem;
+    }
+}

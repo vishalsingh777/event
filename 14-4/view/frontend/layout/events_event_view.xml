@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Vishal_Events::css/event-detail.css"/>
+    </head>
+    <body>
+        <!-- Remove page title wrapper -->
+        <referenceBlock name="page.main.title" remove="true" />
+        
+        <!-- Set the main content container to full width -->
+        <referenceContainer name="main.content" htmlTag="main" htmlClass="page-main-full-width" />
+        
+        <!-- Remove page.main.container class and set to full width -->
+        <referenceContainer name="page.main.container" htmlTag="div" htmlClass="full-width-container" />
+        
+        <!-- Remove search box -->
+        <referenceBlock name="top.search" remove="true"/>
+        <referenceBlock name="search_mini_form" remove="true"/>
+        
+        <!-- Remove sidebar blocks -->
+        <referenceContainer name="sidebar.main" remove="true"/>
+        <referenceContainer name="sidebar.additional" remove="true"/>
+        
+        <!-- Remove Compare Products block -->
+        <referenceBlock name="catalog.compare.sidebar" remove="true"/>
+        
+        <!-- Remove breadcrumbs for cleaner look -->
+        <referenceBlock name="breadcrumbs" remove="true"/>
+        
+        <!-- Set content to full width -->
+        <referenceContainer name="content" htmlTag="div" htmlClass="full-width-content">
+            <block class="Vishal\Events\Block\EventView" name="events.view" template="Vishal_Events::event/view.phtml" />
+        </referenceContainer>
+    </body>
+</page>

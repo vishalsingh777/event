@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <title>Registration Complete</title>
+    </head>
+    <body>
+        <!-- Remove sidebar blocks -->
+        <referenceContainer name="sidebar.main" remove="true"/>
+        <referenceContainer name="sidebar.additional" remove="true"/>
+        
+        <referenceContainer name="content">
+            <block class="Vishal\Events\Block\Registration\Success" name="event.registration.success" template="Vishal_Events::registration/success.phtml">
+                <block class="Magento\Cms\Block\Block" name="event_registration_success_content">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">event_registration_success</argument>
+                    </arguments>
+                </block>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

@@ -1,0 +1,117 @@
+<?php
+/**
+ * @var $block \Vishal\Events\Block\EventView
+ * @var $event \Vishal\Events\Model\Event
+ */
+?>
+
+<div class="event-info-card">
+    <h3 class="card-title"><?= $block->escapeHtml(__('Date and time')) ?></h3>
+    
+    <div class="event-date-boxes">
+        <div class="event-date-box">
+            <div class="event-date-month"><?= $block->escapeHtml($startMonth) ?></div>
+            <div class="event-date-day"><?= $block->escapeHtml($startDay) ?></div>
+            <div class="event-date-year"><?= $block->escapeHtml($startYear) ?></div>
+        </div>
+        
+        <?php if ($isMultiDay && $endDateObj): ?>
+        <div class="date-separator">-</div>
+        
+        <div class="event-date-box">
+            <div class="event-date-month"><?= $block->escapeHtml($endDateObj->format('M')) ?></div>
+            <div class="event-date-day"><?= $block->escapeHtml($endDateObj->format('d')) ?></div>
+            <div class="event-date-year"><?= $block->escapeHtml($endDateObj->format('Y')) ?></div>
+        </div>
+        <?php endif; ?>
+    </div>
+    
+    <!-- Date selection based on recurrence pattern -->
+    <?php if (count($selectableDates) > 1): ?>
+    <div class="date-selection">
+        <label for="event-date-selector"><?= $block->escapeHtml(__('Select date:')) ?></label>
+        <select id="event-date-selector">
+            <?php foreach ($selectableDates as $index => $dateInfo): 
+                $selected = ($index === 0) ? 'selected' : '';
+            ?>
+                <option value="<?= $block->escapeHtmlAttr($dateInfo['date']) ?>" <?= $selected ?>><?= $block->escapeHtml($dateInfo['display']) ?></option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+    <?php else: ?>
+        <?php if (!empty($selectableDates)): ?>
+        <div class="single-date-display">
+            <span><?= $block->escapeHtml($selectableDates[0]['display']) ?></span>
+            <input type="hidden" id="event-date-selector" value="<?= $block->escapeHtmlAttr($selectableDates[0]['date']) ?>">
+        </div>
+        <?php endif; ?>
+    <?php endif; ?>
+    
+    <!-- Time slots -->
+    <div class="time-slots-section">
+        <div class="time-slots-header"><?= $block->escapeHtml(__('Available Time Slots:')) ?></div>
+        <div class="time-slots-container" id="time-slots-container">
+            <?php 
+            // Format time slots for display
+            $formattedTimeSlots = [];
+            $rawTimeSlots = $block->getRawTimeSlots();
+            
+            if (!empty($rawTimeSlots) && !empty($selectableDates)) {
+                $firstDateObj = new \DateTime($selectableDates[0]['date']);
+                $formattedDate = $firstDateObj->format('M d, Y');
+                
+                foreach ($rawTimeSlots as $index => $slot) {
+                    if (isset($slot['time_start']) && isset($slot['time_end'])) {
+                        $startTime = $block->formatTime($slot['time_start']);
+                        $endTime = $block->formatTime($slot['time_end']);
+                        
+                        $formattedTimeSlots[] = [
+                            'index' => $index,
+                            'time_start' => $slot['time_start'],
+                            'time_end' => $slot['time_end'],
+                            'formatted' => $formattedDate . ' · ' . $startTime . ' - ' . $endTime . ' ' . $timezone,
+                            'date' => $selectableDates[0]['date']
+                        ];
+                    }
+                }
+            } elseif (!empty($timeSlots)) {
+                // Use existing formatted time slots if available
+                $formattedTimeSlots = $timeSlots;
+            }
+            
+            if (!empty($formattedTimeSlots)):
+                foreach ($formattedTimeSlots as $index => $slot): 
+                    // Determine if this slot should be selected
+                    $isSelected = ($index === 0 || count($formattedTimeSlots) === 1) ? 'selected' : '';
+                    $isChecked = ($index === 0 || count($formattedTimeSlots) === 1) ? 'checked' : '';
+                    
+                    // Get slot date and text
+                    $slotDate = is_array($slot) && isset($slot['date']) ? $slot['date'] : (isset($selectableDates[0]) ? $selectableDates[0]['date'] : '');
+                    $slotText = is_array($slot) && isset($slot['formatted']) ? $slot['formatted'] : (is_string($slot) ? $slot : '');
+                    
+                    // For simple string slots, format them
+                    if (is_string($slot)) {
+                        $slotText = $slot;
+                        if (!empty($selectableDates)) {
+                            $formattedDate = (new \DateTime($selectableDates[0]['date']))->format('M d, Y');
+                            $slotText = $formattedDate . ' · ' . $slot;
+                        }
+                        
+                        if (strpos($slotText, $timezone) === false) {
+                            $slotText .= ' ' . $timezone;
+                        }
+                    }
+            ?>
+            <label class="time-slot-option <?= $isSelected ?>" data-date="<?= $block->escapeHtmlAttr($slotDate) ?>">
+                <input type="radio" name="event_time_slot" value="<?= $block->escapeHtmlAttr(is_array($slot) && isset($slot['index']) ? $slot['index'] : $index) ?>" <?= $isChecked ?>>
+                <span class="time-slot-text"><?= $block->escapeHtml($slotText) ?></span>
+            </label>
+            <?php endforeach; ?>
+            <?php else: ?>
+            <div class="no-slots-message">
+                <?= $block->escapeHtml(__('No time slots available for this date.')) ?>
+            </div>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>

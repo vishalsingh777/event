@@ -1,0 +1,58 @@
+<?php
+/**
+ * @var $block \Vishal\Events\Block\EventView
+ * @var $event \Vishal\Events\Model\Event
+ */
+
+// Enhanced banner image handling for WYSIWYG content
+$hasBanner = false;
+$bannerUrl = '';
+
+// First try to get dedicated image field if it exists
+if ($event->getImage() && $block->getMediaUrl()):
+    $hasBanner = true;
+    $bannerUrl = $block->getMediaUrl() . $event->getImage();
+// Then try to extract from content field with improved image extraction
+elseif ($event->getContent()):
+    $content = $event->getContent();
+    
+    // Look for WYSIWYG media gallery directives first
+    $hasMediaDirective = (strpos($content, '{{media') !== false);
+    
+    if ($hasMediaDirective) {
+        // Let content helper process the directives first
+        $processedContent = $block->getContentHtml($content);
+        
+        // Then extract the processed image
+        preg_match_all('/<img[^>]+>/i', $processedContent, $imgMatches);
+    } else {
+        // Direct extraction from content if no media directives
+        preg_match_all('/<img[^>]+>/i', $content, $imgMatches);
+    }
+    
+    if (!empty($imgMatches[0])):
+        // Get the first image tag
+        $imgTag = $imgMatches[0][0];
+        
+        // Extract the src attribute using regex
+        preg_match('/src=[\'"]([^\'"]+)[\'"]/i', $imgTag, $srcMatch);
+        
+        if (!empty($srcMatch[1])):
+            $hasBanner = true;
+            $imgSrc = $srcMatch[1];
+            // Handle relative URLs if needed
+            if (strpos($imgSrc, 'http') !== 0 && strpos($imgSrc, '//') !== 0) {
+                $bannerUrl = $block->getBaseUrl() . ltrim($imgSrc, '/');
+            } else {
+                $bannerUrl = $imgSrc;
+            }
+        endif;
+    endif;
+endif;
+?>
+
+<div class="event-banner">
+    <?php if ($hasBanner): ?>
+        <img src="<?= $block->escapeUrl($bannerUrl) ?>" alt="<?= $block->escapeHtml($event->getEventTitle()) ?>">
+    <?php endif; ?>
+</div>

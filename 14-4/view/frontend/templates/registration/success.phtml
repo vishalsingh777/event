@@ -1,0 +1,320 @@
+<?php
+/**
+ * @var $block \Vishal\Events\Block\Registration\Success
+ */
+?>
+
+<div class="registration-success-container">
+    <div class="registration-success-wrapper">
+        <div class="success-icon">
+            <span class="checkmark"></span>
+        </div>
+        
+        <?php $registration = $block->getRegistration(); ?>
+        <?php $event = $block->getEvent(); ?>
+        
+        <div class="success-message">
+            <h1><?= $block->escapeHtml(__('Registration Complete!')) ?></h1>
+            
+            <?php if ($registration && $registration->getStatus() == 'pending'): ?>
+                <p class="approval-notice">
+                    <?= $block->escapeHtml(__('Your registration request has been submitted for approval.')) ?>
+                </p>
+            <?php else: ?>
+                <p class="completion-notice">
+                    <?= $block->escapeHtml(__('Your registration has been confirmed.')) ?>
+                </p>
+            <?php endif; ?>
+        </div>
+        
+        <?php if ($event && $event->getId()): ?>
+            <div class="event-summary">
+                <h2><?= $block->escapeHtml(__('Event Details')) ?></h2>
+                
+                <div class="event-info">
+                    <div class="event-title">
+                        <h3><?= $block->escapeHtml($event->getEventTitle()) ?></h3>
+                    </div>
+                    
+                    <div class="event-date-time">
+                        <?php if ($registration && $registration->getSelectedDate()): ?>
+                            <div class="selected-date">
+                                <strong><?= $block->escapeHtml(__('Date:')) ?></strong>
+                                <?= $block->escapeHtml($block->formatDate($registration->getSelectedDate())) ?>
+                            </div>
+                            
+                            <?php if ($registration->getSelectedTimeStart() && $registration->getSelectedTimeEnd()): ?>
+                                <div class="selected-time">
+                                    <strong><?= $block->escapeHtml(__('Time:')) ?></strong>
+                                    <?= $block->escapeHtml($block->formatTime($registration->getSelectedTimeStart())) ?>
+                                    -
+                                    <?= $block->escapeHtml($block->formatTime($registration->getSelectedTimeEnd())) ?>
+                                </div>
+                            <?php endif; ?>
+                        <?php else: ?>
+                            <div class="event-dates">
+                                <strong><?= $block->escapeHtml(__('Date:')) ?></strong>
+                                <?= $block->escapeHtml($block->formatDate($event->getStartDate())) ?>
+                                <?php if ($event->getEndDate() && $event->getStartDate() != $event->getEndDate()): ?>
+                                    - <?= $block->escapeHtml($block->formatDate($event->getEndDate())) ?>
+                                <?php endif; ?>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                    
+                    <?php if ($event->getEventVenue()): ?>
+                        <div class="event-venue">
+                            <strong><?= $block->escapeHtml(__('Venue:')) ?></strong>
+                            <?= $block->escapeHtml($event->getEventVenue()) ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        <?php endif; ?>
+        
+        <?php if ($registration): ?>
+            <div class="registration-summary">
+                <h2><?= $block->escapeHtml(__('Registration Information')) ?></h2>
+                
+                <div class="registrant-info">
+                    <div class="registrant-name">
+                        <strong><?= $block->escapeHtml(__('Name:')) ?></strong>
+                        <?= $block->escapeHtml($registration->getFirstName() . ' ' . $registration->getLastName()) ?>
+                    </div>
+                    
+                    <div class="registrant-email">
+                        <strong><?= $block->escapeHtml(__('Email:')) ?></strong>
+                        <?= $block->escapeHtml($registration->getEmail()) ?>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+        
+        <!-- CMS Block from Admin -->
+        <div class="cms-content">
+            <?= $block->getChildHtml('event_registration_success_content') ?>
+        </div>
+        
+        <div class="action-links">
+            <?php if ($event && $event->getId()): ?>
+                <a href="<?= $block->escapeUrl($block->getEventUrl()) ?>" class="action secondary">
+                    <span><?= $block->escapeHtml(__('Back to Event')) ?></span>
+                </a>
+            <?php endif; ?>
+            
+            <a href="<?= $block->escapeUrl($block->getEventsUrl()) ?>" class="action primary">
+                <span><?= $block->escapeHtml(__('Browse More Events')) ?></span>
+            </a>
+        </div>
+        
+        <!-- Auto-close notification -->
+        <div class="auto-close-notice">
+            <p><?= $block->escapeHtml(__('This page will automatically close in')) ?> <span id="countdown">120</span> <?= $block->escapeHtml(__('seconds.')) ?></p>
+        </div>
+    </div>
+</div>
+
+<style>
+.registration-success-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.registration-success-wrapper {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    padding: 40px;
+    text-align: center;
+}
+
+.success-icon {
+    margin-bottom: 24px;
+}
+
+.checkmark {
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: #4CAF50;
+    position: relative;
+}
+
+.checkmark:after {
+    content: '';
+    display: block;
+    width: 25px;
+    height: 50px;
+    border: solid white;
+    border-width: 0 8px 8px 0;
+    transform: rotate(45deg);
+    position: absolute;
+    top: 14px;
+    left: 28px;
+}
+
+.success-message h1 {
+    color: #333;
+    font-size: 28px;
+    margin-bottom: 16px;
+}
+
+.approval-notice {
+    color: #FF9800;
+    font-size: 18px;
+}
+
+.completion-notice {
+    color: #4CAF50;
+    font-size: 18px;
+}
+
+.event-summary,
+.registration-summary {
+    margin-top: 40px;
+    text-align: left;
+}
+
+.event-summary h2,
+.registration-summary h2 {
+    font-size: 22px;
+    color: #333;
+    margin-bottom: 16px;
+    border-bottom: 1px solid #eaeaea;
+    padding-bottom: 8px;
+}
+
+.event-info,
+.registrant-info {
+    background: #f9f9f9;
+    border-radius: 6px;
+    padding: 20px;
+    margin-bottom: 24px;
+}
+
+.event-title h3 {
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-size: 18px;
+    color: #333;
+}
+
+.event-date-time,
+.event-venue,
+.registrant-name,
+.registrant-email {
+    margin-bottom: 12px;
+}
+
+.event-date-time strong,
+.event-venue strong,
+.registrant-name strong,
+.registrant-email strong {
+    display: inline-block;
+    width: 80px;
+}
+
+.cms-content {
+    margin: 40px 0;
+    text-align: left;
+}
+
+.action-links {
+    margin-top: 32px;
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
+
+.action-links .action {
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: 4px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.action-links .action.secondary {
+    background-color: #f4f4f4;
+    color: #666666;
+    border: 1px solid #cccccc;
+}
+
+.action-links .action.secondary:hover {
+    background-color: #e8e8e8;
+    color: #494949;
+}
+
+.action-links .action.primary {
+    background-color: #1979c3;
+    color: #ffffff;
+    border: 1px solid #1979c3;
+}
+
+.action-links .action.primary:hover {
+    background-color: #1b5eb8;
+    border-color: #1b5eb8;
+}
+
+.auto-close-notice {
+    margin-top: 40px;
+    color: #999;
+    font-size: 14px;
+}
+
+#countdown {
+    font-weight: 600;
+    color: #666;
+}
+
+@media screen and (max-width: 767px) {
+    .registration-success-wrapper {
+        padding: 24px 16px;
+    }
+    
+    .action-links {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .checkmark {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .checkmark:after {
+        width: 18px;
+        height: 36px;
+        border-width: 0 6px 6px 0;
+        top: 12px;
+        left: 22px;
+    }
+}
+</style>
+
+<script type="text/javascript">
+    require(['jquery'], function($) {
+        $(document).ready(function() {
+            // Auto-close countdown
+            var countdown = 120; // 2 minutes
+            var countdownEl = $('#countdown');
+            
+            var countdownInterval = setInterval(function() {
+                countdown--;
+                countdownEl.text(countdown);
+                
+                if (countdown <= 0) {
+                    clearInterval(countdownInterval);
+                    window.close();
+                    
+                    // Fallback in case window.close() doesn't work (most browsers block it)
+                    // Redirect to events page
+                    window.location.href = '<?= $block->escapeJs($block->getEventsUrl()) ?>';
+                }
+            }, 1000);
+        });
+    });
+</script>
