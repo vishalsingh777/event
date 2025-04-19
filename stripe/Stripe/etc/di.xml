@@ -1,0 +1,19 @@
+<?xml version="1.0"?> 
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="StripeIntegration\Payments\Helper\Subscriptions">
+        <plugin name="inseadStripe_subscriptions_plugin" type="Insead\Stripe\Plugin\SubscriptionsPlugin" />
+    </type>
+    
+    <type name="Magento\Quote\Model\Quote">
+     <plugin name="tnw_subscriptions_update_quote_item" disabled="true" />
+            <plugin name="tnw_subscriptions_update_quote_item_custom" type="Insead\Stripe\Plugin\Quote\Model\UpdateQuoteItem"/>
+     </type>
+     <type name="StripeIntegration\Payments\Model\Config">
+        <plugin name="stripe_payments_metadata" type="Insead\Stripe\Plugin\Model\ConfigPlugin" />
+    </type>
+
+    <type name="Magento\Framework\App\Request\CsrfValidator">
+        <plugin name="disable_csrf_for_webhook" type="Insead\Stripe\Plugin\CsrfValidatorPlugin" />
+    </type>
+
+</config>

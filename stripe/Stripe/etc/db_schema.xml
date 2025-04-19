@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">    
+    <table name="stripe_subscription_status" resource="default" engine="innodb" comment="Stripe Subscription Status Table"> 
+        <column xsi:type="int" name="id" nullable="false" identity="true" unsigned="true" comment="ID"/>
+        <column xsi:type="varchar" name="order_id" nullable="true" length="255" comment="Order ID"/>
+        <column xsi:type="int" name="customer_id" nullable="false" comment="Customer ID"/>
+
+        <column xsi:type="varchar" name="subscription_id" nullable="true" length="255" comment="Stripe Subscription Id"/>
+        <column name="livemode" xsi:type="boolean" nullable="false" default="false" comment="Stripe API mode"/>
+        <column xsi:type="varchar" name="rec_installment_frequency" nullable="true" length="100" comment="rec_installment_frequency"/>
+        <column xsi:type="smallint" name="rec_duration_year" nullable="false" comment="rec_duration_year"/>
+        <column xsi:type="smallint" name="rec_nb_installment" nullable="false" comment="rec_nb_installment"/>
+
+        <column xsi:type="varchar" name="customer_fname" nullable="false" length="255" comment="Customer First Name"/>
+        <column xsi:type="varchar" name="customer_lname" nullable="false" length="255" comment="Customer Last Name"/>
+        <column xsi:type="varchar" name="customer_email" nullable="false" length="255" comment="Customer Email"/>
+        <column xsi:type="timestamp" name="subscription_startdatetime" nullable="false" default="CURRENT_TIMESTAMP" comment="Subscription Start Date"/>
+        <column xsi:type="timestamp" name="subscription_enddatetime" nullable="false" comment="Subscription End Date"/>
+        <column xsi:type="varchar" name="subscription_status" nullable="false" length="255" comment="Subscription Status"/>
+        <column xsi:type="int" name="send_email" nullable="false" default="0" comment="Send Email"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+        <index referenceId="STRIPE_SUBSCRIPTION_STATUS_ORDER_ID" indexType="btree">
+            <column name="order_id"/>
+        </index>
+        <index referenceId="STRIPE_SUBSCRIPTION_STATUS_CUSTOMER_ID" indexType="btree">
+            <column name="customer_id"/>
+        </index>        
+    </table>
+    <table name="sales_order" resource="sales" comment="Sales Flat Order">        
+        <column xsi:type="varchar" name="stripe_subscription_id" nullable="true" length="100" comment="Stripe Subscription Id"/>
+    </table>
+    <table name="sales_order_grid" resource="sales" comment="Sales Flat Order">        
+        <column xsi:type="varchar" name="stripe_subscription_id" nullable="true" length="100" comment="Stripe Subscription Id"/>              
+    </table>
+</schema>

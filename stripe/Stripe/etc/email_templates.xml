@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+     <template id="stripe_subscription_complete" label="Subscription Complete" file="stripe_subscription_complete.html" type="html" module="Insead_Stripe" area="frontend"/>
+</config>

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>        
+        <section id="payment">            
+            <group id="stripe_payments" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+              <group id="subscriptions" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Subscriptions via Stripe Billing</label>
+                <field id="cancel_subscription_days" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Automatic Cancel Subscription After Days </label>
+                    <source_model>Insead\Stripe\Model\Config\Source\DaysOptions</source_model>
+                    <frontend_model>Magento\Config\Block\System\Config\Form\Field</frontend_model>
+                    <comment>Select how many days after which to cancel the subscription.</comment>
+                    <depends>
+                      <field id="active">1</field>
+                    </depends>
+                </field>
+                <field id="signing_secret_key" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Signing Secret Key</label>
+                    <comment>This key use for webhook events.</comment>
+                    <depends>
+                      <field id="active">1</field>
+                    </depends>
+                </field>
+              </group>
+            </group>
+        </section>
+    </system>
+</config>

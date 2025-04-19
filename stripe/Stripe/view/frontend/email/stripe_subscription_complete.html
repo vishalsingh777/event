@@ -1,0 +1,37 @@
+<!--@subject Recurrent Payment to INSEAD: Complete @-->
+<!--@vars {
+"var customer_name":"Customer Name",
+"var product_name":"Product Name",
+"var frequency":"Frequency",
+"var cancel_at":"Cancel Date"
+} @-->
+
+{{template config_path="design/email/header_template"}}
+<style type="text/css">
+    {{var template_styles|raw}}
+</style>
+<table>
+    <tr class="email-intro">
+        <td>
+            <p class="greeting">Dear {{var customer_name}},</p>
+        </td>
+    </tr>
+    <tr>
+        <td class="item-info">
+            <p>
+                Your {{var frequency}} gift to  {{var product_name}} has been successfully completed as of {{var cancel_at}}.
+            </p>
+            <p>
+                On behalf of all of us at INSEAD, thank you very much for your continued support.
+            </p>
+            <p>
+                If you wish to set up a new recurring gift or to make a one-time gift, you can do so anytime at <a href="{{var giftLink}}" target="_blank">{{var giftLink}}</a>.
+            </p>
+            <br>
+            <p>
+                Kind regards, <br> INSEAD Gift Team
+            </p>
+        </td>
+    </tr>
+</table>
+{{template config_path="design/email/footer_template"}}
