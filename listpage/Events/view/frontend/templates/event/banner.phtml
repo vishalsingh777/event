@@ -1,0 +1,69 @@
+<?php
+/**
+ * @var $block \Insead\Events\Block\Banner
+ */
+$banners = $block->getListingBanners();
+?>
+
+<?php if ($banners && $banners->getSize() > 0): ?>
+    <!-- Database banners -->
+    <div class="events-banners">
+        <?php foreach ($banners as $banner): ?>
+            <div class="event-banner">
+                <?php if ($block->isVideo($banner->getContent())): ?>
+                    <video autoplay muted loop>
+                        <source src="<?= $block->escapeUrl($block->getBannerVideoUrl($banner->getContent())) ?>" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                <?php else: ?>
+                    <?php if ($banner->getUrl()): ?>
+                        <a href="<?= $block->escapeUrl($banner->getUrl()) ?>" <?= $banner->getOpenInNewWindow() ? 'target="_blank"' : '' ?>>
+                            <img src="<?= $block->escapeUrl($block->getBannerImageUrl($banner->getContent())) ?>" 
+                                 alt="<?= $block->escapeHtml($banner->getTitle()) ?>" />
+                        </a>
+                    <?php else: ?>
+                        <img src="<?= $block->escapeUrl($block->getBannerImageUrl($banner->getContent())) ?>" 
+                             alt="<?= $block->escapeHtml($banner->getTitle()) ?>" />
+                    <?php endif; ?>
+                <?php endif; ?>
+                
+                <?php if ($banner->getCaption()): ?>
+                    <div class="banner-caption">
+                        <h2><?= $block->escapeHtml($banner->getTitle()) ?></h2>
+                        <p><?= $block->escapeHtml($banner->getCaption()) ?></p>
+                        <?php if ($banner->getButtonText() && $banner->getUrl()): ?>
+                            <a href="<?= $block->escapeUrl($banner->getUrl()) ?>" class="banner-button">
+                                <?= $block->escapeHtml($banner->getButtonText()) ?>
+                            </a>
+                        <?php endif; ?>
+                    </div>
+                <?php endif; ?>
+            </div>
+        <?php endforeach; ?>
+    </div>
+<?php elseif ($block->shouldShowHero()): ?>
+    <!-- Config-based Hero Banner -->
+    <?php $heroConfig = $block->getHeroConfig(); ?>
+    <div class="events-hero">
+        <div class="hero-overlay"></div>
+        <?php if ($block->getHeroBackgroundUrl()): ?>
+            <style>
+                .events-hero {
+                    background-image: url('<?= $block->escapeUrl($block->getHeroBackgroundUrl()) ?>');
+                }
+            </style>
+        <?php endif; ?>
+        <div class="hero-content">
+            <h1 class="hero-title"><?= $block->escapeHtml($heroConfig['title']) ?></h1>
+            <p class="hero-subtitle"><?= $block->escapeHtml($heroConfig['subtitle']) ?></p>
+            <?php if ($heroConfig['show_search']): ?>
+            <div class="hero-search">
+                <input type="text" id="hero-search-input" placeholder="<?= $block->escapeHtml(__('Search for events...')) ?>" />
+                <button type="button" class="hero-search-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </button>
+            </div>
+            <?php endif; ?>
+        </div>
+    </div>
+<?php endif; ?>

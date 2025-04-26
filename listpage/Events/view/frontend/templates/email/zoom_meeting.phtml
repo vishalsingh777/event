@@ -1,0 +1,59 @@
+<?php
+/**
+ * Zoom Meeting information template for event registration emails
+ * 
+ * @var \Magento\Framework\View\Element\Template $block
+ */
+
+// Get Zoom meeting details from block parameters
+$isZoomMeeting = $block->getData('is_zoom_meeting');
+$zoomMeetingUrl = $block->getData('zoom_meeting_url');
+$zoomMeetingId = $block->getData('zoom_meeting_id');
+$zoomPassword = $block->getData('zoom_password');
+$zoomVideoConferenceId = $block->getData('zoom_video_conference_id');
+$zoomConferencePassword = $block->getData('zoom_conference_password');
+$zoomLocalNumberUrl = $block->getData('zoom_local_number_url');
+
+// Only display the Zoom section if this is a Zoom meeting
+if ($isZoomMeeting && $zoomMeetingUrl): 
+?>
+<tr><td height="20"></td></tr>
+<tr>
+    <td>
+        <table width="100%">
+            <tr>
+                <td width="40"></td>
+                <td style="border: 1px solid #e8e8e8; padding: 15px; background-color: #f2f9f6; border-left: 4px solid #006848;">
+                    <h3 style="color: #006848;"><?= __('Join Zoom Meeting') ?></h3>
+                    
+                    <?php if ($zoomMeetingUrl): ?>
+                    <p><strong><?= __('Zoom Link') ?>:</strong><br>
+                    <a href="<?= $zoomMeetingUrl ?>"><?= $zoomMeetingUrl ?></a></p>
+                    <?php endif; ?>
+                    
+                    <?php if ($zoomMeetingId): ?>
+                    <p><strong><?= __('Meeting ID') ?>:</strong> <?= $zoomMeetingId ?></p>
+                    <?php endif; ?>
+                    
+                    <?php if ($zoomPassword): ?>
+                    <p><strong><?= __('Password') ?>:</strong> <?= $zoomPassword ?></p>
+                    <?php endif; ?>
+                    
+                    <?php if ($zoomVideoConferenceId): ?>
+                    <p><strong><?= __('Video Conference ID / SIP') ?>:</strong> <?= $zoomVideoConferenceId ?></p>
+                    <?php endif; ?>
+                    
+                    <?php if ($zoomConferencePassword): ?>
+                    <p><strong><?= __('Video Conference Password') ?>:</strong> <?= $zoomConferencePassword ?></p>
+                    <?php endif; ?>
+                    
+                    <?php if ($zoomLocalNumberUrl): ?>
+                    <p><strong><?= __('Find your local number') ?>:</strong> <a href="<?= $zoomLocalNumberUrl ?>"><?= $zoomLocalNumberUrl ?></a></p>
+                    <?php endif; ?>
+                </td>
+                <td width="40"></td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<?php endif; ?>

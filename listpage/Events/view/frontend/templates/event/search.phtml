@@ -1,0 +1,388 @@
+<?php
+/**
+ * @var $block \Insead\Events\Block\EventSearch
+ */
+?>
+
+<div class="insead-events-container search-results-page">
+    <div class="search-header">
+        <h1 class="page-title">Search Results</h1>
+        <div class="search-query">
+            <?php $query = $block->getSearchQuery(); ?>
+            <?php if ($query): ?>
+                <p>Results for: <strong><?= $block->escapeHtml($query) ?></strong></p>
+            <?php endif; ?>
+            
+            <!-- Search form -->
+            <form class="search-form" action="<?= $block->getUrl('events/search') ?>" method="get">
+                <div class="search-field">
+                    <input 
+                        type="text" 
+                        name="q" 
+                        value="<?= $block->escapeHtmlAttr($query) ?>" 
+                        placeholder="Search for events..." 
+                        class="search-input"
+                    />
+                    <button type="submit" class="search-button">
+                        <i class="material-icons">search</i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <?php $results = $block->getSearchResults(); ?>
+    
+    <?php if ($results && $results->getSize()): ?>
+        <div class="search-summary">
+            <p>Found <?= $results->getSize() ?> event(s) matching your search.</p>
+        </div>
+        
+        <div class="search-results-list">
+            <?php foreach ($results as $event): ?>
+                <?php
+                    $startDate = new \DateTime($event->getStartDate());
+                    
+                    // Get category data
+                    $categoryData = null;
+                    if ($event->getCategoryId()) {
+                        $categoryData = $block->getCategoryById($event->getCategoryId());
+                    }
+                    
+                    $categoryClass = $categoryData ? $categoryData['code'] : 'default';
+                    $categoryLabel = $categoryData ? $categoryData['name'] : 'Event';
+                    
+                    // Campus/venue handling
+                    $locationIcon = $event->getEventVenue() ? 'location_on' : 'videocam';
+                    $locationText = $event->getEventVenue() ?: 'Online Event';
+                    
+                    // Get campus name if available
+                    $campusName = '';
+                    if ($event->getCampusId()) {
+                        $campusData = $block->getCampusById($event->getCampusId());
+                        if ($campusData) {
+                            $campusName = $campusData['name'];
+                        }
+                    }
+                ?>
+                <div class="search-result-item">
+                    <div class="result-date">
+                        <span class="date-day"><?= $startDate->format('d') ?></span>
+                        <span class="date-month"><?= $startDate->format('M') ?></span>
+                        <span class="date-year"><?= $startDate->format('Y') ?></span>
+                    </div>
+                    
+                    <div class="result-content">
+                        <span class="event-category <?= $categoryClass ?>"><?= $categoryLabel ?></span>
+                        <h3 class="result-title">
+                            <a href="<?= $block->getEventUrl($event) ?>">
+                                <?= $block->escapeHtml($event->getEventTitle()) ?>
+                            </a>
+                        </h3>
+                        
+                        <div class="result-details">
+                            <div class="detail-item">
+                                <i class="material-icons"><?= $locationIcon ?></i>
+                                <span>
+                                    <?= $block->escapeHtml($locationText) ?>
+                                    <?= $campusName ? ' - ' . $block->escapeHtml($campusName) . ' Campus' : '' ?>
+                                </span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="material-icons">event</i>
+                                <span><?= $startDate->format('F d, Y') ?></span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="material-icons">access_time</i>
+                                <span><?= $startDate->format('h:i A') ?></span>
+                            </div>
+                        </div>
+                        
+                        <?php if ($event->getContent()): ?>
+                        <div class="result-excerpt">
+                            <?= $block->highlightSearchTerm($event->getContent(), 200) ?>
+                        </div>
+                        <?php endif; ?>
+                        
+                        <a href="<?= $block->getEventUrl($event) ?>" class="view-event-btn">
+                            View Event <i class="material-icons">arrow_forward</i>
+                        </a>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    <?php else: ?>
+        <div class="search-empty">
+            <?php if ($query): ?>
+                <div class="empty-icon">
+                    <i class="material-icons">search_off</i>
+                </div>
+                <h3 class="empty-title">No Events Found</h3>
+                <p class="empty-message">No events match your search criteria. Please try different keywords or browse all events.</p>
+                <div class="empty-actions">
+                    <a href="<?= $block->getUrl('events') ?>" class="btn-browse-all">Browse All Events</a>
+                </div>
+            <?php else: ?>
+                <div class="empty-icon">
+                    <i class="material-icons">search</i>
+                </div>
+                <h3 class="empty-title">Search for Events</h3>
+                <p class="empty-message">Enter keywords in the search field above to find events.</p>
+            <?php endif; ?>
+        </div>
+    <?php endif; ?>
+</div>
+
+<style>
+/* Search Results Page Styles */
+.search-results-page {
+    padding-top: 30px;
+}
+
+.search-header {
+    margin-bottom: 30px;
+}
+
+.page-title {
+    font-size: 32px;
+    color: var(--insead-dark-blue);
+    margin-bottom: 15px;
+}
+
+.search-query {
+    margin-bottom: 20px;
+}
+
+.search-form {
+    margin-top: 20px;
+    max-width: 600px;
+}
+
+.search-field {
+    position: relative;
+}
+
+.search-input {
+    width: 100%;
+    padding: 14px 60px 14px 20px;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    font-size: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.search-button {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--insead-blue);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    width: 46px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.search-summary {
+    font-size: 16px;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--insead-light-grey);
+}
+
+.search-results-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.search-result-item {
+    display: flex;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.search-result-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--card-shadow-hover);
+}
+
+.result-date {
+    flex-shrink: 0;
+    width: 100px;
+    background: var(--insead-light-grey);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    text-align: center;
+}
+
+.date-day {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--insead-dark-grey);
+    line-height: 1;
+}
+
+.date-month {
+    font-size: 16px;
+    text-transform: uppercase;
+    color: var(--insead-red);
+    font-weight: 600;
+    margin-top: auto;
+    width: fit-content;
+    transition: background var(--transition-fast);
+}
+
+.view-event-btn i {
+    margin-left: 5px;
+}
+
+.view-event-btn:hover {
+    background: var(--insead-dark-blue);
+    color: white;
+}
+
+.search-empty {
+    background: white;
+    border-radius: 12px;
+    padding: 60px 20px;
+    text-align: center;
+    box-shadow: var(--card-shadow);
+    margin: 40px 0;
+}
+
+.empty-icon {
+    font-size: 64px;
+    color: var(--insead-light-grey);
+    margin-bottom: 20px;
+}
+
+.empty-icon i {
+    font-size: 80px;
+}
+
+.empty-title {
+    font-size: 24px;
+    color: var(--insead-dark-blue);
+    margin-bottom: 10px;
+}
+
+.empty-message {
+    font-size: 16px;
+    color: var(--insead-mid-grey);
+    max-width: 500px;
+    margin: 0 auto 20px;
+}
+
+.empty-actions {
+    margin-top: 30px;
+}
+
+.btn-browse-all {
+    display: inline-block;
+    background: var(--insead-blue);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: background var(--transition-fast);
+}
+
+.btn-browse-all:hover {
+    background: var(--insead-dark-blue);
+    color: white;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767px) {
+    .search-result-item {
+        flex-direction: column;
+    }
+    
+    .result-date {
+        width: 100%;
+        flex-direction: row;
+        padding: 15px;
+        justify-content: center;
+        gap: 10px;
+    }
+    
+    .date-day, .date-month, .date-year {
+        font-size: 16px;
+    }
+    
+    .result-content {
+        padding: 20px;
+    }
+    
+    .result-title {
+        font-size: 20px;
+    }
+}
+</style>
+    margin-bottom: 5px;
+}
+
+.date-year {
+    font-size: 16px;
+    color: var(--insead-mid-grey);
+}
+
+.result-content {
+    flex-grow: 1;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+}
+
+.result-title {
+    font-size: 22px;
+    margin: 10px 0 15px;
+    line-height: 1.3;
+}
+
+.result-title a {
+    color: var(--insead-dark-blue);
+}
+
+.result-title a:hover {
+    color: var(--insead-blue);
+}
+
+.result-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.result-excerpt {
+    margin-bottom: 20px;
+    color: var(--insead-dark-grey);
+    line-height: 1.6;
+}
+
+.result-excerpt mark {
+    background-color: rgba(255, 222, 89, 0.6);
+    padding: 0 2px;
+}
+
+.view-event-btn {
+    display: inline-flex;
+    align-items: center;
+    background: var(--insead-blue);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 600;

@@ -1,0 +1,18 @@
+<?php
+/**
+ * @var $block \Insead\Events\Block\EventView
+ */
+$apiKey = $block->getGoogleMapsApiKey();
+
+if ($apiKey):
+?>
+<script>
+    // Define global initialization function
+    window.initGoogleMaps = function() {
+        console.log('Google Maps API loaded, dispatching event');
+        // Dispatch event that our map JS can listen for
+        document.dispatchEvent(new CustomEvent('google-maps-loaded'));
+    };
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=<?= $block->escapeUrl($apiKey) ?>&callback=initGoogleMaps" async defer></script>
+<?php endif; ?>

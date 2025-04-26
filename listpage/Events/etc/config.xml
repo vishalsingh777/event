@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <insead_events>
+            <general>
+                <enabled>1</enabled>
+                <list_title>Events</list_title>
+                <items_per_page>10</items_per_page>
+            </general>
+            <email_settings>
+                <!-- Use the actual IDs you noted from step 8 -->
+ 
+                <sender_name>{{config path="trans_email/ident_general/name"}}</sender_name>
+                <sender_email>{{config path="trans_email/ident_general/email"}}</sender_email>
+            </email_settings>
+        </insead_events>
+    </default>
+</config>

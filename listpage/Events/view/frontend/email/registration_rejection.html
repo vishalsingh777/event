@@ -1,0 +1,47 @@
+<!--@subject {{trans "Registration Status Update: %event_title" event_title=$event_title}} @-->
+<!--@vars {
+"var customer_name":"Customer Name",
+"var event_title":"Event Title",
+"var rejection_reason":"Rejection Reason",
+"var registration_id":"Registration ID"
+} @-->
+
+<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #ffffff;">
+    <div style="padding: 20px;">
+        <table width="100%">
+            <tr>
+                <td style="width: 60%;">
+                    <p style="font-size: 14px; margin: 0;">Dear {{var customer_name}},</p>
+                    <p style="font-size: 14px; margin-top: 10px;">Thank you for your interest in our event.</p>
+                </td>
+                <td style="width: 40%; vertical-align: top;" align="right">
+                    <div style="text-align: center;">
+                        <img src="{{view url='Insead_Events/images/email-icon.png'}}" alt="Email Icon" width="40" height="40" />
+                        <p style="color: #006633; font-weight: bold; margin-top: 5px; margin-bottom: 5px;">Registration Questions</p>
+                        <p style="font-size: 12px; margin: 0;"><a href="mailto:events@insead.edu" style="color: #000000; text-decoration: none;">events@insead.edu</a></p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div style="background-color: #f8f8f8; padding: 20px; margin-top: 20px;">
+        <h2 style="color: #006633; text-align: center; margin-top: 0; margin-bottom: 20px;">Registration Status</h2>
+        
+        <p style="text-align: center; margin-bottom: 10px;">Registration ID: {{var registration_id}}</p>
+        <p style="text-align: center; margin-bottom: 30px; font-weight: bold;">Event: {{var event_title}}</p>
+        
+        <div style="background-color: #fff; padding: 20px; border: 1px solid #ddd;">
+            <p style="margin: 0 0 15px 0;">We regret to inform you that we are unable to approve your registration at this time.</p>
+            
+            {{if rejection_reason}}
+            <p style="margin: 0;"><strong>Reason:</strong> {{var rejection_reason}}</p>
+            {{/if}}
+        </div>
+    </div>
+
+    <div style="margin-top: 30px; text-align: center;">
+        <p>Thank you for your understanding.</p>
+        <p>If you have any questions, please contact us at <a href="mailto:events@insead.edu">events@insead.edu</a>.</p>
+    </div>
+</div>

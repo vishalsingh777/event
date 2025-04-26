@@ -1,0 +1,280 @@
+<?php
+/**
+ * @var $block \Insead\Events\Block\EventView
+ * @var $event \Insead\Events\Model\Event
+ */
+
+// Safely get event from block
+$event = $block->getEvent();
+if (!$event) {
+    return; // Exit silently if no event is available
+}
+
+// Safely retrieve date objects and settings
+try {
+    // Get start date - this is required
+    $startDateString = $event->getStartDate();
+    if (empty($startDateString)) {
+        return; // Exit silently if no start date
+    }
+    $startDateObj = new \DateTime($startDateString);
+    
+    // Get end date - default to start date if not set
+    $endDateString = $event->getEndDate();
+    if (empty($endDateString)) {
+        $endDateObj = clone $startDateObj;
+    } else {
+        $endDateObj = new \DateTime($endDateString);
+    }
+    
+    // Get recurrence settings with defaults
+    $repeat = (int)($event->getRepeat() ?? 0);
+    $repeatEvery = max(1, (int)($event->getRepeatEvery() ?? 1)); // At least 1
+    
+    // Check if multi-day event (can be overridden)
+    $isMultiDay = isset($isMultiDay) ? $isMultiDay : false;
+} catch (\Exception $e) {
+    // Log error but don't break page
+    $block->getLogger()->error('Event date processing error: ' . $e->getMessage());
+    return; // Exit silently
+}
+
+// Generate selectable dates based on recurrence pattern
+$selectableDates = [];
+
+// Case 1: No recurrence (Once)
+if ($repeat === 0) {
+    $isMultiDay = false; // Force single day view
+    
+    // Only add start date
+    $selectableDates[] = [
+        'date' => $startDateObj->format('Y-m-d'),
+        'display' => $startDateObj->format('F j, Y') . ' (' . $startDateObj->format('l') . ')'
+    ];
+}
+// Case 2: Daily recurrence
+elseif ($repeat === 1) {
+    try {
+        // Generate daily dates from start to end
+        $currentDate = clone $startDateObj;
+        
+        while ($currentDate <= $endDateObj) {
+            $selectableDates[] = [
+                'date' => $currentDate->format('Y-m-d'),
+                'display' => $currentDate->format('F j, Y') . ' (' . $currentDate->format('l') . ')'
+            ];
+            
+            // Advance by repeat interval (days)
+            $currentDate->modify('+' . $repeatEvery . ' day');
+        }
+    } catch (\Exception $e) {
+        // If modification fails, just use the start date
+        $selectableDates[] = [
+            'date' => $startDateObj->format('Y-m-d'),
+            'display' => $startDateObj->format('F j, Y') . ' (' . $startDateObj->format('l') . ')'
+        ];
+    }
+}
+// Case 3: Weekly recurrence
+elseif ($repeat === 2) {
+    try {
+        // Get available days of week (default to start date's day if not specified)
+        $availableDays = [];
+        if (method_exists($event, 'getAvailableDays')) {
+            $availableDays = $event->getAvailableDays() ?: [];
+        }
+        
+        // Ensure availableDays is an array
+        if (!is_array($availableDays)) {
+            $availableDays = [];
+        }
+        
+        // Default to start date's day if no days specified
+        if (empty($availableDays)) {
+            $availableDays = [$startDateObj->format('w')];
+        }
+        
+        // Generate weekly dates
+        $currentDate = clone $startDateObj;
+        $weekCounter = 0;
+        
+        // Prevent infinite loops by limiting to reasonable number
+        $maxIterations = 1000;
+        $iterations = 0;
+        
+        while ($currentDate <= $endDateObj && $iterations < $maxIterations) {
+            $currentDayOfWeek = $currentDate->format('w'); // 0 (Sun) through 6 (Sat)
+            
+            // Check if current day is in available days and if we're on the right week interval
+            if (in_array($currentDayOfWeek, $availableDays) && ($weekCounter % $repeatEvery === 0)) {
+                $selectableDates[] = [
+                    'date' => $currentDate->format('Y-m-d'),
+                    'display' => $currentDate->format('F j, Y') . ' (' . $currentDate->format('l') . ')'
+                ];
+            }
+            
+            // Move to next day
+            $currentDate->modify('+1 day');
+            
+            // If we hit Sunday, increment week counter
+            if ($currentDate->format('w') === '0') {
+                $weekCounter++;
+            }
+            
+            $iterations++;
+        }
+    } catch (\Exception $e) {
+        // If calculation fails, just use the start date
+        $selectableDates[] = [
+            'date' => $startDateObj->format('Y-m-d'),
+            'display' => $startDateObj->format('F j, Y') . ' (' . $startDateObj->format('l') . ')'
+        ];
+    }
+}
+// Case 4: Monthly recurrence
+elseif ($repeat === 3) {
+    try {
+        // Get day of month from start date
+        $dayOfMonth = (int)$startDateObj->format('j');
+        
+        // Generate monthly dates
+        $currentMonth = (int)$startDateObj->format('n'); // 1-12
+        $currentYear = (int)$startDateObj->format('Y');
+        $endMonth = (int)$endDateObj->format('n');
+        $endYear = (int)$endDateObj->format('Y');
+        
+        // Calculate total months to iterate (add 1 to include end month)
+        $totalMonths = (($endYear - $currentYear) * 12) + ($endMonth - $currentMonth);
+        
+        // Limit to reasonable number of iterations
+        $totalMonths = min($totalMonths, 120); // Maximum 10 years of monthly events
+        
+        for ($i = 0; $i <= $totalMonths; $i += $repeatEvery) {
+            // Calculate target month and year
+            $targetMonth = $currentMonth + ($i % 12);
+            $yearsToAdd = floor(($currentMonth + $i - 1) / 12);
+            $targetYear = $currentYear + $yearsToAdd;
+            
+            // Adjust for month overflow
+            if ($targetMonth > 12) {
+                $targetMonth -= 12;
+            }
+            
+            // Check for valid day in month (handle February, etc.)
+            $maxDays = cal_days_in_month(CAL_GREGORIAN, $targetMonth, $targetYear);
+            $actualDay = min($dayOfMonth, $maxDays);
+            
+            // Create date object
+            $dateStr = sprintf('%04d-%02d-%02d', $targetYear, $targetMonth, $actualDay);
+            try {
+                $currentDate = new \DateTime($dateStr);
+                
+                // Only add if within range
+                if ($currentDate >= $startDateObj && $currentDate <= $endDateObj) {
+                    $selectableDates[] = [
+                        'date' => $currentDate->format('Y-m-d'),
+                        'display' => $currentDate->format('F j, Y') . ' (' . $currentDate->format('l') . ')'
+                    ];
+                }
+            } catch (\Exception $e) {
+                // Skip invalid dates silently
+                continue;
+            }
+        }
+    } catch (\Exception $e) {
+        // If calculation fails, just use the start date
+        $selectableDates[] = [
+            'date' => $startDateObj->format('Y-m-d'),
+            'display' => $startDateObj->format('F j, Y') . ' (' . $startDateObj->format('l') . ')'
+        ];
+    }
+}
+// Case 5: Custom recurrence (specific days of the week)
+elseif ($repeat === 4) {
+    try {
+        // Get available days of week
+        $availableDays = [];
+        if (method_exists($event, 'getAvailableDays')) {
+            $availableDays = $event->getAvailableDays() ?: [];
+        }
+        
+        // Ensure availableDays is an array
+        if (!is_array($availableDays)) {
+            $availableDays = [];
+        }
+        
+        // Default to start date's day if no days specified
+        if (empty($availableDays)) {
+            $availableDays = [$startDateObj->format('w')];
+        }
+        
+        // Convert day names to day numbers if needed
+        $numericAvailableDays = [];
+        $dayMap = [
+            'monday' => '1',
+            'tuesday' => '2',
+            'wednesday' => '3',
+            'thursday' => '4',
+            'friday' => '5',
+            'saturday' => '6',
+            'sunday' => '0'
+        ];
+        
+        foreach ($availableDays as $day) {
+            if (isset($dayMap[strtolower($day)])) {
+                // It's a string day name, convert to number
+                $numericAvailableDays[] = $dayMap[strtolower($day)];
+            } else if (is_numeric($day) && $day >= 0 && $day <= 6) {
+                // It's already a day number
+                $numericAvailableDays[] = (string)$day;
+            }
+        }
+        
+        // If conversion resulted in no valid days, use the start date's day
+        if (empty($numericAvailableDays)) {
+            $numericAvailableDays = [$startDateObj->format('w')];
+        }
+        
+        // Generate dates for each selected day of the week
+        $currentDate = clone $startDateObj;
+        
+        // Prevent infinite loops by limiting to reasonable number
+        $maxIterations = 1000;
+        $iterations = 0;
+        
+        while ($currentDate <= $endDateObj && $iterations < $maxIterations) {
+            $currentDayOfWeek = $currentDate->format('w'); // 0 (Sun) through 6 (Sat)
+            
+            // Check if current day is in available days
+            if (in_array($currentDayOfWeek, $numericAvailableDays)) {
+                $selectableDates[] = [
+                    'date' => $currentDate->format('Y-m-d'),
+                    'display' => $currentDate->format('F j, Y') . ' (' . $currentDate->format('l') . ')'
+                ];
+            }
+            
+            // Move to next day
+            $currentDate->modify('+1 day');
+            
+            $iterations++;
+        }
+    } catch (\Exception $e) {
+        // If calculation fails, just use the start date
+        $selectableDates[] = [
+            'date' => $startDateObj->format('Y-m-d'),
+            'display' => $startDateObj->format('F j, Y') . ' (' . $startDateObj->format('l') . ')'
+        ];
+    }
+}
+
+// Fallback: If no dates were generated, use the start date
+if (empty($selectableDates)) {
+    $selectableDates[] = [
+        'date' => $startDateObj->format('Y-m-d'),
+        'display' => $startDateObj->format('F j, Y') . ' (' . $startDateObj->format('l') . ')'
+    ];
+}
+
+// Make the generated dates available to other templates
+$block->setSelectableDates($selectableDates);
+$block->setIsMultiDay($isMultiDay);

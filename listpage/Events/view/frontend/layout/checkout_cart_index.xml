@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <!-- Remove Gift Card totals entry from the checkout -->
+         <referenceContainer name="cart.summary">
+            <referenceBlock name="checkout.cart.giftcardaccount" remove="true"/>
+        </referenceContainer>
+        <referenceBlock name="checkout.cart.shipping">
+            <arguments>
+                <argument name="jsLayout" xsi:type="array">
+                    <item name="components" xsi:type="array">
+                        <item name="block-summary" xsi:type="array">
+
+                            <!-- My custom part: -->
+                            <item name="config" xsi:type="array">
+                                <item name="componentDisabled" xsi:type="boolean">true</item>
+                            </item>
+
+                        </item>
+                    </item>
+                </argument>
+            </arguments>
+        </referenceBlock>
+
+        <!-- Remove search box -->
+        <referenceBlock name="top.search" remove="true"/>
+        <referenceBlock name="search_mini_form" remove="true"/>
+        <referenceBlock name="minicart" remove="true"/>
+        
+        <!-- Remove sidebar blocks -->
+        <referenceContainer name="sidebar.main" remove="true"/>
+        <referenceContainer name="sidebar.additional" remove="true"/>
+        
+        <!-- Remove Compare Products block -->
+        <referenceBlock name="catalog.compare.sidebar" remove="true"/>
+        
+        <!-- Remove breadcrumbs for cleaner look -->
+        <referenceBlock name="breadcrumbs" remove="true"/>
+
+    </body>
+</page>

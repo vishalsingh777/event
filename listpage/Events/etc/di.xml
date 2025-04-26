@@ -1,0 +1,177 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Event Repository -->
+    <preference for="Insead\Events\Api\EventRepositoryInterface" type="Insead\Events\Model\EventRepository" />
+    <preference for="Insead\Events\Api\Data\EventInterface" type="Insead\Events\Model\Event" />
+    <preference for="Insead\Events\Api\Data\EventSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
+    
+    <!-- Time Slot Resource -->
+    <type name="Insead\Events\Helper\Data">
+        <arguments>
+            <argument name="timeSlotResource" xsi:type="object">Insead\Events\Model\ResourceModel\Event\TimeSlot</argument>
+        </arguments>
+    </type>
+    
+    <!-- Collection Processor -->
+    <virtualType name="Insead\Events\Model\Api\SearchCriteria\EventCollectionProcessor" type="Magento\Framework\Api\SearchCriteria\CollectionProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="filters" xsi:type="object">Magento\Framework\Api\SearchCriteria\CollectionProcessor\FilterProcessor</item>
+                <item name="sorting" xsi:type="object">Magento\Framework\Api\SearchCriteria\CollectionProcessor\SortingProcessor</item>
+                <item name="pagination" xsi:type="object">Magento\Framework\Api\SearchCriteria\CollectionProcessor\PaginationProcessor</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    
+    <type name="Insead\Events\Model\EventRepository">
+        <arguments>
+            <argument name="collectionProcessor" xsi:type="object">Insead\Events\Model\Api\SearchCriteria\EventCollectionProcessor</argument>
+        </arguments>
+    </type>
+    
+    <!-- Grid Collection -->
+    <virtualType name="Insead\Events\Model\ResourceModel\Event\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">insead_events</argument>
+            <argument name="resourceModel" xsi:type="string">Insead\Events\Model\ResourceModel\Event</argument>
+        </arguments>
+    </virtualType>
+    
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="events_listing_data_source" xsi:type="string">Insead\Events\Model\ResourceModel\Event\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="events_registration_listing_data_source" xsi:type="string">Insead\Events\Model\ResourceModel\EventRegistration\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    
+    <!-- UI DataProvider -->
+    <type name="Insead\Events\Ui\DataProvider\Event\Form\EventDataProvider">
+        <arguments>
+            <argument name="eventResource" xsi:type="object">Insead\Events\Model\ResourceModel\Event</argument>
+        </arguments>
+    </type>
+
+    <!-- Observer for cart items -->
+    <type name="Magento\Checkout\Model\Session">
+        <plugin name="insead_events_checkout_session_plugin" type="Insead\Events\Plugin\CheckoutSessionPlugin" sortOrder="10" />
+    </type>
+    
+    <!-- Plugin for Order Item Renderer -->
+    <type name="Magento\Sales\Block\Adminhtml\Order\View\Items\Renderer\DefaultRenderer">
+        <plugin name="insead_events_order_item_renderer_plugin" type="Insead\Events\Plugin\Sales\OrderItemRendererPlugin" sortOrder="10" />
+    </type>
+    
+    <!-- Plugin for Invoice Item Renderer -->
+    <type name="Magento\Sales\Block\Adminhtml\Order\Invoice\View\Items\Renderer\DefaultRenderer">
+        <plugin name="insead_events_invoice_item_renderer_plugin" type="Insead\Events\Plugin\Sales\OrderItemRendererPlugin" sortOrder="10" />
+    </type>
+    
+    <!-- Plugin for Creditmemo Item Renderer -->
+    <type name="Magento\Sales\Block\Adminhtml\Order\Creditmemo\View\Items\Renderer\DefaultRenderer">
+        <plugin name="insead_events_creditmemo_item_renderer_plugin" type="Insead\Events\Plugin\Sales\OrderItemRendererPlugin" sortOrder="10" />
+    </type>
+    
+    <!-- Checkout Page Cart Item Renderer Plugin -->
+    <type name="Magento\Checkout\Block\Cart\Item\Renderer">
+        <plugin name="insead_events_checkout_cart_item_renderer_plugin" type="Insead\Events\Plugin\Checkout\CartItemRendererPlugin" sortOrder="10" />
+    </type>
+      
+    
+    <!-- Event Observer Configuration -->
+    <type name="Magento\Framework\Event\Config\Reader">
+        <plugin name="insead_events_add_cart_observer" type="Insead\Events\Plugin\AddEventObserver" sortOrder="10" />
+    </type>
+
+
+    <!-- Banner Data Provider -->
+    <virtualType name="InseadEventsBannerGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object">Insead\Events\Model\ResourceModel\Banner\Collection</argument>
+            <argument name="filterPool" xsi:type="object">InseadEventsBannerGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="InseadEventsBannerGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="insead_events_banner_listing_data_source" xsi:type="string">Insead\Events\Model\ResourceModel\Banner\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <virtualType name="Insead\Events\Model\ResourceModel\Banner\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">insead_events_banner</argument>
+            <argument name="resourceModel" xsi:type="string">Insead\Events\Model\ResourceModel\Banner</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Media Upload Config for Banner Images and Videos -->
+    <virtualType name="InseadEventsBannerImageUploader" type="Magento\Catalog\Model\ImageUploader">
+        <arguments>
+            <argument name="baseTmpPath" xsi:type="string">insead/events/banner/tmp</argument>
+            <argument name="basePath" xsi:type="string">insead/events/banner</argument>
+            <argument name="allowedExtensions" xsi:type="array">
+                <item name="jpg" xsi:type="string">jpg</item>
+                <item name="jpeg" xsi:type="string">jpeg</item>
+                <item name="png" xsi:type="string">png</item>
+                <item name="gif" xsi:type="string">gif</item>
+            </argument>
+            <argument name="allowedMimeTypes" xsi:type="array">
+                <item name="jpg" xsi:type="string">image/jpg</item>
+                <item name="jpeg" xsi:type="string">image/jpeg</item>
+                <item name="png" xsi:type="string">image/png</item>
+                <item name="gif" xsi:type="string">image/gif</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    
+    <virtualType name="InseadEventsBannerVideoUploader" type="Magento\Catalog\Model\ImageUploader">
+        <arguments>
+            <argument name="baseTmpPath" xsi:type="string">insead/events/banner/tmp</argument>
+            <argument name="basePath" xsi:type="string">insead/events/banner</argument>
+            <argument name="allowedExtensions" xsi:type="array">
+                <item name="mp4" xsi:type="string">mp4</item>
+                <item name="webm" xsi:type="string">webm</item>
+                <item name="ogg" xsi:type="string">ogg</item>
+            </argument>
+            <argument name="allowedMimeTypes" xsi:type="array">
+                <item name="mp4" xsi:type="string">video/mp4</item>
+                <item name="webm" xsi:type="string">video/webm</item>
+                <item name="ogg" xsi:type="string">video/ogg</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    
+    <type name="Insead\Events\Controller\Adminhtml\Banner\Upload">
+        <arguments>
+            <argument name="imageUploader" xsi:type="object">InseadEventsBannerImageUploader</argument>
+        </arguments>
+    </type>
+    
+    <type name="Insead\Events\Controller\Adminhtml\Banner\VideoUpload">
+        <arguments>
+            <argument name="videoUploader" xsi:type="object">InseadEventsBannerVideoUploader</argument>
+        </arguments>
+    </type>
+
+     <preference for="Magento\Ui\Model\Export\ConvertToCsv" type="Insead\Events\Model\Export\ConvertToCsv" />
+</config>

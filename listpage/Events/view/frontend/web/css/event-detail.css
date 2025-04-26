@@ -1,0 +1,1244 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f8f9fa;
+}
+
+/* Full Width Layout */
+.full-width-container {
+    width: 100%;
+    max-width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+    margin: 0;
+}
+
+.page-header .logo {
+    top: 0px !important;
+}
+
+.minicart-wrapper {
+    top: -20px !important;
+}
+
+.full-width-content {
+    width: 100%;
+    max-width: 100%;
+}
+
+.page-main-full-width {
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+    margin-top: -40px;
+}
+
+/* Event Detail Layout */
+.event-detail-container {
+    margin: 0;
+    width: 100%;
+    background-color: #ffffff;
+}
+
+/* Banner Styling */
+.event-banner {
+    width: 100%;
+    height: 500px;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 0;
+}
+
+.event-banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.5s ease;
+}
+
+.event-banner:hover img {
+    transform: scale(1.02);
+}
+
+.event-banner::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 150px;
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
+    pointer-events: none;
+}
+
+/* Main Content Area */
+.event-main-content {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+}
+
+.event-main-content-inner {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+
+/* Header Information */
+.event-header {
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+.event-date-text {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.event-title {
+    font-size: 42px;
+    font-weight: 700;
+    color: #2e1a47;
+    margin-bottom: 15px;
+    line-height: 1.2;
+}
+
+.event-subtitle {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.organizer-info {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.organizer-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: #1a7e76;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-right: 15px;
+}
+
+.organizer-details {
+    line-height: 1.4;
+}
+
+.organizer-name {
+    font-weight: 600;
+}
+
+.organizer-meta {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #666;
+}
+
+.separator {
+    margin: 0 8px;
+}
+
+.attendees-count {
+    font-size: 14px;
+    color: #777;
+}
+
+/* Left Column - Event Info */
+.event-left-column {
+    flex: 0 0 350px;
+    margin-right: 30px;
+}
+
+.event-info-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    margin-bottom: 30px;
+}
+
+.card-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+/* Date and Time Styles */
+.event-date-boxes {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.event-date-box {
+    background: #f5f5f5;
+    border-radius: 6px;
+    text-align: center;
+    padding: 10px 15px;
+    min-width: 80px;
+}
+
+.event-date-month {
+    font-weight: 600;
+    color: #333;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+.event-date-day {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.event-date-year {
+    font-size: 13px;
+    color: #666;
+}
+
+.date-separator {
+    margin: 0 10px;
+    font-size: 20px;
+    color: #aaa;
+}
+
+/* Date Selection */
+.date-selection {
+    margin-bottom: 20px;
+}
+
+.date-selection label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #555;
+}
+
+.date-selection select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: white;
+}
+
+/* Event Time Slots */
+.time-slots-section {
+    margin-top: 20px;
+}
+/* Time Slot Styling to match reference */
+.time-slots-container {
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+.time-slot-option {
+    display: block;
+    border: 1px solid #d8d8d8;
+    border-radius: 4px;
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-color: #fff;
+    position: relative;
+}
+
+.time-slot-option:hover {
+    border-color: #b9c2d6;
+    background-color: #f9fafc;
+}
+
+.time-slot-option.selected {
+    border-color: #4a90e2;
+    background-color: #f0f7ff;
+}
+
+/* Super specific selector to override the problematic CSS */
+html body .time-slots-section .time-slots-container label.time-slot-option input[type="radio"] {
+    border: initial !important;
+    clip: auto !important;
+    height: auto !important;
+    width: auto !important;
+    margin: 0 10px 0 0 !important;
+    overflow: visible !important;
+    padding: 0 !important;
+    position: static !important;
+    appearance: radio !important;
+    -webkit-appearance: radio !important;
+    -moz-appearance: radio !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    visibility: visible !important;
+    z-index: auto !important;
+    display: inline-block !important;
+}
+
+.time-slot-text {
+    vertical-align: middle;
+    color: #333;
+    font-size: 15px;
+    line-height: 1.4;
+}
+
+.time-slot-option.past {
+    opacity: 0.6;
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+}
+
+.time-slot-option.past .time-slot-text {
+    color: #777;
+}
+
+/* Loading indicator */
+.loading-slots {
+    padding: 15px;
+    text-align: center;
+    color: #666;
+    font-style: italic;
+}
+
+/* Single date display */
+.single-date-display {
+    margin-bottom: 15px;
+    padding: 8px 0;
+    font-weight: 500;
+    color: #333;
+    font-size: 16px;
+}
+
+@media (max-width: 767px) {
+    .time-slot-option {
+        padding: 10px 12px;
+    }
+    
+    .time-slot-text {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .time-slot-text {
+        font-size: 13px;
+    }
+}
+.time-slots-header {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.time-slots-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.time-slot-option {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.time-slot-option:hover {
+    background-color: #f9f9f9;
+}
+
+.time-slot-option.selected {
+    border-color: #4a90e2;
+    background-color: #f0f7ff;
+}
+
+.time-slot-option.past {
+    opacity: 0.6;
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+}
+
+.time-slot-option input[type="radio"] {
+    margin-right: 10px;
+}
+
+.time-slot-text {
+    font-size: 15px;
+}
+
+.no-slots-message {
+    padding: 15px;
+    color: #777;
+    text-align: center;
+    font-style: italic;
+}
+
+/* Price section */
+.price-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.event-price {
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+}
+
+.early-bird-badge {
+    display: inline-block;
+    background-color: #FF9800;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+}
+
+/* Registration button */
+.register-button {
+    display: block;
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 16px;
+    text-align: center;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background-color: #e25d38;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    text-decoration: none;
+}
+
+.register-button:hover {
+    background-color: #d14e2a;
+    text-decoration: none;
+    color: white;
+}
+
+.sold-out-message,
+.event-unavailable-message {
+    text-align: center;
+    font-weight: 600;
+    padding: 14px 20px;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    color: #777;
+}
+
+/* Location */
+.location-info {
+    display: flex;
+}
+
+.location-icon {
+    margin-right: 10px;
+    margin-top: 2px;
+}
+
+.venue-name {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.venue-address {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+.map-link {
+    font-size: 14px;
+    color: #4a90e2;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.map-link:hover {
+    text-decoration: underline;
+}
+
+/* Right Column - Event Content */
+.event-right-column {
+    flex: 1;
+    min-width: 0;
+}
+
+.event-content-sections {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    margin-bottom: 30px;
+}
+
+.section-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 15px;
+}
+
+/* Event Description Content */
+.event-description-content {
+    line-height: 1.8;
+    color: #444;
+    font-size: 16px;
+}
+
+.event-description-content p {
+    margin-bottom: 15px;
+}
+
+.event-description-content img {
+    max-width: 100%;
+    height: auto;
+    margin: 15px 0;
+    border-radius: 6px;
+}
+
+/* Video Container */
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    margin-bottom: 25px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Registration Modal */
+.registration-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(3px);
+}
+
+.modal-content {
+    position: relative;
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 40px;
+    width: 90%;
+    max-width: 700px;
+    border-radius: 8px;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+    animation: modalFadeIn 0.4s ease;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.close-modal {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #777;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.close-modal:hover {
+    color: #333;
+}
+
+#registration-form-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    color: #2e1a47;
+    text-align: center;
+}
+
+.event-registration-form {
+    margin-top: 25px;
+}
+
+.form-field {
+    margin-bottom: 25px;
+}
+
+.form-field label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+    font-size: 14px;
+}
+
+.form-field label.required::after {
+    content: '*';
+    color: #e25d38;
+    margin-left: 4px;
+}
+
+.form-field input,
+.form-field select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+.form-field input:focus,
+.form-field select:focus {
+    outline: none;
+    border-color: #4a90e2;
+}
+
+.form-fields-inline {
+    display: flex;
+    gap: 20px;
+}
+
+.form-fields-inline .form-field {
+    flex: 1;
+}
+
+.form-actions {
+    margin-top: 30px;
+    text-align: right;
+}
+
+.form-actions button {
+    padding: 14px 30px;
+    border-radius: 4px;
+    background-color: #e25d38;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.form-actions button:hover {
+    background-color: #d14e2a;
+}
+
+.validation-failed {
+    border-color: #e25d38 !important;
+}
+
+.validation-message {
+    color: #e25d38;
+    font-size: 13px;
+    margin-top: 8px;
+}
+
+.time-slot-validation-message {
+    color: #e25d38;
+    font-size: 13px;
+    margin-top: 10px;
+    display: none;
+    text-align: center;
+}
+
+/* Content overflow fixes */
+.event-description-content {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.event-description-content img,
+.event-description-content iframe {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Responsive Styles */
+@media (max-width: 1200px) {
+    .event-main-content-inner {
+        max-width: 95%;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+}
+
+@media (max-width: 991px) {
+    .event-header {
+        padding: 0 15px;
+    }
+    
+    .event-main-content-inner {
+        flex-direction: column;
+        padding: 20px 15px;
+    }
+    
+    .event-left-column {
+        flex: 0 0 100%;
+        width: 100%;
+        margin-right: 0;
+        order: 2;
+    }
+    
+    .event-right-column {
+        flex: 0 0 100%;
+        width: 100%;
+        order: 1;
+        margin-bottom: 30px;
+    }
+    
+    .event-banner {
+        height: 400px;
+    }
+    
+    .event-title {
+        font-size: 36px;
+    }
+    
+    .event-subtitle {
+        font-size: 16px;
+    }
+    
+    .organizer-info {
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 767px) {
+    .event-banner {
+        height: 300px;
+    }
+    
+    .event-title {
+        font-size: 28px;
+        line-height: 1.3;
+    }
+    
+    .event-subtitle {
+        font-size: 16px;
+    }
+    
+    .date-separator {
+        display: none;
+    }
+    
+    .event-date-boxes {
+        justify-content: flex-start;
+    }
+    
+    .event-date-box {
+        width: 80px;
+    }
+    
+    .form-fields-inline {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .modal-content {
+        padding: 25px 15px;
+        margin: 5% auto;
+        width: 95%;
+    }
+    
+    .price-section {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .early-bird-badge {
+        margin-left: 0;
+    }
+
+    #registration-form-title {
+        font-size: 20px;
+        margin-bottom: 15px;
+    }
+    
+    .registration-modal {
+        padding: 0 10px;
+    }
+}
+
+@media (max-width: 576px) {
+    .event-banner {
+        height: 250px;
+    }
+    
+    .event-header {
+        margin-bottom: 25px;
+    }
+    
+    .event-title {
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+    
+    .event-info-card, 
+    .event-content-sections {
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .card-title,
+    .section-title {
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+    
+    .event-date-boxes {
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        margin-bottom: 15px;
+    }
+    
+    .event-date-box {
+        min-width: 70px;
+    }
+    
+    .event-date-day {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .event-banner {
+        height: 200px;
+    }
+    
+    .event-date-text {
+        font-size: 13px;
+    }
+    
+    .event-title {
+        font-size: 22px;
+    }
+    
+    .event-subtitle {
+        font-size: 14px;
+    }
+    
+    .organizer-info {
+        margin-top: 15px;
+    }
+    
+    .organizer-avatar {
+        width: 40px;
+        height: 40px;
+        font-size: 14px;
+    }
+    
+    .organizer-meta,
+    .attendees-count {
+        font-size: 13px;
+    }
+    
+    .event-date-boxes {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .event-date-box {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        padding: 8px 10px;
+    }
+    
+    .event-date-month {
+        margin-right: 5px;
+    }
+    
+    .event-date-day {
+        margin: 0 5px;
+    }
+    
+    .event-date-year {
+        margin-left: auto;
+    }
+    
+    .date-selection select {
+        padding: 8px;
+        font-size: 14px;
+    }
+    
+    .time-slot-option {
+        padding: 10px;
+    }
+    
+    .time-slot-text {
+        font-size: 14px;
+    }
+    
+    .form-actions {
+        text-align: center;
+    }
+    
+    .form-actions button {
+        width: 100%;
+    }
+    
+    .register-button {
+        padding: 12px 15px;
+        font-size: 14px;
+    }
+    
+    .close-modal {
+        top: 10px;
+        right: 10px;
+    }
+    
+    #registration-form-title {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+}
+
+/* Fix for date boxes on mobile */
+@media (max-width: 480px) {
+    .event-date-boxes {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .event-date-box {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        text-align: left;
+        padding: 10px 15px;
+    }
+    
+    .event-date-month {
+        width: 35px;
+        text-align: center;
+        margin-right: 10px;
+    }
+    
+    .event-date-day {
+        width: 30px;
+        text-align: center;
+        margin-right: 10px;
+    }
+    
+    .event-date-year {
+        margin-left: auto;
+    }
+    
+    /* Location info on mobile */
+    .location-info {
+        flex-wrap: wrap;
+    }
+    
+    /* Time slots on mobile */
+    .time-slots-container {
+        max-height: 250px;
+    }
+    
+    .time-slot-option {
+        padding: 10px;
+        align-items: flex-start;
+    }
+    
+    .time-slot-option input[type="radio"] {
+        margin-top: 3px;
+    }
+    
+    .time-slot-text {
+        font-size: 13px;
+        line-height: 1.4;
+        flex: 1;
+    }
+    
+    /* Registration form fixes */
+    .form-field label {
+        font-size: 13px;
+    }
+    
+    .form-field input,
+    .form-field select {
+        padding: 10px;
+        font-size: 14px;
+    }
+}
+
+/* Fix for modal on small screens */
+@media (max-height: 640px) {
+    .modal-content {
+        margin: 2% auto;
+        max-height: 96vh;
+        overflow-y: auto;
+        padding-bottom: 15px;
+    }
+    
+    .form-field {
+        margin-bottom: 15px;
+    }
+    
+    .form-field label {
+        margin-bottom: 5px;
+    }
+    
+    .form-actions {
+        margin-top: 15px;
+    }
+}
+
+/* Fix for organizer info on very small screens */
+@media (max-width: 380px) {
+    .organizer-info {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .organizer-avatar {
+        margin-bottom: 10px;
+    }
+}
+
+/* Add these responsive styles to the end of your existing event-detail.css file */
+
+/* Responsive Styles for Mobile */
+@media only screen and (max-width: 767px) {
+    /* General layout */
+    body {
+        background-color: #f5f7f9;
+    }
+    
+    .event-main-content-inner {
+        flex-direction: column;
+        padding: 15px;
+    }
+    
+    .event-left-column,
+    .event-right-column {
+        flex: 0 0 100%;
+        width: 100%;
+        margin-right: 0;
+    }
+    
+    .event-right-column {
+        order: 2;
+    }
+    
+    .event-left-column {
+        order: 1;
+    }
+    
+    /* Banner adjustments */
+    .event-banner {
+        height: 200px;
+    }
+    
+    /* Event header */
+    .event-title {
+        font-size: 24px;
+        line-height: 1.2;
+    }
+    
+    .event-subtitle {
+        font-size: 16px;
+    }
+    
+    /* Card styling */
+    .event-info-card, 
+    .event-content-sections {
+        border-radius: 8px;
+        margin-bottom: 15px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+    
+    /* Price and registration */
+    .price-section {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .event-price {
+        margin-bottom: 8px;
+    }
+    
+    .early-bird-badge {
+        background-color: #FFF2E3;
+        color: #E25D38;
+        margin-bottom: 12px;
+    }
+    
+    .register-button {
+        width: 100%;
+        font-size: 16px;
+        padding: 12px 16px;
+    }
+    
+    /* Date and time selection */
+    .event-date-boxes {
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+    
+    .event-date-box {
+        min-width: auto;
+        margin-bottom: 10px;
+        padding: 8px 12px;
+    }
+    
+    .date-separator {
+        display: none;
+    }
+    
+    /* Time slots */
+    .time-slot-option {
+        padding: 10px;
+    }
+    
+    .time-slot-text {
+        font-size: 14px;
+    }
+    
+    /* Form fields in modal */
+    .form-fields-inline {
+        flex-direction: column;
+    }
+    
+    .form-field {
+        margin-bottom: 15px;
+    }
+    
+    /* Modal adjustments */
+    .modal-content {
+        width: 95%;
+        margin: 10px auto;
+        padding: 20px 15px;
+    }
+}
+
+/* Additional fixes for very small screens */
+@media only screen and (max-width: 480px) {
+    .event-banner {
+        height: 160px;
+    }
+    
+    .event-title {
+        font-size: 22px;
+    }
+    
+    .event-header {
+        margin-bottom: 15px;
+    }
+    
+    .organizer-avatar {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .register-button {
+        padding: 12px;
+        font-size: 15px;
+    }
+    
+    .event-info-card, 
+    .event-content-sections {
+        padding: 15px;
+    }
+}
+
+.event-map-container {
+    margin-bottom: 20px;
+}
+
+.event-map {
+    height: 400px;
+    width: 100%;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.event-address {
+    margin-top: 10px;
+    display: flex;
+    align-items: flex-start;
+}
+
+.event-address i {
+    margin-right: 8px;
+    color: #444;
+}
+
+.event-address address {
+    margin: 0;
+    font-style: normal;
+    line-height: 1.6;
+}
+
+.event-map {
+    height: 400px;
+    width: 100%;
+    min-height: 300px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    margin-top: 10px;
+}

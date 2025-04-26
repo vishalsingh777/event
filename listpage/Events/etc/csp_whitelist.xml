@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<csp_whitelist xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Csp:etc/csp_whitelist.xsd">
+    <policies>
+        <policy id="script-src">
+            <values>
+                <value id="insead-events-scripts" type="host">*.local</value>
+                <value id="insead-events-inline" type="host">'self'</value>
+                <!-- Google Maps API -->
+                <value id="google-maps-api" type="host">maps.googleapis.com</value>
+                <value id="google-maps-api-js" type="host">*.googleapis.com</value>
+                <value id="google-maps-api-services" type="host">*.google.com</value>
+                <value id="google-maps-api-gstatic" type="host">*.gstatic.com</value>
+            </values>
+        </policy>
+        <policy id="style-src">
+            <values>
+                <value id="insead-events-styles" type="host">*.local</value>
+                <value id="insead-events-inline-styles" type="host">'self'</value>
+                <value id="insead-events-unsafe-inline" type="host">'unsafe-inline'</value>
+                <!-- Google Maps API Styles -->
+                <value id="google-maps-api-styles" type="host">maps.googleapis.com</value>
+                <value id="google-maps-api-styles-fonts" type="host">fonts.googleapis.com</value>
+            </values>
+        </policy>
+        <!-- Add image source policy for map tiles -->
+        <policy id="img-src">
+            <values>
+                <value id="google-maps-api-images" type="host">maps.googleapis.com</value>
+                <value id="google-maps-api-images-gstatic" type="host">*.gstatic.com</value>
+                <value id="google-maps-api-images-services" type="host">*.google.com</value>
+            </values>
+        </policy>
+        <!-- Add connection source policy for API requests -->
+        <policy id="connect-src">
+            <values>
+                <value id="google-maps-api-connections" type="host">maps.googleapis.com</value>
+                <value id="google-maps-api-connections-gstatic" type="host">*.gstatic.com</value>
+                <value id="google-maps-api-connections-services" type="host">*.google.com</value>
+            </values>
+        </policy>
+        <!-- Add font source policy for map fonts -->
+        <policy id="font-src">
+            <values>
+                <value id="google-maps-api-fonts" type="host">fonts.gstatic.com</value>
+            </values>
+        </policy>
+    </policies>
+</csp_whitelist>

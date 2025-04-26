@@ -1,0 +1,114 @@
+<!--@subject {{trans "Payment Confirmation: %event_title" event_title=$event_title}} @-->
+<!--@vars {
+"var customer_name":"Customer Name",
+"var event_title":"Event Title",
+"var price":"Event Price",
+"var event_date":"Event Date",
+"var event_time":"Event Time",
+"var event_venue":"Event Venue",
+"var registration_id":"Registration ID",
+"var order_id":"Order ID",
+"var payment_method":"Payment Method",
+"var payment_confirmation_id":"Payment Confirmation ID",
+"var transaction_date":"Transaction Date",
+"var transaction_id":"Transaction ID",
+"var customer_address":"Customer Address",
+"var customer_city":"Customer City",
+"var customer_postal":"Customer Postal Code",
+"var customer_country":"Customer Country",
+"var transaction_uuid":"Transaction UUID",
+"var customer_street":"Customer Street",
+"var customer_region":"Customer Region"
+} @-->
+
+<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #ffffff;">
+    <div style="padding: 20px;">
+        <table width="100%">
+            <tr>
+                <td style="width: 60%;">
+                    <p style="font-size: 14px; margin: 0;">Dear {{var customer_name}},</p>
+                    <p style="font-size: 14px; margin-top: 10px;">Here is a confirmation of your payment.</p>
+                </td>
+                <td style="width: 40%; vertical-align: top;" align="right">
+                    <div style="text-align: center;">
+                        <img src="{{view url='Insead_Events/images/email-icon.png'}}" alt="Email Icon" width="40" height="40" />
+                        <p style="color: #006633; font-weight: bold; margin-top: 5px; margin-bottom: 5px;">Order Questions</p>
+                        <p style="font-size: 12px; margin: 0;"><a href="mailto:mba.candidates@insead.edu" style="color: #000000; text-decoration: none;">mba.candidates@insead.edu</a></p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div style="background-color: #f8f8f8; padding: 20px; margin-top: 20px;">
+        <h2 style="color: #006633; text-align: center; margin-top: 0; margin-bottom: 20px;">Payment Details</h2>
+        
+        <p style="text-align: center; margin-bottom: 5px;">Your Payment Confirmation ID #: {{var payment_confirmation_id}}</p>
+        <p style="text-align: center; margin-top: 0; margin-bottom: 30px;">Transaction made on: {{var transaction_date}}</p>
+        
+        <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+            <thead>
+                <tr>
+                    <th style="text-align: left; padding: 10px 0;">Event Name</th>
+                    <th style="text-align: center; padding: 10px 0;">QUANTITY</th>
+                    <th style="text-align: right; padding: 10px 0;">SUBTOTAL</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="padding: 15px 0; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd;">
+                        <p style="margin: 0; color: #006633;">{{var event_title}}</p>
+                        <p style="margin: 5px 0 0 0;">Date - {{var event_date}}</p>
+                        <p style="margin: 5px 0 0 0;">Time - {{var event_time}}</p>
+                        <p style="margin: 5px 0 0 0;">Venue - {{var event_venue}}</p>
+                    </td>
+                    <td style="padding: 15px 0; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; text-align: center; vertical-align: top;">1</td>
+                    <td style="padding: 15px 0; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; text-align: right; vertical-align: top;">{{var price}}</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <table style="width: 100%; margin-top: 20px;">
+            <tr>
+                <td style="text-align: right; padding: 5px 0;">Subtotal</td>
+                <td style="text-align: right; width: 100px; padding: 5px 0;">{{var price}}</td>
+            </tr>
+            <tr>
+                <td style="text-align: right; font-weight: bold; padding: 10px 0; border-top: 1px solid #ddd;">Grand Total</td>
+                <td style="text-align: right; font-weight: bold; padding: 10px 0; border-top: 1px solid #ddd;">{{var price}}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div style="margin-top: 30px;">
+        <h2 style="color: #006633; margin-bottom: 20px;">Order Information</h2>
+        
+        <table style="width: 100%;">
+            <tr>
+                <td style="vertical-align: top; width: 50%;">
+                    <h3 style="margin-top: 0; margin-bottom: 10px; font-size: 16px; font-weight: normal;">Billing Address</h3>
+                    <p style="margin: 0; line-height: 1.5;">
+                        {{var customer_name}}<br/>
+                        {{var customer_street}}<br/>
+                        {{var customer_city}}<br/>
+                        {{var customer_postal}} {{var customer_region}} {{var customer_country}}<br/>
+                        {{var customer_country}}
+                    </p>
+                </td>
+                <td style="vertical-align: top; width: 50%;">
+                    <h3 style="margin-top: 0; margin-bottom: 10px; font-size: 16px; font-weight: normal;">Payment Method</h3>
+                    <p style="margin: 0 0 15px 0; line-height: 1.5;">
+                        {{var payment_method}}
+                    </p>
+                    <p style="margin: 0 0 5px 0; line-height: 1.5;">
+                        Transaction ID: {{var transaction_id}}
+                    </p>
+                    <p style="margin: 0; line-height: 1.5;">
+                        Transaction<br/>
+                        UUID: {{var transaction_uuid}}
+                    </p>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

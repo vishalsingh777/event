@@ -1,0 +1,72 @@
+<?php
+/**
+ * @var $block \Insead\Events\Block\EventView
+ */
+$event = $block->getEvent();
+$mapEnabled = $block->isMapEnabled();
+$apiKey = $block->getGoogleMapsApiKey();
+
+if ($mapEnabled && $apiKey && $event->getLatitude() && $event->getLongitude()):
+    $mapId = 'event-map-' . $event->getId();
+    $latitude = $event->getLatitude();
+    $longitude = $event->getLongitude();
+    $address = $event->getAddress();
+    $venue = $event->getEventVenue();
+    $defaultZoom = $block->getDefaultZoom() ?: 15;
+?>
+<div class="event-map-container">
+    <div id="<?= $block->escapeHtmlAttr($mapId) ?>" class="event-map" style="height: 400px; width: 100%;"></div>
+    
+    <!-- Debug information (remove in production) -->
+    <div class="map-debug" style="display: none;">
+        <p>Map Enabled: <?= $mapEnabled ? 'Yes' : 'No' ?></p>
+        <p>API Key Set: <?= !empty($apiKey) ? 'Yes' : 'No' ?></p>
+        <p>Coordinates: <?= $latitude ?>, <?= $longitude ?></p>
+    </div>
+</div>
+
+<script type="text/javascript">
+    console.log('Map initialization parameters:');
+    console.log('Map ID: <?= $mapId ?>');
+    console.log('Coordinates: <?= $latitude ?>, <?= $longitude ?>');
+    console.log('Zoom: <?= $defaultZoom ?>');
+    console.log('Venue: <?= $venue ?>');
+    
+    require(['jquery', 'Insead_Events/js/event-map'], function($, eventMap) {
+        $(document).ready(function() {
+            console.log('Map module loaded, initializing map...');
+            // Initialize the event map module
+            eventMap.initialize();
+            
+            // Queue up this map for initialization
+            eventMap.initMap(
+                '<?= $block->escapeJs($mapId) ?>',
+                <?= $latitude ?>,
+                <?= $longitude ?>,
+                <?= $defaultZoom ?>,
+                '<?= $block->escapeJs($venue ?: __('Event Location')) ?>'
+            );
+            
+            // Check if Google Maps loaded correctly
+            setTimeout(function() {
+                if (typeof google === 'undefined' || typeof google.maps === 'undefined') {
+                    console.error('Google Maps API not loaded after 3 seconds');
+                    $('#<?= $mapId ?>').html('<div style="padding: 20px; text-align: center;">Error loading map. Please check console for details.</div>');
+                } else {
+                    console.log('Google Maps API loaded successfully');
+                }
+            }, 3000);
+        });
+    });
+</script>
+<?php else: ?>
+    <!-- Show what's missing if map doesn't display -->
+    <div class="map-not-available">
+        <p><?= $block->escapeHtml(__('Map cannot be displayed:')) ?></p>
+        <ul>
+            <?php if (!$mapEnabled): ?><li><?= $block->escapeHtml(__('Maps are disabled in configuration')) ?></li><?php endif; ?>
+            <?php if (empty($apiKey)): ?><li><?= $block->escapeHtml(__('Google Maps API key is not set')) ?></li><?php endif; ?>
+            <?php if (!$event->getLatitude() || !$event->getLongitude()): ?><li><?= $block->escapeHtml(__('Event location coordinates are not set')) ?></li><?php endif; ?>
+        </ul>
+    </div>
+<?php endif; ?>

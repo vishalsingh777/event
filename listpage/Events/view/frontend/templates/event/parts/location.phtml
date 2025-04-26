@@ -1,0 +1,19 @@
+<?php
+/**
+ * @var $block \Insead\Events\Block\EventView
+ * @var $event \Insead\Events\Model\Event
+ */
+?>
+
+<?php if ($event->getEventVenue()): ?>
+<div class="event-info-card">
+    <h3 class="card-title"><?= $block->escapeHtml(__('Location')) ?></h3>
+    <?php if ($event->getEventVenue()): ?>
+        <p class="venue-name"><?= $block->escapeHtml($event->getEventVenue()) ?></p>
+    <?php endif; ?>
+    
+    <?php if ($block->isMapEnabled() && $event->getLatitude() && $event->getLongitude()){ ?>
+        <?= $block->getChildHtml('event.map') ?>
+    <?php }?>
+</div>
+<?php endif; ?>

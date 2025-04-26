@@ -1,0 +1,115 @@
+<?php
+/**
+ * @var $block \Insead\Events\Block\EventView
+ * @var $event \Insead\Events\Model\Event
+ */
+$event = $block->getEvent();
+$isPaidEvent = $block->isPaidEvent();
+$isEventSoldOut = $block->isEventSoldOut();
+$needsTimeSlotSelection = $block->needsTimeSlotSelection();
+$stripeEnabled = $block->isStripeEnabled();
+?>
+<div class="event-info-card">
+    <div class="price-section">
+        <?php if ($isPaidEvent): ?>
+            <div class="event-price"><?= $block->getFormattedEventPrice() ?></div>
+            <?php if ($event->getProductSku() && $event->getRegistrationType() == '0'): ?>
+                <div class="early-bird-badge"><?= $block->escapeHtml(__('Early bird discount')) ?></div>
+            <?php endif; ?>
+        <?php else: ?>
+            <div class="event-price"><?= $block->escapeHtml(__('Free')) ?></div>
+        <?php endif; ?>
+    </div>
+    
+    <?php if ($event->getStatus() == 1 && !$isEventSoldOut): ?>
+        <div class="register-button-section">
+            <?php if ($isPaidEvent): ?>
+                <?php if ($stripeEnabled): ?>
+                    <!-- Stripe Checkout Button -->
+                    <a href="<?= $block->escapeUrl($block->getStripeCheckoutUrl()) ?>" 
+                       class="register-button stripe-checkout-button" id="stripe-checkout-button"
+                       <?= $needsTimeSlotSelection ? 'data-validate-time-slot="true"' : '' ?>>
+                        <?= $block->escapeHtml(__('Pay with Stripe')) ?>
+                    </a>
+                <?php endif; ?>
+                
+                <?php if ($event->getProductSku()): ?>
+                    <!-- Register & Pay Option (Add to Cart) -->
+                    <a href="<?= $block->escapeUrl($block->getUrl('events/product/addtocart', [
+                        'product_sku' => $event->getProductSku(),
+                        'event_id' => $event->getId()
+                    ])) ?>" 
+                       class="register-button" id="register-pay-button"
+                       <?= $needsTimeSlotSelection ? 'data-validate-time-slot="true"' : '' ?>>
+                        <?= $block->escapeHtml(__('Get tickets')) ?>
+                    </a>
+                <?php endif; ?>
+            <?php elseif ($event->getRegistrationType() == '1'): ?>
+                <button id="register-only-button" class="register-button"
+                        <?= $needsTimeSlotSelection ? 'data-validate-time-slot="true"' : '' ?>>
+                    <?= $block->escapeHtml(__('Register')) ?>
+                </button>
+            <?php elseif ($event->getRegistrationType() == '2'): ?>
+                <button id="register-approval-button" class="register-button"
+                        <?= $needsTimeSlotSelection ? 'data-validate-time-slot="true"' : '' ?>>
+                    <?= $block->escapeHtml(__('Request Registration')) ?>
+                </button>
+            <?php endif; ?>
+        </div>
+    <?php elseif ($isEventSoldOut): ?>
+        <div class="sold-out-message"><?= $block->escapeHtml(__('Sold Out')) ?></div>
+    <?php else: ?>
+        <div class="event-unavailable-message"><?= $block->escapeHtml(__('Registration Unavailable')) ?></div>
+    <?php endif; ?>
+</div>
+
+<style>
+    .register-button-section {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .stripe-checkout-button {
+        background-color: #6772e5;
+        border-color: #6772e5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .stripe-checkout-button:hover {
+        background-color: #5469d4;
+        border-color: #5469d4;
+    }
+    
+    .stripe-checkout-button:before {
+        content: '';
+        background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAzMiAzMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMjEuODUgMTBoMi43MzVhLjU0LjU0IDAgMCAxIC40NjIuODE2bC0xLjI2MyAxLjk1MmExLjEyIDEuMTIgMCAwIDEtMS45MDktLjAwNEwyMC42MSAxMC44MkEuNTM5LjUzOSAwIDAgMSAyMS4wODUgMTBoLjc2NHptMy43MzYgMGgyLjczNWEuNTQuNTQgMCAwIDEgLjQ2Mi44MTZsLTEuMjYzIDEuOTUyYTEuMTIgMS4xMiAwIDAgMS0xLjkwOS0uMDA0TDI0LjM0NiAxMC44MkEuNTM5LjUzOSAwIDAgMSAyNC44MjEgMTBoLjc2NHptLTcuNDcyIDBIMjAuODVhLjU0LjU0IDAgMCAxIC40NjIuODE2bC0xLjI2MyAxLjk1MmExLjEyIDEuMTIgMCAwIDEtMS45MDktLjAwNEwxNi44NzQgMTAuODJBLjUzOS41MzkgMCAwIDEgMTcuMzQ5IDEwaC43NjR6TTEzIDEwaDMuMjVjLjQxNCAwIC43NS4zMzYuNzUuNzV2MS41YS43NS43NSAwIDAgMS0uNzUuNzVIMTNhLjc1Ljc1IDAgMCAxLS43NS0uNzV2LTEuNWMwLS40MTQuMzM2LS43NS43NS0uNzV6bTguMTQ1IDguNTYyYzEuNjYyIDAgMy4wMDgtMS4zNDYgMy4wMDgtMy4wMDYgMC0xLjY2My0xLjM0Ni0zLjAwOC0zLjAwOC0zLjAwOC0xLjY2NCAwLTMuMDA4IDEuMzQ1LTMuMDA4IDMuMDA4IDAgMS42Ni4xMjUgMy4wMDYgMy4wMDggMy4wMDZ6TTEzIDIwaDE3YTMgMyAwIDAgMSAzIDN2MmEzIDMgMCAwIDEtMyAzSDEzYTMgMyAwIDAgMS0zLTN2LTJhMyAzIDAgMCAxIDMtM3ptMi41LTYuNWgxM2EuNS41IDAgMCAxIC41LjV2MWEuNS41IDAgMCAxLS41LjVoLTEzYS41LjUgMCAwIDEtLjUtLjV2LTFhLjUuNSAwIDAgMSAuNS0uNXoiIGZpbGw9IiNmZmYiIGZpbGwtcnVsZT0ibm9uemVybyIvPjwvc3ZnPg==');
+        width: 16px;
+        height: 16px;
+        display: inline-block;
+        margin-right: 8px;
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 767px) {
+        .register-button-section {
+            width: 100%;
+        }
+        
+        .register-button {
+            width: 100%;
+        }
+    }
+</style>
+
+<script type="text/x-magento-init">
+{
+    "*": {
+        "stripe-checkout": {}
+    }
+}
+</script>

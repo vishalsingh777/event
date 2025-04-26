@@ -1,0 +1,229 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+
+    <!-- Existing Events Table -->
+    <table name="insead_events" resource="default" engine="innodb" comment="Events Table">
+        <column xsi:type="int" name="event_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Event ID"/>
+        <column xsi:type="varchar" name="event_title" nullable="false" length="255" comment="Event Title"/>
+        <column xsi:type="varchar" name="event_venue" nullable="true" length="255" comment="Event Venue"/>
+        <column xsi:type="varchar" name="url_key" nullable="true" length="255" comment="URL Key"/>
+        <column xsi:type="varchar" name="color" nullable="true" length="50" comment="Color"/>
+        <column xsi:type="datetime" name="start_date" nullable="true" comment="Start Date"/>
+        <column xsi:type="datetime" name="end_date" nullable="true" comment="End Date"/>
+        <column xsi:type="text" name="content" nullable="true" comment="Content"/>
+        <column xsi:type="varchar" name="youtube_video_url" nullable="true" length="255" comment="YouTube Video URL"/>
+        <column xsi:type="smallint" name="status" padding="5" unsigned="true" nullable="false" default="0" comment="Status"/> 
+        <column xsi:type="smallint" name="recurring" padding="5" unsigned="true" nullable="false" default="0" comment="Recurring"/>
+        <column xsi:type="varchar" name="repeat" nullable="true" length="50" comment="Repeat"/>
+        <column xsi:type="smallint" name="repeat_every" padding="5" unsigned="true" nullable="true" comment="Repeat Every"/>
+        <column xsi:type="text" name="contact_person" nullable="true" comment="Contact Person"/>
+        <column xsi:type="varchar" name="phone" nullable="true" length="50" comment="Phone"/>
+        <column xsi:type="varchar" name="fax" nullable="true" length="50" comment="Fax"/>
+        <column xsi:type="varchar" name="email" nullable="true" length="255" comment="Email"/>
+        <column xsi:type="text" name="address" nullable="true" comment="Address"/>
+        <column xsi:type="varchar" name="page_title" nullable="true" length="255" comment="Page Title"/>
+        <column xsi:type="text" name="keywords" nullable="true" comment="Keywords"/>
+        <column xsi:type="text" name="description" nullable="true" comment="Description"/>
+        <column xsi:type="varchar" name="product_sku" nullable="true" length="64" comment="Product SKU"/>
+        <column xsi:type="varchar" name="event_price" nullable="true" length="64" comment="Event Price"/>
+        <column xsi:type="varchar" name="registration_type" nullable="true" length="50" comment="Registration Type"/>
+        <column xsi:type="int" name="qty" unsigned="true" nullable="true" comment="Quantity Available"/>
+        <column xsi:type="int" name="allowed_qty" unsigned="true" nullable="true" comment="Quantity Allowed"/>
+        <column xsi:type="smallint" name="store_id" padding="5" unsigned="true" nullable="false" comment="Store ID"/>
+        <column xsi:type="varchar" name="customer_group" nullable="true" length="255" comment="Customer Group"/>
+        <column xsi:type="varchar" name="zoom_info" nullable="true" length="255" comment="Zoom Info"/>
+        
+        <!-- JSON-based time fields -->
+        <column xsi:type="text" name="available_days" nullable="true" comment="Available Days of Week (JSON)"/>
+        <column xsi:type="text" name="time_slots" nullable="true" comment="Time Slots (JSON)"/>
+        <column xsi:type="text" name="block_dates" nullable="true" comment="Blocked Dates (JSON)"/>
+        <column xsi:type="text" name="selected_time_slots" nullable="true" comment="Selected Time Slots (JSON)"/>
+        <column xsi:type="varchar" name="single_start_time" nullable="true" length="10" comment="Single Event Start Time"/>
+        <column xsi:type="varchar" name="single_end_time" nullable="true" length="10" comment="Single Event End Time"/>
+        <column xsi:type="varchar" name="event_timezone" nullable="true" length="50" comment="Event Timezone"/>
+
+        <column name="latitude" nullable="true" xsi:type="varchar" length="20" comment="Latitude Coordinate"/>
+        <column name="longitude" nullable="true" xsi:type="varchar" length="20" comment="Longitude Coordinate"/>
+
+
+         <!-- New columns for Zoom meeting details -->
+        <column xsi:type="smallint" name="is_zoom" padding="5" unsigned="true" nullable="false" comment="Is Zoom Meeting" default="0"/>
+        <column xsi:type="varchar" name="zoom_meeting_url" nullable="true" length="255" comment="Join Zoom Meeting URL"/>
+        <column xsi:type="varchar" name="zoom_password" nullable="true" length="50" comment="Password"/>
+        <column xsi:type="varchar" name="zoom_video_conference_id" nullable="true" length="100" comment="Video Conference ID / SIP"/>
+        <column xsi:type="varchar" name="zoom_meeting_id" nullable="true" length="50" comment="Video Conference/ Zoom Room Meeting ID"/>
+        <column xsi:type="varchar" name="zoom_conference_password" nullable="true" length="20" comment="Video Conference Password"/>
+        <column xsi:type="varchar" name="zoom_local_number_url" nullable="true" length="255" comment="Find your local number URL"/>
+
+        <column xsi:type="datetime" name="created_at" nullable="false" on_update="false" default="CURRENT_TIMESTAMP" comment="Created At"/>
+        <column xsi:type="datetime" name="updated_at" nullable="false" on_update="true" default="CURRENT_TIMESTAMP" comment="Updated At"/>
+
+        <column xsi:type="int" name="category_id" padding="10" unsigned="true" nullable="true" comment="Category ID"/>
+        <column xsi:type="int" name="campus_id" padding="10" unsigned="true" nullable="true" comment="Campus ID"/>
+        <column xsi:type="boolean" name="is_featured" nullable="false" default="0" comment="Is Featured"/>
+
+        <!-- Add foreign key constraints to your existing insead_events table -->
+        <constraint xsi:type="foreign" referenceId="INSEAD_EVENTS_CAMPUS_ID_INSEAD_EVENT_CAMPUSES_CAMPUS_ID"
+                    table="insead_events" column="campus_id"
+                    referenceTable="insead_event_campuses" referenceColumn="campus_id"
+                    onDelete="SET NULL"/>
+        <constraint xsi:type="foreign" referenceId="INSEAD_EVENTS_CATEGORY_ID_INSEAD_EVENT_CATEGORIES_CATEGORY_ID"
+                    table="insead_events" column="category_id"
+                    referenceTable="insead_event_categories" referenceColumn="category_id"
+                    onDelete="SET NULL"/>
+
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="event_id"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="INSEAD_EVENTS_URL_KEY">
+            <column name="url_key"/>
+        </constraint>
+        <index referenceId="INSEAD_EVENTS_EVENT_TITLE" indexType="btree">
+            <column name="event_title"/>
+        </index>
+    </table>
+    
+    <!-- New Table: Time Slots -->
+    <table name="insead_event_times" resource="default" engine="innodb" comment="Event Time Slots Table">
+        <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="Time Slot ID"/>
+        <column xsi:type="int" name="record_id" padding="10" unsigned="true" nullable="false" comment="Time Slot Sequence ID"/>
+        <column xsi:type="int" name="event_id" padding="10" unsigned="true" nullable="false" comment="Event ID"/>
+        <column xsi:type="varchar" name="time_start" length="10" nullable="false" comment="Start Time"/>
+        <column xsi:type="varchar" name="time_end" length="10" nullable="false" comment="End Time"/>
+        <column xsi:type="int" name="sort_order" padding="5" unsigned="true" nullable="true" default="0" comment="Sort Order"/>
+        <column xsi:type="datetime" name="created_at" nullable="false" default="CURRENT_TIMESTAMP" comment="Created At"/>
+        <column xsi:type="datetime" name="updated_at" nullable="false" on_update="true" default="CURRENT_TIMESTAMP" comment="Updated At"/>
+        
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="INSEAD_EVENT_TIMES_EVENT_ID_INSEAD_EVENTS_EVENT_ID"
+                    table="insead_event_times" column="event_id"
+                    referenceTable="insead_events" referenceColumn="event_id"
+                    onDelete="CASCADE"/>
+    </table>
+
+
+    <table name="insead_event_registrations" resource="default" engine="innodb" comment="Event Registrations Table">
+        <column xsi:type="int" name="registration_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Registration ID"/>
+        <column xsi:type="int" name="event_id" padding="10" unsigned="true" nullable="false" comment="Event ID"/>
+        <column xsi:type="varchar" name="first_name" nullable="true" length="255" comment="First Name"/>
+        <column xsi:type="varchar" name="last_name" nullable="true" length="255" comment="Last Name"/>
+        <column xsi:type="varchar" name="email" nullable="true" length="255" comment="Email"/>
+        <column xsi:type="varchar" name="street" nullable="true" length="255" comment="Street Address"/>
+        <column xsi:type="varchar" name="city" nullable="true" length="255" comment="City"/>
+        <column xsi:type="varchar" name="country" nullable="true" length="2" comment="Country Code"/>
+        <column xsi:type="varchar" name="zipcode" nullable="true" length="20" comment="Zip/Postal Code"/>
+        <column xsi:type="date" name="selected_date" nullable="true" comment="Selected Date"/>
+        <column xsi:type="varchar" name="time_slot" nullable="true" length="255" comment="Selected Time Slot"/>
+        <column xsi:type="varchar" name="payment_status" nullable="true" length="50" comment="Payment Status"/>
+        <column xsi:type="varchar" name="payment_currency" nullable="true" length="50" comment="Payment Currency"/>
+        <column xsi:type="varchar" name="payment_method" nullable="true" length="50" comment="Payment Method"/>
+        <column xsi:type="varchar" name="payment_reference" nullable="true" length="255" comment="Payment Reference"/>
+        <column xsi:type="int" name="quote_id" nullable="true" unsigned="true" comment="Quote ID"/>
+        <column xsi:type="varchar" name="order_id" nullable="true" length="50" comment="Magento Order ID"/>
+        <column xsi:type="smallint" name="status" padding="6" unsigned="true" nullable="false" default="0" comment="Registration Status"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Created At"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP" comment="Updated At"/>
+        
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="registration_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="INSEAD_EVENT_REGISTRATIONS_EVENT_ID_INSEAD_EVENTS_EVENT_ID" 
+                    table="insead_event_registrations" column="event_id" 
+                    referenceTable="insead_events" referenceColumn="event_id" 
+                    onDelete="CASCADE"/>
+                    
+        <index referenceId="INSEAD_EVENT_REGISTRATIONS_EMAIL" indexType="btree">
+            <column name="email"/>
+        </index>
+        <index referenceId="INSEAD_EVENT_REGISTRATIONS_STATUS" indexType="btree">
+            <column name="status"/>
+        </index>
+        <index referenceId="INSEAD_EVENT_REGISTRATIONS_QUOTE_ID" indexType="btree">
+            <column name="quote_id"/>
+        </index>
+    </table>
+
+    <table name="insead_events_banner" resource="default" engine="innodb" comment="INSEAD Events Banner Table">
+        <column xsi:type="int" name="banner_id" padding="10" unsigned="true" nullable="false" identity="true" 
+                comment="Banner ID"/>
+        <column xsi:type="varchar" name="title" nullable="false" length="255" comment="Banner Title"/>
+        <column xsi:type="varchar" name="subtitle" nullable="true" length="255" comment="Banner Subtitle"/>
+        <column xsi:type="smallint" name="banner_type" padding="5" unsigned="true" nullable="false" default="1"
+                comment="Banner Type: 1-Listing, 2-Event"/>
+        <column xsi:type="smallint" name="media_type" padding="5" unsigned="true" nullable="false" default="1"
+                comment="Media Type: 1-Image, 2-Video"/>
+        <column xsi:type="varchar" name="image" nullable="true" length="255" comment="Banner Image"/>
+        <column xsi:type="varchar" name="video" nullable="true" length="255" comment="Banner Video"/>
+        <column xsi:type="varchar" name="alt_text" nullable="true" length="255" comment="Image Alt Text"/>
+        <column xsi:type="varchar" name="url" nullable="true" length="255" comment="Banner URL"/>
+        <column xsi:type="int" name="position" padding="10" unsigned="true" nullable="true" default="0" 
+                comment="Banner Position"/>
+        <column xsi:type="text" name="event_ids" nullable="true" comment="Event IDs"/>
+        <column xsi:type="text" name="store_ids" nullable="false" comment="Store IDs"/>
+        <column xsi:type="smallint" name="status" padding="5" unsigned="true" nullable="false" default="1"
+                comment="Status"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Created At"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Updated At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="banner_id"/>
+        </constraint>
+        <index referenceId="INSEAD_EVENTS_BANNER_BANNER_TYPE" indexType="btree">
+            <column name="banner_type"/>
+        </index>
+        <index referenceId="INSEAD_EVENTS_BANNER_STATUS" indexType="btree">
+            <column name="status"/>
+        </index>
+        <index referenceId="INSEAD_EVENTS_BANNER_POSITION" indexType="btree">
+            <column name="position"/>
+        </index>
+    </table>
+
+    <!-- Event Categories Table -->
+    <table name="insead_event_categories" resource="default" engine="innodb" comment="INSEAD Event Categories">
+        <column xsi:type="int" name="category_id" padding="10" unsigned="true" nullable="false" identity="true"
+                comment="Category ID"/>
+        <column xsi:type="varchar" name="name" nullable="false" length="100" comment="Category Name"/>
+        <column xsi:type="varchar" name="code" nullable="false" length="50" comment="Category Code"/>
+        <column xsi:type="varchar" name="icon_class" nullable="true" length="100" comment="Icon Class"/>
+        <column xsi:type="smallint" name="sort_order" padding="5" unsigned="true" nullable="false" default="0"
+                comment="Sort Order"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Created At"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Updated At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="category_id"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="INSEAD_EVENT_CATEGORIES_CODE">
+            <column name="code"/>
+        </constraint>
+    </table>
+
+    <!-- Event Campuses Table -->
+    <table name="insead_event_campuses" resource="default" engine="innodb" comment="INSEAD Event Campuses">
+        <column xsi:type="int" name="campus_id" padding="10" unsigned="true" nullable="false" identity="true"
+                comment="Campus ID"/>
+        <column xsi:type="varchar" name="name" nullable="false" length="100" comment="Campus Name"/>
+        <column xsi:type="varchar" name="code" nullable="false" length="50" comment="Campus Code"/>
+        <column xsi:type="varchar" name="image" nullable="true" length="255" comment="Campus Image"/>
+        <column xsi:type="text" name="description" nullable="true" comment="Campus Description"/>
+        <column xsi:type="smallint" name="sort_order" padding="5" unsigned="true" nullable="false" default="0"
+                comment="Sort Order"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Created At"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Updated At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="campus_id"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="INSEAD_EVENT_CAMPUSES_CODE">
+            <column name="code"/>
+        </constraint>
+    </table>
+</schema>
+ 

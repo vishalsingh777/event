@@ -1,0 +1,45 @@
+<?php
+/**
+ * @var $block \Insead\Events\Block\EventView
+ * @var $event \Insead\Events\Model\Event
+ * @var $hasBanner boolean
+ */
+?>
+
+<div class="event-right-column">
+    <div class="event-content-sections">
+        <h2 class="section-title"><?= $block->escapeHtml(__('About this event')) ?></h2>
+        <div class="event-description-content">
+            <?php
+            $content = $event->getContent();
+            // Remove the first image if it exists (already shown in banner)
+            if ($hasBanner) {
+                $content = preg_replace('/<img[^>]+>/i', '', $content, 1);
+            }
+            echo /* @noEscape */ $block->getContentHtml($content);
+            ?>
+        </div>
+    </div>
+    
+    <!-- Event Video (if available) -->
+    <?php if ($event->getYoutubeVideoUrl()): ?>
+        <div class="event-content-sections">
+            <h2 class="section-title"><?= $block->escapeHtml(__('Event Video')) ?></h2>
+            <?php
+            // Extract YouTube video ID from URL
+            $videoId = '';
+            $url = $event->getYoutubeVideoUrl();
+            if (preg_match('/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/', $url, $match)) {
+                $videoId = $match[1];
+            }
+            ?>
+            <?php if ($videoId): ?>
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/<?= $block->escapeHtmlAttr($videoId) ?>" 
+                            frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen></iframe>
+                </div>
+            <?php endif; ?>
+        </div>
+    <?php endif; ?>
+</div>

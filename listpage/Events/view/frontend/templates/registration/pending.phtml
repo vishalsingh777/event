@@ -1,0 +1,326 @@
+<?php
+/**
+ * @var $block \Insead\Events\Block\Registration\Pending
+ */
+?>
+<div class="registration-pending-message">
+    <?php if ($block->getRegistration() && $block->getEvent()): ?>
+        <?php $registration = $block->getRegistration(); ?>
+        <?php $event = $block->getEvent(); ?>
+        
+        <h1><?= $block->escapeHtml(__('Registration Request Received')) ?></h1>
+        
+        <div class="pending-message">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFC107" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            <?= $block->escapeHtml(__('Your registration request has been received. We will notify you once it has been reviewed.')) ?>
+        </div>
+        
+        <div class="pending-icon">
+            <span class="clock">⏱</span>
+        </div>
+        
+        <h2 class="pending-title"><?= $block->escapeHtml(__('Thank you for your request!')) ?></h2>
+        <p class="confirmation-message"><?= $block->escapeHtml(__('Your registration request for %1 has been received and is pending approval. We will notify you once it has been reviewed.', $event->getEventTitle())) ?></p>
+        
+        <div class="registration-details">
+            <h3 class="details-title"><?= $block->escapeHtml(__('Request Details')) ?></h3>
+            
+            <div class="details-row">
+                <div class="details-label"><?= $block->escapeHtml(__('Request ID:')) ?></div>
+                <div class="details-value"><?= $block->escapeHtml($registration->getId()) ?></div>
+            </div>
+            
+            <div class="details-row">
+                <div class="details-label"><?= $block->escapeHtml(__('Event:')) ?></div>
+                <div class="details-value"><?= $block->escapeHtml($event->getEventTitle()) ?></div>
+            </div>
+            
+            <?php if ($registration->getSelectedDate()): ?>
+            <div class="details-row">
+                <div class="details-label"><?= $block->escapeHtml(__('Date:')) ?></div>
+                <div class="details-value"><?= $block->escapeHtml($block->formatDate($registration->getSelectedDate())) ?></div>
+            </div>
+            <?php elseif ($event->getStartDate()): ?>
+            <div class="details-row">
+                <div class="details-label"><?= $block->escapeHtml(__('Date:')) ?></div>
+                <div class="details-value"><?= $block->escapeHtml($block->formatDate($event->getStartDate())) ?></div>
+            </div>
+            <?php endif; ?>
+            
+            <?php if ($registration->getTimeSlot()): ?>
+            <div class="details-row">
+                <div class="details-label"><?= $block->escapeHtml(__('Time:')) ?></div>
+                <div class="details-value"><?= $block->escapeHtml($block->formatTimeSlot($registration->getTimeSlot()) .' - '. $event->getEventTimeZone()) ?></div>
+            </div>
+            <?php endif; ?>
+            
+            <?php if ($event->getEventVenue()): ?>
+            <div class="details-row">
+                <div class="details-label"><?= $block->escapeHtml(__('Venue:')) ?></div>
+                <div class="details-value"><?= $block->escapeHtml($event->getEventVenue()) ?></div>
+            </div>
+            <?php endif; ?>
+            
+            <div class="details-row">
+                <div class="details-label"><?= $block->escapeHtml(__('Status:')) ?></div>
+                <div class="details-value status-pending"><?= $block->escapeHtml(__('Pending Approval')) ?></div>
+            </div>
+        </div>
+        
+        <div class="registration-next-steps">
+            <h3 class="next-steps-title"><?= $block->escapeHtml(__('What happens next?')) ?></h3>
+            <ol class="steps-list">
+                <li><?= $block->escapeHtml(__('Our team will review your registration request.')) ?></li>
+                <li><?= $block->escapeHtml(__('You will receive an email notification about the decision.')) ?></li>
+                <li><?= $block->escapeHtml(__('If approved, you will receive further instructions about the event.')) ?></li>
+            </ol>
+            <p class="request-id-notice"><?= $block->escapeHtml(__('Please save your request ID for your records.')) ?></p>
+        </div>
+        
+        <div class="email-notice">
+            <?= $block->escapeHtml(__('A confirmation email about your request has been sent to %1.', $registration->getEmail())) ?>
+        </div>
+        
+        <div class="registration-actions">
+            <a href="<?= $block->escapeUrl($block->getUrl('events/index/index')) ?>" class="view-events-btn">
+                <?= $block->escapeHtml(__('View More Events')) ?>
+            </a>
+        </div>
+    <?php else: ?>
+        <div class="message info empty">
+            <div><?= $block->escapeHtml(__('Registration request information not found.')) ?></div>
+        </div>
+        <div class="actions-toolbar">
+            <div class="primary">
+                <a class="action primary continue" href="<?= $block->escapeUrl($block->getUrl('events/index/index')) ?>">
+                    <span><?= $block->escapeHtml(__('View Events')) ?></span>
+                </a>
+            </div>
+        </div>
+    <?php endif; ?>
+</div>
+
+<style>
+    :root {
+        --primary-color: #00584C;
+        --success-color: #4CAF50;
+        --pending-color: #FFC107;
+        --accent-color: #FF8000;
+        --light-bg: #f8f8f8;
+        --text-color: #333;
+        --border-color: #e0e0e0;
+    }
+    
+    .registration-pending-message {
+        max-width: 800px;
+        margin: 0 auto 50px;
+        padding: 0 20px;
+        text-align: center;
+    }
+    
+    .registration-pending-message h1 {
+        color: var(--primary-color);
+        text-align: center;
+        font-size: 36px;
+        margin: 30px 0;
+        font-weight: normal;
+    }
+    
+    .pending-message {
+        text-align: center;
+        margin-bottom: 40px;
+        color: var(--pending-color);
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+    
+    .pending-icon {
+        margin: 30px auto;
+        width: 100px;
+        height: 100px;
+        background-color: var(--pending-color);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .clock {
+        color: white;
+        font-size: 50px;
+        font-weight: bold;
+    }
+    
+    .pending-title {
+        text-align: center;
+        font-size: 24px;
+        margin: 20px 0;
+        font-weight: 500;
+    }
+    
+    .confirmation-message {
+        text-align: center;
+        font-size: 18px;
+        margin-bottom: 40px;
+    }
+    
+    .registration-details {
+        background: var(--light-bg);
+        padding: 30px;
+        border-radius: 8px;
+        margin: 30px 0;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        text-align: left;
+    }
+    
+    .details-title {
+        color: var(--primary-color);
+        margin-top: 0;
+        font-size: 22px;
+        font-weight: 500;
+        margin-bottom: 20px;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 10px;
+    }
+    
+    .details-row {
+        display: flex;
+        margin-bottom: 15px;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+        padding-bottom: 15px;
+    }
+    
+    .details-row:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+    
+    .details-label {
+        font-weight: bold;
+        width: 150px;
+        color: var(--primary-color);
+    }
+    
+    .details-value {
+        flex: 1;
+    }
+    
+    .status-pending {
+        color: var(--pending-color);
+        font-weight: bold;
+    }
+    
+    .registration-next-steps {
+        background: #fff;
+        border: 1px solid var(--border-color);
+        padding: 25px;
+        border-radius: 8px;
+        margin: 30px 0;
+        text-align: left;
+    }
+    
+    .next-steps-title {
+        color: var(--primary-color);
+        margin-top: 0;
+        font-size: 20px;
+        font-weight: 500;
+        margin-bottom: 20px;
+    }
+    
+    .steps-list {
+        margin-left: 25px;
+        padding-left: 0;
+    }
+    
+    .steps-list li {
+        margin-bottom: 12px;
+        line-height: 1.5;
+    }
+    
+    .request-id-notice {
+        margin-top: 20px;
+        font-weight: 500;
+        color: var(--primary-color);
+    }
+    
+    .email-notice {
+        text-align: center;
+        margin: 25px 0;
+        font-size: 16px;
+    }
+    
+    .registration-actions {
+        text-align: center;
+        margin-top: 40px;
+    }
+    
+    .view-events-btn {
+        display: inline-block;
+        background-color: var(--accent-color);
+        color: white;
+        padding: 12px 30px;
+        text-decoration: none;
+        border-radius: 4px;
+        font-weight: bold;
+        transition: background-color 0.3s;
+    }
+    
+    .view-events-btn:hover {
+        background-color: #E67300;
+    }
+    
+    .message.info.empty {
+        background: #f8f8f8;
+        padding: 20px;
+        text-align: center;
+        border-radius: 4px;
+        margin: 30px 0;
+    }
+    
+    .actions-toolbar {
+        text-align: center;
+        margin-top: 20px;
+    }
+    
+    .action.primary.continue {
+        display: inline-block;
+        background-color: var(--accent-color);
+        color: white;
+        padding: 12px 30px;
+        text-decoration: none;
+        border-radius: 4px;
+        font-weight: bold;
+        transition: background-color 0.3s;
+    }
+    
+    .action.primary.continue:hover {
+        background-color: #E67300;
+    }
+    
+    @media (max-width: 767px) {
+        .details-row {
+            flex-direction: column;
+        }
+        
+        .details-label {
+            width: 100%;
+            margin-bottom: 5px;
+        }
+        
+        .registration-pending-message h1 {
+            font-size: 28px;
+        }
+        
+        .pending-title {
+            font-size: 20px;
+        }
+        
+        .confirmation-message {
+            font-size: 16px;
+        }
+    }
+</style>

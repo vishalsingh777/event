@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <!-- Top-level menu -->
+        <add id="Insead_Events::events"
+             title="INSEAD Events"
+             translate="title"
+             module="Insead_Events"
+             sortOrder="50"
+             resource="Insead_Events::events" />
+
+        <!-- Submenu: Manage Events -->
+        <add id="Insead_Events::manage_events"
+             title="Manage Events"
+             translate="title"
+             module="Insead_Events"
+             sortOrder="10"
+             parent="Insead_Events::events"
+             action="events/event"
+             resource="Insead_Events::manage_events" />
+
+        <!-- Submenu: Event Registrations -->
+        <add id="Insead_Events::registrations"
+             title="Attendee Registrations and Status"
+             translate="title"
+             module="Insead_Events"
+             sortOrder="20"
+             parent="Insead_Events::events"
+             action="events/registration"
+             resource="Insead_Events::registrations" />
+
+        <!-- Submenu: Manage Banners -->
+        <add id="Insead_Events::banners"
+             title="Manage Banners"
+             translate="title"
+             module="Insead_Events"
+             sortOrder="30"
+             parent="Insead_Events::events"
+             action="events/banner"
+             resource="Insead_Events::banner" />
+
+        <!-- Submenu: Configuration -->
+        <add id="Insead_Events::configuration"
+             title="Configuration"
+             translate="title"
+             module="Insead_Events"
+             sortOrder="99"
+             parent="Insead_Events::events"
+             action="adminhtml/system_config/edit/section/insead_events"
+             resource="Insead_Events::config" />
+    </menu>
+</config>

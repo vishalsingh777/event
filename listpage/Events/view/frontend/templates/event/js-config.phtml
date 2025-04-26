@@ -1,0 +1,23 @@
+<?php
+/**
+ * @var $block \Magento\Framework\View\Element\Template
+ * @var $viewModel \Insead\Events\ViewModel\EventsViewModel
+ */
+$viewModel = $block->getViewModel();
+?>
+<script type="text/x-magento-init">
+{
+    ".insead-events-container": {
+        "Insead_Events/js/events": {
+            "ajaxUrl": "<?= $block->escapeJs($block->getUrl('events/ajax')) ?>",
+            "currentView": "<?= $block->escapeJs($viewModel->getCurrentViewMode()) ?>",
+            "perPage": <?= (int)$viewModel->getConfigValue('insead_events/general/items_per_page') ?: 6 ?>,
+            "animationDelay": 100,
+            "calendarData": {
+                "month": <?= date('n') ?>,
+                "year": <?= date('Y') ?>
+            }
+        }
+    }
+}
+</script>

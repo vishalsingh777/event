@@ -1,0 +1,106 @@
+<?php
+/**
+ * @var $block \Insead\Events\Block\EventView
+ */
+?>
+<!-- Add viewport meta for responsive design -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+
+<div class="event-detail-container">
+    <?php 
+    $event = $block->getEvent(); 
+    if ($event):
+        // Format date objects
+        $startDateObj = new \DateTime($event->getStartDate());
+        $endDateObj = $event->getEndDate() ? new \DateTime($event->getEndDate()) : null;
+        
+        $startMonth = $startDateObj->format('M');
+        $startDay = $startDateObj->format('d');
+        $startYear = $startDateObj->format('Y');
+        
+        // Format dates for display
+        $formattedStartDate = $block->formatDate($event->getStartDate());
+        $formattedEndDate = $endDateObj ? $block->formatDate($event->getEndDate()) : $formattedStartDate;
+        
+        // Get timezone
+        $timezone = $event->getEventTimezone() ?: 'UTC';
+        
+        // Get repeat type and determine if multi-day
+        $repeat = $event->getRepeat();
+        $isMultiDay = ($repeat > 0 && $endDateObj && $startDateObj->format('Y-m-d') !== $endDateObj->format('Y-m-d'));
+        
+        // Get repeat every value (default to 1 if not set)
+        $repeatEvery = (int)$event->getRepeatEvery() ?: 1;
+        
+        // Get time slots
+        $timeSlots = $block->getFormattedTimeSlotsWithDates();
+        if (empty($timeSlots)) {
+            $timeSlots = $block->getFormattedTimeSlots();
+        }
+        $isSingleTimeSlot = (count($timeSlots) === 1);
+        $needsTimeSlotSelection = count($timeSlots) > 1;
+        
+        // Pricing info
+        $isPaidEvent = $block->isPaidEvent();
+        $eventQuantity = $block->getEventQuantity();
+        $isEventSoldOut = $eventQuantity <= 0;
+        
+        // Process selectable dates for recurring events
+        include $block->getTemplateFile('Insead_Events::event/parts/date_processor.phtml');
+    ?>
+        <!-- Banner Section -->
+        <?php include $block->getTemplateFile('Insead_Events::event/parts/banner.phtml') ?>
+
+        <div class="event-main-content">
+            <div class="event-main-content-inner">
+                <!-- Header Information -->
+                <?php include $block->getTemplateFile('Insead_Events::event/parts/header.phtml') ?>
+
+                <!-- Left Column - Event Info -->
+                <div class="event-left-column">
+                    <!-- Date and Time -->
+                    <?php include $block->getTemplateFile('Insead_Events::event/parts/date_time.phtml') ?>
+                    
+                    <!-- Price and Registration -->
+                    <?php include $block->getTemplateFile('Insead_Events::event/parts/price_register.phtml') ?>
+                    
+                    <!-- Location -->
+                    <?php include $block->getTemplateFile('Insead_Events::event/parts/location.phtml') ?>
+                    
+                    <!-- Refund Policy -->
+                    <div class="event-info-card">
+                        <h3 class="card-title"><?= $block->escapeHtml(__('Refund Policy')) ?></h3>
+                        <p><?= $block->escapeHtml(__('No Refunds')) ?></p>
+                    </div>
+                </div>
+                
+                <!-- Right Column - Event Content -->
+                <?php include $block->getTemplateFile('Insead_Events::event/parts/content.phtml') ?>
+            </div>
+        </div>
+        
+        <!-- Registration Form Modal -->
+        <?php include $block->getTemplateFile('Insead_Events::event/parts/modal.phtml') ?>
+    <?php else: ?>
+        <div class="message info empty">
+            <div><?= $block->escapeHtml(__('Event not found.')) ?></div>
+        </div>
+    <?php endif; ?>
+</div>
+
+<script type="text/x-magento-init">
+{
+    ".event-detail-container": {
+        "eventDetail": {
+            "eventId": "<?= $block->escapeJs($event->getId()) ?>",
+            "isRecurring": <?= (int)$event->getRecurring() ? 'true' : 'false' ?>,
+            "registrationType": "<?= $block->escapeJs($event->getRegistrationType()) ?>",
+            "startDate": "<?= $block->escapeJs($event->getStartDate()) ?>",
+            "endDate": "<?= $block->escapeJs($event->getEndDate()) ?>",
+            "timezone": "<?= $block->escapeJs($event->getEventTimezone() ?: 'UTC') ?>",
+            "repeatType": "<?= $block->escapeJs($repeat) ?>",
+            "customDays": <?= json_encode($event->getAvailableDays()) ?>
+        }
+    }
+}
+</script>

@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <title>INSEAD Events &amp; Programmes</title>
+        <css src="Insead_Events::css/event-list.css"/>
+        <css src="Insead_Events::css/banner.css"/>
+        <!-- Material Icons for location and event icons -->
+        <css src="https://fonts.googleapis.com/icon?family=Material+Icons" src_type="url"/>
+        <!-- Google Fonts for typography -->
+        <css src="https://fonts.googleapis.com/css2?family=Bree+Serif&amp;family=Open+Sans:wght@400;600;700&amp;display=swap" src_type="url"/>
+        <script src="Insead_Events::js/events.js"/>
+    </head>
+    <body>
+        <!-- Dynamic page title from config -->
+        <referenceBlock name="page.main.title">
+            <action method="setPageTitle">
+                <argument name="title" xsi:type="helper" helper="Insead\Events\Helper\Data::getEventsListTitle"/>
+            </action>
+        </referenceBlock>
+        
+        <!-- Add our custom content -->
+        <referenceContainer name="content">
+            <block class="Insead\Events\Block\EventList" name="events.list" template="Insead_Events::event/list.phtml">
+                <!-- Add the ViewModel -->
+                <arguments>
+                    <argument name="view_model" xsi:type="object">Insead\Events\ViewModel\EventsViewModel</argument>
+                </arguments>
+                
+                <!-- Add Banner Block -->
+                <block class="Insead\Events\Block\Banner" name="events.banner" template="Insead_Events::event/banner.phtml"/>
+                
+                <!-- Add Js Config -->
+                <block class="Magento\Framework\View\Element\Template" name="events.js.config" template="Insead_Events::event/js-config.phtml">
+                    <arguments>
+                        <argument name="view_model" xsi:type="object">Insead\Events\ViewModel\EventsViewModel</argument>
+                    </arguments>
+                </block>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

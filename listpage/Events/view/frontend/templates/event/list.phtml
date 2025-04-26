@@ -1,0 +1,916 @@
+<?php
+/**
+ * @var $block \Insead\Events\Block\EventList
+ * @var $viewModel \Insead\Events\ViewModel\EventsViewModel
+ */
+$viewModel = $block->getViewModel();
+?>
+
+<div class="insead-events-container">
+    <!-- Hero Banner (using system configuration) -->
+    <?php if ($viewModel->shouldShowSection('hero')): ?>
+        <?php $heroConfig = $viewModel->getHeroConfig(); ?>
+        <div class="events-hero">
+            <div class="hero-overlay"></div>
+            <?php if (isset($heroConfig['background_image']) && $heroConfig['background_image']): ?>
+                <style>
+                    .events-hero {
+                        background-image: url('<?= $block->escapeUrl($viewModel->getMediaUrl() . 'insead_events/hero/' . $heroConfig['background_image']) ?>');
+                    }
+                </style>
+            <?php endif; ?>
+            <div class="hero-content">
+                <h1 class="hero-title"><?= $block->escapeHtml($heroConfig['title']) ?></h1>
+                <p class="hero-subtitle"><?= $block->escapeHtml($heroConfig['subtitle']) ?></p>
+                <?php if (isset($heroConfig['show_search']) && $heroConfig['show_search']): ?>
+                <div class="hero-search">
+                    <input type="text" id="hero-search-input" placeholder="<?= $block->escapeHtml(__('Search for events...')) ?>" />
+                    <button type="button" class="hero-search-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    </button>
+                </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <!-- Filter Panel -->
+    <div class="filter-panel">
+        <div class="filter-group">
+            <label for="filter-date">Date</label>
+            <select id="filter-date" class="filter-select" data-param="date">
+                <option value="all" <?= $viewModel->getRequestParam('date') === 'all' || !$viewModel->getRequestParam('date') ? 'selected' : '' ?>>All Dates</option>
+                <option value="today" <?= $viewModel->getRequestParam('date') === 'today' ? 'selected' : '' ?>>Today</option>
+                <option value="this-week" <?= $viewModel->getRequestParam('date') === 'this-week' ? 'selected' : '' ?>>This Week</option>
+                <option value="this-month" <?= $viewModel->getRequestParam('date') === 'this-month' ? 'selected' : '' ?>>This Month</option>
+                <option value="next-month" <?= $viewModel->getRequestParam('date') === 'next-month' ? 'selected' : '' ?>>Next Month</option>
+                <option value="custom" <?= $viewModel->getRequestParam('date') === 'custom' ? 'selected' : '' ?>>Custom Range</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label for="filter-category">Category</label>
+            <select id="filter-category" class="filter-select" data-param="category">
+                <option value="all" <?= $viewModel->getRequestParam('category') === 'all' || !$viewModel->getRequestParam('category') ? 'selected' : '' ?>>All Categories</option>
+                <?php foreach ($viewModel->getCategories() as $categoryId => $category): ?>
+                <option value="<?= $categoryId ?>" <?= $viewModel->getRequestParam('category') == $categoryId ? 'selected' : '' ?>><?= $block->escapeHtml($category['name']) ?> (<?= $category['count'] ?>)</option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label for="filter-campus">Campus</label>
+            <select id="filter-campus" class="filter-select" data-param="campus">
+                <option value="all" <?= $viewModel->getRequestParam('campus') === 'all' || !$viewModel->getRequestParam('campus') ? 'selected' : '' ?>>All Campuses</option>
+                <?php foreach ($viewModel->getCampuses() as $campusId => $campus): ?>
+                <option value="<?= $campusId ?>" <?= $viewModel->getRequestParam('campus') == $campusId ? 'selected' : '' ?>><?= $block->escapeHtml($campus['name']) ?> (<?= $campus['count'] ?>)</option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
+        <div class="filter-group view-toggle">
+            <span class="toggle-label">View:</span>
+            <div class="toggle-buttons">
+                <button class="toggle-btn <?= $viewModel->getCurrentViewMode() === 'grid' ? 'active' : '' ?>" data-view="grid" data-url="<?= $block->getUrl('*/*/*', ['_current' => true, 'view' => 'grid']) ?>">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                </button>
+                <button class="toggle-btn <?= $viewModel->getCurrentViewMode() === 'calendar' ? 'active' : '' ?>" data-view="calendar" data-url="<?= $block->getUrl('*/*/*', ['_current' => true, 'view' => 'calendar']) ?>">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                </button>
+                <button class="toggle-btn <?= $viewModel->getCurrentViewMode() === 'list' ? 'active' : '' ?>" data-view="list" data-url="<?= $block->getUrl('*/*/*', ['_current' => true, 'view' => 'list']) ?>">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <?php $events = $viewModel->getEvents(); ?>
+    <?php if ($events && count($events)): ?>
+    
+    <!-- Featured Events -->
+    <?php if ($viewModel->shouldShowSection('featured')): ?>
+    <div class="events-section">
+        <h2 class="section-title"><?= $block->escapeHtml(__('Featured Events')) ?></h2>
+        
+        <div class="featured-events">
+            <?php 
+            $featuredCount = (int)$viewModel->getConfigValue('insead_events/display/featured_count') ?: 3;
+            $featuredEvents = $viewModel->getFeaturedEvents($featuredCount);
+            foreach ($featuredEvents as $index => $event): 
+                $startDate = new \DateTime($event->getStartDate());
+                
+                // Get actual category data
+                $categoryId = $event->getCategoryId();
+                $categories = $viewModel->getCategories();
+                $categoryClass = isset($categories[$categoryId]) ? $categories[$categoryId]['code'] : 'default';
+                $categoryLabel = isset($categories[$categoryId]) ? $categories[$categoryId]['name'] : 'Event';
+                
+                // Campus/venue handling
+                $locationIcon = $event->getEventVenue() ? 'location_on' : 'videocam';
+                $locationText = $event->getEventVenue() ?: 'Online Event';
+                
+                // Featured hero event
+                if ($index === 0):
+            ?>
+                <div class="featured-event-hero">
+                    <div class="featured-image">
+                        <img src="<?= $block->escapeUrl($viewModel->getEventImageUrl($event, 'event-featured-hero.jpg')) ?>" alt="<?= $block->escapeHtml($event->getEventTitle()) ?>">
+                        <div class="featured-date">
+                            <span class="date-day"><?= $startDate->format('d') ?></span>
+                            <span class="date-month"><?= $startDate->format('M') ?></span>
+                        </div>
+                    </div>
+                    <div class="featured-content">
+                        <div class="featured-meta">
+                            <span class="event-category <?= $categoryClass ?>"><?= $block->escapeHtml($categoryLabel) ?></span>
+                            <span class="featured-badge"><?= $block->escapeHtml(__('Featured')) ?></span>
+                        </div>
+                        <h3 class="featured-title"><a href="<?= $viewModel->getEventUrl($event) ?>"><?= $block->escapeHtml($event->getEventTitle()) ?></a></h3>
+                        <div class="featured-details">
+                            <div class="detail-item">
+                                <i class="material-icons"><?= $locationIcon ?></i>
+                                <span><?= $block->escapeHtml($locationText) ?></span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="material-icons">event</i>
+                                <span><?= $viewModel->formatDate($event->getStartDate()) ?></span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="material-icons">access_time</i>
+                                <span><?= $viewModel->formatEventTime($event->getStartDate()) ?></span>
+                            </div>
+                        </div>
+                        <div class="featured-description">
+                            <?php 
+                                // Extract a short description from content or use a placeholder
+                                $content = $event->getContent() ?? ''; 
+                                $plainText = strip_tags($content);
+                                $shortDesc = substr($plainText, 0, 150) . (strlen($plainText) > 150 ? '...' : '');
+                                echo $block->escapeHtml($shortDesc);
+                            ?>
+                        </div>
+                        <a href="<?= $viewModel->getEventUrl($event) ?>" class="featured-button"><?= $block->escapeHtml(__('View Details')) ?></a>
+                    </div>
+                </div>
+            <?php else: ?>
+                <!-- Secondary featured events -->
+                <div class="featured-event-card">
+                    <div class="card-image">
+                        <img src="<?= $block->escapeUrl($viewModel->getEventImageUrl($event, 'event-featured-' . ($index + 1) . '.jpg')) ?>" alt="<?= $block->escapeHtml($event->getEventTitle()) ?>">
+                        <div class="card-date">
+                            <span class="date-day"><?= $startDate->format('d') ?></span>
+                            <span class="date-month"><?= $startDate->format('M') ?></span>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <span class="event-category <?= $categoryClass ?>"><?= $block->escapeHtml($categoryLabel) ?></span>
+                        <h3 class="card-title"><a href="<?= $viewModel->getEventUrl($event) ?>"><?= $block->escapeHtml($event->getEventTitle()) ?></a></h3>
+                        <div class="card-details">
+                            <div class="detail-item">
+                                <i class="material-icons"><?= $locationIcon ?></i>
+                                <span><?= $block->escapeHtml($locationText) ?></span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="material-icons">event</i>
+                                <span><?= $viewModel->formatDate($event->getStartDate()) ?></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
+            <?php endforeach; ?>
+        </div>
+    </div>
+    <?php endif; ?>
+    
+    <!-- Upcoming Events -->
+    <div class="events-section">
+        <div class="section-header">
+            <h2 class="section-title"><?= $block->escapeHtml(__('Upcoming Events')) ?></h2>
+            <a href="<?= $block->getUrl('events') ?>" class="view-all"><?= $block->escapeHtml(__('View All')) ?> <i class="material-icons">arrow_forward</i></a>
+        </div>
+        
+        <div class="events-grid">
+            <?php 
+            $upcomingEvents = $viewModel->getUpcomingEvents(6);
+            foreach ($upcomingEvents as $event): 
+                $startDate = new \DateTime($event->getStartDate());
+                
+                // Get actual category data
+                $categoryId = $event->getCategoryId();
+                $categories = $viewModel->getCategories();
+                $categoryClass = isset($categories[$categoryId]) ? $categories[$categoryId]['code'] : 'default';
+                $categoryLabel = isset($categories[$categoryId]) ? $categories[$categoryId]['name'] : 'Event';
+                
+                // Campus/venue handling
+                $locationIcon = $event->getEventVenue() ? 'location_on' : 'videocam';
+                $locationText = $event->getEventVenue() ?: 'Online Event';
+            ?>
+            <div class="event-card">
+                <div class="card-image">
+                    <img src="<?= $block->escapeUrl($viewModel->getEventImageUrl($event)) ?>" alt="<?= $block->escapeHtml($event->getEventTitle()) ?>">
+                    <div class="card-date">
+                        <span class="date-day"><?= $startDate->format('d') ?></span>
+                        <span class="date-month"><?= $startDate->format('M') ?></span>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <span class="event-category <?= $categoryClass ?>"><?= $block->escapeHtml($categoryLabel) ?></span>
+                    <h3 class="card-title"><a href="<?= $viewModel->getEventUrl($event) ?>"><?= $block->escapeHtml($event->getEventTitle()) ?></a></h3>
+                    <div class="card-details">
+                        <div class="detail-item">
+                            <i class="material-icons"><?= $locationIcon ?></i>
+                            <span><?= $block->escapeHtml($locationText) ?></span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="material-icons">event</i>
+                            <span><?= $viewModel->formatDate($event->getStartDate()) ?></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+    
+    <!-- Events By Category -->
+    <?php if ($viewModel->shouldShowSection('categories')): ?>
+    <div class="events-section">
+        <div class="section-header">
+            <h2 class="section-title"><?= $block->escapeHtml(__('Browse By Category')) ?></h2>
+        </div>
+        
+        <div class="category-grid">
+            <?php foreach ($viewModel->getCategories() as $categoryId => $category): 
+                $icon = $category['icon'] ?: 'event';
+            ?>
+            <a href="<?= $block->getUrl('events', ['category' => $categoryId]) ?>" class="category-card <?= $category['code'] ?>">
+                <div class="category-icon">
+                    <i class="material-icons"><?= $icon ?></i>
+                </div>
+                <h3 class="category-title"><?= $block->escapeHtml($category['name']) ?></h3>
+                <span class="event-count"><?= $category['count'] ?> <?= $block->escapeHtml($category['count'] == 1 ? __('event') : __('events')) ?></span>
+            </a>
+            <?php endforeach; ?>
+        </div>
+    </div>
+    <?php endif; ?>
+    
+    <!-- Campus Events Section -->
+    <?php if ($viewModel->shouldShowSection('campus')): ?>
+    <div class="events-section">
+        <div class="section-header">
+            <h2 class="section-title"><?= $block->escapeHtml(__('Events By Campus')) ?></h2>
+        </div>
+        
+        <div class="campus-tabs">
+            <div class="tab-nav">
+                <button class="tab-btn active" data-campus="all"><?= $block->escapeHtml(__('All Campuses')) ?></button>
+                <?php foreach ($viewModel->getCampuses() as $campusId => $campus): ?>
+                <button class="tab-btn" data-campus="<?= $campusId ?>"><?= $block->escapeHtml($campus['name']) ?></button>
+                <?php endforeach; ?>
+            </div>
+            
+            <div class="tab-content">
+                <div class="event-list active" data-campus="all">
+                    <?php 
+                    $campusEvents = $viewModel->getEvents()->setPageSize(4);
+                    foreach ($campusEvents as $event): 
+                        $startDate = new \DateTime($event->getStartDate());
+                        
+                        // Get actual category data
+                        $categoryId = $event->getCategoryId();
+                        $categories = $viewModel->getCategories();
+                        $categoryClass = isset($categories[$categoryId]) ? $categories[$categoryId]['code'] : 'default';
+                        $categoryLabel = isset($categories[$categoryId]) ? $categories[$categoryId]['name'] : 'Event';
+                        
+                        // Campus/venue handling
+                        $locationIcon = $event->getEventVenue() ? 'location_on' : 'videocam';
+                        $locationText = $event->getEventVenue() ?: 'Online Event';
+                    ?>
+                    <div class="event-list-item">
+                        <div class="list-date">
+                            <span class="date-day"><?= $startDate->format('d') ?></span>
+                            <span class="date-month"><?= $startDate->format('M') ?></span>
+                        </div>
+                        <div class="list-content">
+                            <span class="event-category <?= $categoryClass ?>"><?= $block->escapeHtml($categoryLabel) ?></span>
+                            <h3 class="list-title"><a href="<?= $viewModel->getEventUrl($event) ?>"><?= $block->escapeHtml($event->getEventTitle()) ?></a></h3>
+                            <div class="list-details">
+                                <div class="detail-item">
+                                    <i class="material-icons"><?= $locationIcon ?></i>
+                                    <span><?= $block->escapeHtml($locationText) ?></span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="material-icons">access_time</i>
+                                    <span><?= $viewModel->formatEventTime($event->getStartDate()) ?></span>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="<?= $viewModel->getEventUrl($event) ?>" class="list-button">
+                            <i class="material-icons">arrow_forward</i>
+                        </a>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+                
+                <?php foreach ($viewModel->getCampuses() as $campusId => $campus): ?>
+                <div class="event-list" data-campus="<?= $campusId ?>">
+                    <?php 
+                    $campusSpecificEvents = $viewModel->getEventsByCampus($campusId, 4);
+                    if ($campusSpecificEvents->count() > 0): 
+                        foreach ($campusSpecificEvents as $event): 
+                            $startDate = new \DateTime($event->getStartDate());
+                            
+                            // Get actual category data
+                            $categoryId = $event->getCategoryId();
+                            $categories = $viewModel->getCategories();
+                            $categoryClass = isset($categories[$categoryId]) ? $categories[$categoryId]['code'] : 'default';
+                            $categoryLabel = isset($categories[$categoryId]) ? $categories[$categoryId]['name'] : 'Event';
+                            
+                            // Campus/venue handling
+                            $locationIcon = $event->getEventVenue() ? 'location_on' : 'videocam';
+                            $locationText = $event->getEventVenue() ?: 'Online Event';
+                    ?>
+                    <div class="event-list-item">
+                        <div class="list-date">
+                            <span class="date-day"><?= $startDate->format('d') ?></span>
+                            <span class="date-month"><?= $startDate->format('M') ?></span>
+                        </div>
+                        <div class="list-content">
+                            <span class="event-category <?= $categoryClass ?>"><?= $block->escapeHtml($categoryLabel) ?></span>
+                            <h3 class="list-title"><a href="<?= $viewModel->getEventUrl($event) ?>"><?= $block->escapeHtml($event->getEventTitle()) ?></a></h3>
+                            <div class="list-details">
+                                <div class="detail-item">
+                                    <i class="material-icons"><?= $locationIcon ?></i>
+                                    <span><?= $block->escapeHtml($locationText) ?></span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="material-icons">access_time</i>
+                                    <span><?= $viewModel->formatEventTime($event->getStartDate()) ?></span>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="<?= $viewModel->getEventUrl($event) ?>" class="list-button">
+                            <i class="material-icons">arrow_forward</i>
+                        </a>
+                    </div>
+                    <?php endforeach; ?>
+                    <?php else: ?>
+                    <div class="campus-placeholder">
+                        <?php if ($campus['image']): ?>
+                        <img src="<?= $block->escapeUrl($viewModel->getMediaUrl() . 'insead_events/campus/' . $campus['image']) ?>" alt="<?= $block->escapeHtml($campus['name']) ?> Campus">
+                        <?php else: ?>
+                        <img src="<?= $block->escapeUrl($viewModel->getViewFileUrl('Insead_Events::images/' . $campus['code'] . '-campus.jpg')) ?>" alt="<?= $block->escapeHtml($campus['name']) ?> Campus">
+                        <?php endif; ?>
+                        <h3><?= $block->escapeHtml($campus['name']) ?> Campus Events</h3>
+                        <p><?= $block->escapeHtml($campus['description'] ?: __('View our upcoming events at the %1 campus.', $campus['name'])) ?></p>
+                    </div>
+                    <?php endif; ?>
+                </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+    <?php endif; ?>
+    
+    <!-- Calendar Section -->
+    <?php if ($viewModel->shouldShowSection('calendar')): ?>
+    <?php 
+    // Make sure we have calendar data
+    $calendarData = $viewModel->getCalendarData() ?: [
+        'month' => (int)date('m'),
+        'year' => (int)date('Y'),
+        'monthName' => date('F'),
+        'weeks' => []
+    ];
+    ?>
+    <div class="events-section calendar-section">
+        <div class="section-header">
+            <h2 class="section-title"><?= $block->escapeHtml(__('Events Calendar')) ?></h2>
+            <a href="<?= $block->getUrl('events', ['view' => 'calendar']) ?>" class="view-all"><?= $block->escapeHtml(__('View Full Calendar')) ?> <i class="material-icons">calendar_month</i></a>
+        </div>
+        
+        <div class="calendar-preview">
+            <div class="calendar-nav">
+                <button class="calendar-nav-btn" data-action="prev-month">
+                    <i class="material-icons">chevron_left</i>
+                </button>
+                <h3 class="calendar-month" data-month="<?= $calendarData['month'] ?>" data-year="<?= $calendarData['year'] ?>"><?= $calendarData['monthName'] ?> <?= $calendarData['year'] ?></h3>
+                <button class="calendar-nav-btn" data-action="next-month">
+                    <i class="material-icons">chevron_right</i>
+                </button>
+            </div>
+            
+            <div class="calendar-grid">
+                <div class="calendar-header">
+                    <div class="calendar-cell"><?= $block->escapeHtml(__('Mon')) ?></div>
+                    <div class="calendar-cell"><?= $block->escapeHtml(__('Tue')) ?></div>
+                    <div class="calendar-cell"><?= $block->escapeHtml(__('Wed')) ?></div>
+                    <div class="calendar-cell"><?= $block->escapeHtml(__('Thu')) ?></div>
+                    <div class="calendar-cell"><?= $block->escapeHtml(__('Fri')) ?></div>
+                    <div class="calendar-cell"><?= $block->escapeHtml(__('Sat')) ?></div>
+                    <div class="calendar-cell"><?= $block->escapeHtml(__('Sun')) ?></div>
+                </div>
+                
+                <div class="calendar-body">
+                    <?php if (!empty($calendarData['weeks'])): ?>
+                        <?php foreach ($calendarData['weeks'] as $week): ?>
+                            <?php foreach ($week as $day): ?>
+                                <?php 
+                                    $cellClass = [];
+                                    if (!$day['current']) $cellClass[] = 'disabled';
+                                    if ($day['events'] > 0) $cellClass[] = 'has-event';
+                                    if (isset($day['isToday']) && $day['isToday']) $cellClass[] = 'active';
+                                ?>
+                                <div class="calendar-cell <?= implode(' ', $cellClass) ?>" data-date="<?= $day['date'] ?>">
+                                    <?= $day['day'] ?>
+                                    <?php if ($day['events'] > 0): ?>
+                                        <?php 
+                                            // Get events for this day to display the category dots
+                                            $dayEvents = $viewModel->getEventsByDate($day['date']);
+                                            $categories = [];
+                                            foreach ($dayEvents as $event) {
+                                                if ($event->getCategoryId() && !in_array($event->getCategoryId(), $categories)) {
+                                                    $categories[] = $event->getCategoryId();
+                                                }
+                                            }
+                                            
+                                            // Limit to 3 category dots
+                                            $categories = array_slice($categories, 0, 3);
+                                            
+                                            foreach ($categories as $catId):
+                                                $catData = isset($viewModel->getCategories()[$catId]) ? $viewModel->getCategories()[$catId] : null;
+                                                if ($catData):
+                                        ?>
+                                        <span class="event-dot <?= $catData['code'] ?>"></span>
+                                        <?php 
+                                                endif;
+                                            endforeach; 
+                                        ?>
+                                    <?php endif; ?>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <?php for ($i = 0; $i < 35; $i++): ?>
+                            <div class="calendar-cell disabled">&nbsp;</div>
+                        <?php endfor; ?>
+                    <?php endif; ?>
+                </div>
+            </div>
+            
+            <div class="today-events">
+                <?php 
+                $today = date('Y-m-d');
+                $todayEvents = $viewModel->getTodayEvents();
+                ?>
+                <h4><?= $block->escapeHtml(__('Events on %1', date('F j, Y'))) ?></h4>
+                <div class="today-event-list">
+                    <?php if ($todayEvents->count() > 0): ?>
+                        <?php foreach ($todayEvents as $event): 
+                            $startDate = new \DateTime($event->getStartDate());
+                            
+                            // Get actual category data
+                            $categoryId = $event->getCategoryId();
+                            $categories = $viewModel->getCategories();
+                            $categoryClass = isset($categories[$categoryId]) ? $categories[$categoryId]['code'] : 'default';
+                            
+                            // Location
+                            $locationIcon = $event->getEventVenue() ? 'location_on' : 'videocam';
+                            $locationText = $event->getEventVenue() ?: 'Online Event';
+                        ?>
+                        <div class="today-event-item">
+                            <span class="event-time"><?= $viewModel->formatEventTime($event->getStartDate()) ?><?php if ($event->getEndDate()): ?> - <?= $viewModel->formatEventTime($event->getEndDate()) ?><?php endif; ?></span>
+                            <div class="event-info">
+                                <h5 class="event-name"><?= $block->escapeHtml($event->getEventTitle()) ?></h5>
+                                <span class="event-location"><i class="material-icons"><?= $locationIcon ?></i> <?= $block->escapeHtml($locationText) ?></span>
+                            </div>
+                            <span class="event-category-indicator <?= $categoryClass ?>"></span>
+                        </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <div class="no-events-today">
+                            <p><?= $block->escapeHtml(__('No events scheduled for today.')) ?></p>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php endif; ?>
+    
+    <?php else: ?>
+    <!-- Empty state -->
+    <div class="events-empty">
+        <div class="empty-icon">
+            <i class="material-icons">event_busy</i>
+        </div>
+        <h3 class="empty-title"><?= $block->escapeHtml(__('No Events Found')) ?></h3>
+        <p class="empty-message"><?= $block->escapeHtml(__('There are no events scheduled at this time. Please check back soon for upcoming events.')) ?></p>
+    </div>
+    <?php endif; ?>
+    
+    <!-- Newsletter Signup -->
+    <?php if ($viewModel->shouldShowSection('newsletter')): ?>
+    <div class="newsletter-section">
+        <div class="newsletter-content">
+            <h2 class="newsletter-title"><?= $block->escapeHtml(__('Stay Updated on INSEAD Events')) ?></h2>
+            <p class="newsletter-text"><?= $block->escapeHtml(__('Subscribe to our events newsletter to receive notifications about upcoming events, programmes, and opportunities.')) ?></p>
+            <form class="newsletter-form" action="<?= $block->getUrl('newsletter/subscriber/new') ?>" method="post">
+                <?= $block->getBlockHtml('formkey') ?>
+                <input type="email" name="email" placeholder="<?= $block->escapeHtml(__('Your email address')) ?>" required>
+                <button type="submit" class="btn-subscribe"><?= $block->escapeHtml(__('Subscribe')) ?></button>
+            </form>
+        </div>
+    </div>
+    <?php endif; ?>
+</div>
+
+<?= $block->getChildHtml('events.js.config') ?>
+
+<script type="text/javascript">
+    require([ 
+        'jquery',
+        'mage/url',
+        'mage/translate'
+    ], function($, url, $t) {
+        $(document).ready(function() {
+            // Check if the current environment is local for development purposes
+            var isLocalEnvironment = (
+                window.location.hostname === 'localhost' || 
+                window.location.hostname === '127.0.0.1' ||
+                window.location.hostname.includes('.local') ||
+                window.location.hostname.includes('.test')
+            );
+            
+            // Log environment information if in local mode
+            if (isLocalEnvironment) {
+                console.log('Running in local/development environment');
+            }
+            
+            // Filter panel functionality
+            $('.filter-select').on('change', function() {
+                var params = {};
+                
+                // Collect all filter values
+                $('.filter-select').each(function() {
+                    var param = $(this).data('param');
+                    var value = $(this).val();
+                    
+                    if (value && value !== 'all') {
+                        params[param] = value;
+                    }
+                });
+                
+                // Add current view mode
+                var currentView = $('.toggle-btn.active').data('view');
+                if (currentView) {
+                    params['view'] = currentView;
+                }
+                
+                // Build the URL
+                var filterUrl = url.build('events');
+                
+                // Redirect to filtered URL
+                window.location.href = filterUrl + (Object.keys(params).length > 0 ? '?' + $.param(params) : '');
+            });
+            
+            // View toggle functionality
+            $('.toggle-btn').on('click', function() {
+                var viewUrl = $(this).data('url');
+                if (viewUrl) {
+                    window.location.href = viewUrl;
+                }
+            });
+            
+            // Campus tabs functionality
+            $('.tab-btn').on('click', function() {
+                var campus = $(this).data('campus');
+                $('.tab-btn').removeClass('active');
+                $(this).addClass('active');
+                
+                $('.event-list').removeClass('active');
+                $('.event-list[data-campus="' + campus + '"]').addClass('active');
+            });
+            
+            // Calendar cell click functionality
+            $('.calendar-cell').on('click', function() {
+                if (!$(this).hasClass('disabled')) {
+                    $('.calendar-cell').removeClass('active');
+                    $(this).addClass('active');
+                    
+                    var date = $(this).data('date');
+                    if (date) {
+                        // AJAX request to load events for the selected date
+                        $.ajax({
+                            url: url.build('events/ajax/calendar'),
+                            data: { date: date },
+                            type: 'GET',
+                            dataType: 'json',
+                            success: function(response) {
+                                if (response.success) {
+                                    // Update the today's events section with the response data
+                                    var dateObj = new Date(date);
+                                    var options = { year: 'numeric', month: 'long', day: 'numeric' };
+                                    var formattedDate = dateObj.toLocaleDateString('en-US', options);
+                                    
+                                    $('.today-events h4').text($t('Events on %1').replace('%1', formattedDate));
+                                    
+                                    if (response.events && response.events.length > 0) {
+                                        var eventsHtml = '';
+                                        $.each(response.events, function(index, event) {
+                                            eventsHtml += '<div class="today-event-item">';
+                                            eventsHtml += '<span class="event-time">' + event.time + '</span>';
+                                            eventsHtml += '<div class="event-info">';
+                                            eventsHtml += '<h5 class="event-name">' + event.title + '</h5>';
+                                            eventsHtml += '<span class="event-location"><i class="material-icons">' + event.location_icon + '</i> ' + event.location + '</span>';
+                                            eventsHtml += '</div>';
+                                            eventsHtml += '<span class="event-category-indicator ' + event.category_class + '"></span>';
+                                            eventsHtml += '</div>';
+                                        });
+                                        $('.today-event-list').html(eventsHtml);
+                                    } else {
+                                        $('.today-event-list').html('<div class="no-events-today"><p>' + $t('No events scheduled for this date.') + '</p></div>');
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+            
+            // Calendar navigation
+            $('.calendar-nav-btn').on('click', function() {
+                var action = $(this).data('action');
+                // Get current month/year from the DOM or use defaults
+                var currentMonth = parseInt($('.calendar-month').data('month') || <?= date('n') ?>);
+                var currentYear = parseInt($('.calendar-month').data('year') || <?= date('Y') ?>);
+                
+                var newMonth, newYear;
+                
+                if (action === 'prev-month') {
+                    newMonth = currentMonth === 1 ? 12 : currentMonth - 1;
+                    newYear = currentMonth === 1 ? currentYear - 1 : currentYear;
+                } else {
+                    newMonth = currentMonth === 12 ? 1 : currentMonth + 1;
+                    newYear = currentMonth === 12 ? currentYear + 1 : currentYear;
+                }
+                
+                // AJAX request to load new calendar data
+                $.ajax({
+                    url: url.build('events/ajax/calendar'),
+                    data: { month: newMonth, year: newYear, format: 'calendar' },
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            // Update calendar month header
+                            $('.calendar-month')
+                                .text(response.calendar.monthName + ' ' + response.calendar.year)
+                                .data('month', response.calendar.month)
+                                .data('year', response.calendar.year);
+                            
+                            // Update calendar grid
+                            var calendarHtml = '';
+                            $.each(response.calendar.weeks, function(weekIndex, week) {
+                                $.each(week, function(dayIndex, day) {
+                                    var cellClass = [];
+                                    if (!day.current) cellClass.push('disabled');
+                                    if (day.events > 0) cellClass.push('has-event');
+                                    if (day.isToday) cellClass.push('active');
+                                    
+                                    calendarHtml += '<div class="calendar-cell ' + cellClass.join(' ') + '" data-date="' + day.date + '">';
+                                    calendarHtml += day.day;
+                                    
+                                    if (day.events > 0 && day.eventCategories) {
+                                        $.each(day.eventCategories, function(i, category) {
+                                            calendarHtml += '<span class="event-dot ' + category.code + '"></span>';
+                                        });
+                                    }
+                                    
+                                    calendarHtml += '</div>';
+                                });
+                            });
+                            
+                            $('.calendar-body').html(calendarHtml);
+                            
+                            // Re-attach click event to new calendar cells
+                            $('.calendar-cell').on('click', function() {
+                                if (!$(this).hasClass('disabled')) {
+                                    $('.calendar-cell').removeClass('active');
+                                    $(this).addClass('active');
+                                    
+                                    var date = $(this).data('date');
+                                    if (date) {
+                                        // Use the same AJAX handler as above
+                                        $.ajax({
+                                            url: url.build('events/ajax/calendar'),
+                                            data: { date: date },
+                                            type: 'GET',
+                                            dataType: 'json',
+                                            success: function(response) {
+                                                if (response.success) {
+                                                    // Update the today's events section with the response data
+                                                    var dateObj = new Date(date);
+                                                    var options = { year: 'numeric', month: 'long', day: 'numeric' };
+                                                    var formattedDate = dateObj.toLocaleDateString('en-US', options);
+                                                    
+                                                    $('.today-events h4').text($t('Events on %1').replace('%1', formattedDate));
+                                                    
+                                                    if (response.events && response.events.length > 0) {
+                                                        var eventsHtml = '';
+                                                        $.each(response.events, function(index, event) {
+                                                            eventsHtml += '<div class="today-event-item">';
+                                                            eventsHtml += '<span class="event-time">' + event.time + '</span>';
+                                                            eventsHtml += '<div class="event-info">';
+                                                            eventsHtml += '<h5 class="event-name">' + event.title + '</h5>';
+                                                            eventsHtml += '<span class="event-location"><i class="material-icons">' + event.location_icon + '</i> ' + event.location + '</span>';
+                                                            eventsHtml += '</div>';
+                                                            eventsHtml += '<span class="event-category-indicator ' + event.category_class + '"></span>';
+                                                            eventsHtml += '</div>';
+                                                        });
+                                                        $('.today-event-list').html(eventsHtml);
+                                                    } else {
+                                                        $('.today-event-list').html('<div class="no-events-today"><p>' + $t('No events scheduled for this date.') + '</p></div>');
+                                                    }
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+            });
+            
+            // Hero search functionality
+            $('#hero-search-input').on('keyup', function(e) {
+                var searchTerm = $(this).val().toLowerCase();
+                
+                if (e.keyCode === 13 && searchTerm.length > 0) {
+                    // Redirect to search results page
+                    window.location.href = url.build('events') + '?search=' + encodeURIComponent(searchTerm);
+                }
+            });
+            
+            // Smooth appearance animation for cards
+            $('.event-card, .featured-event-card, .featured-event-hero, .event-list-item, .category-card').each(function(index) {
+                var $this = $(this);
+                setTimeout(function() {
+                    $this.addClass('appear');
+                }, index * 100);
+            });
+            
+            // Responsive menu toggle for campus tabs on mobile
+            $(window).on('resize', function() {
+                if ($(window).width() < 768) {
+                    if (!$('.tab-nav').hasClass('mobile-ready')) {
+                        $('.tab-nav').addClass('mobile-ready');
+                        $('.tab-nav').before('<div class="mobile-tab-toggle">' + $t('Select Campus') + ' <i class="material-icons">keyboard_arrow_down</i></div>');
+                    }
+                } else {
+                    $('.tab-nav').removeClass('mobile-ready');
+                    $('.mobile-tab-toggle').remove();
+                }
+            }).trigger('resize');
+            
+            // Mobile tab toggle click handler
+            $(document).on('click', '.mobile-tab-toggle', function() {
+                $('.tab-nav').toggleClass('mobile-expanded');
+            });
+            
+            // Date range functionality for custom date filter
+            if ($('#filter-date').val() === 'custom') {
+                // If custom range is selected, show date pickers
+                if ($('.date-range-picker').length === 0) {
+                    var dateRangeHtml = '<div class="date-range-picker">';
+                    dateRangeHtml += '<div class="date-from"><label>' + $t('From') + '</label><input type="date" id="date-from" name="from" value=""></div>';
+                    dateRangeHtml += '<div class="date-to"><label>' + $t('To') + '</label><input type="date" id="date-to" name="to" value=""></div>';
+                    dateRangeHtml += '<button type="button" class="apply-date-range">' + $t('Apply') + '</button>';
+                    dateRangeHtml += '</div>';
+                    
+                    $('#filter-date').after(dateRangeHtml);
+                    
+                    // Set values from URL if they exist
+                    var urlParams = new URLSearchParams(window.location.search);
+                    if (urlParams.has('from')) {
+                        $('#date-from').val(urlParams.get('from'));
+                    } else {
+                        // Set default date (today)
+                        $('#date-from').val(new Date().toISOString().slice(0, 10));
+                    }
+                    
+                    if (urlParams.has('to')) {
+                        $('#date-to').val(urlParams.get('to'));
+                    } else {
+                        // Set default date (30 days from now)
+                        var futureDate = new Date();
+                        futureDate.setDate(futureDate.getDate() + 30);
+                        $('#date-to').val(futureDate.toISOString().slice(0, 10));
+                    }
+                    
+                    // Handle date range application
+                    $('.apply-date-range').on('click', function() {
+                        var params = {};
+                        
+                        // Collect all filter values
+                        $('.filter-select').each(function() {
+                            var param = $(this).data('param');
+                            var value = $(this).val();
+                            
+                            if (value && value !== 'all') {
+                                params[param] = value;
+                            }
+                        });
+                        
+                        // Add date range parameters
+                        if ($('#date-from').val()) {
+                            params['from'] = $('#date-from').val();
+                        }
+                        
+                        if ($('#date-to').val()) {
+                            params['to'] = $('#date-to').val();
+                        }
+                        
+                        // Add current view mode
+                        var currentView = $('.toggle-btn.active').data('view');
+                        if (currentView) {
+                            params['view'] = currentView;
+                        }
+                        
+                        // Build the URL
+                        var filterUrl = url.build('events');
+                        
+                        // Redirect to filtered URL
+                        window.location.href = filterUrl + (Object.keys(params).length > 0 ? '?' + $.param(params) : '');
+                    });
+                }
+            }
+            
+            // Listen for changes on date filter
+            $('#filter-date').on('change', function() {
+                if ($(this).val() === 'custom') {
+                    // Show date range picker
+                    var dateRangeHtml = '<div class="date-range-picker">';
+                    dateRangeHtml += '<div class="date-from"><label>' + $t('From') + '</label><input type="date" id="date-from" name="from"></div>';
+                    dateRangeHtml += '<div class="date-to"><label>' + $t('To') + '</label><input type="date" id="date-to" name="to"></div>';
+                    dateRangeHtml += '<button type="button" class="apply-date-range">' + $t('Apply') + '</button>';
+                    dateRangeHtml += '</div>';
+                    
+                    if ($('.date-range-picker').length === 0) {
+                        $(this).after(dateRangeHtml);
+                        
+                        // Set default dates (today and 30 days from now)
+                        var today = new Date();
+                        var futureDate = new Date();
+                        futureDate.setDate(today.getDate() + 30);
+                        
+                        $('#date-from').val(today.toISOString().slice(0, 10));
+                        $('#date-to').val(futureDate.toISOString().slice(0, 10));
+                        
+                        // Handle date range application
+                        $('.apply-date-range').on('click', function() {
+                            var params = {};
+                            
+                            // Collect all filter values
+                            $('.filter-select').each(function() {
+                                var param = $(this).data('param');
+                                var value = $(this).val();
+                                
+                                if (value && value !== 'all') {
+                                    params[param] = value;
+                                }
+                            });
+                            
+                            // Add date range parameters
+                            if ($('#date-from').val()) {
+                                params['from'] = $('#date-from').val();
+                            }
+                            
+                            if ($('#date-to').val()) {
+                                params['to'] = $('#date-to').val();
+                            }
+                            
+                            // Add current view mode
+                            var currentView = $('.toggle-btn.active').data('view');
+                            if (currentView) {
+                                params['view'] = currentView;
+                            }
+                            
+                            // Build the URL
+                            var filterUrl = url.build('events');
+                            
+                            // Redirect to filtered URL
+                            window.location.href = filterUrl + (Object.keys(params).length > 0 ? '?' + $.param(params) : '');
+                        });
+                    }
+                } else {
+                    // Remove date range picker if not using custom date
+                    $('.date-range-picker').remove();
+                }
+            });
+        });
+    });
+</script>

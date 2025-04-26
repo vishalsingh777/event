@@ -1,0 +1,30 @@
+<?php
+/**
+ * @var $block \Insead\Events\Block\EventView
+ * @var $event \Insead\Events\Model\Event
+ */
+?>
+
+<div class="event-header">
+    <div class="event-date-text"><?= $block->escapeHtml($formattedStartDate) ?></div>
+    <h1 class="event-title"><?= $block->escapeHtml($event->getEventTitle()) ?></h1>
+    <div class="event-subtitle"><?= $block->escapeHtml($event->getDescription() ?: 'Join us for this exciting event!') ?></div>
+    
+    <?php if ($event->getOrganizer()): ?>
+    <div class="organizer-info">
+        <div class="organizer-avatar"><?= $block->escapeHtml(substr($event->getOrganizer(), 0, 2)) ?></div>
+        <div class="organizer-details">
+            <div class="organizer-meta">
+                <span class="organizer-name">By <?= $block->escapeHtml($event->getOrganizer()) ?></span>
+                <?php if ($event->getFollowers()): ?>
+                <span class="separator">·</span>
+                <span class="follower-count"><?= $block->escapeHtml($event->getFollowers()) ?> followers</span>
+                <?php endif; ?>
+            </div>
+            <?php if ($event->getAttendeesHosted()): ?>
+            <div class="attendees-count"><?= $block->escapeHtml($event->getAttendeesHosted()) ?> attendees hosted</div>
+            <?php endif; ?>
+        </div>
+    </div>
+    <?php endif; ?>
+</div>

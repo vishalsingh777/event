@@ -1,0 +1,53 @@
+<!--@subject {{trans "Registration Confirmation: %event_title" event_title=$event_title}} @-->
+<!--@vars {
+"var customer_name":"Customer Name",
+"var event_title":"Event Title",
+"var event_date":"Event Date",
+"var event_time":"Event Time",
+"var event_venue":"Event Venue",
+"var registration_id":"Registration ID"
+} @-->
+
+<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #ffffff;">
+    <div style="padding: 20px;">
+        <table width="100%">
+            <tr>
+                <td style="width: 60%;">
+                    <p style="font-size: 14px; margin: 0;">Dear {{var customer_name}},</p>
+                    <p style="font-size: 14px; margin-top: 10px;">Thank you for your registration.</p>
+                </td>
+                <td style="width: 40%; vertical-align: top;" align="right">
+                    <div style="text-align: center;">
+                        <img src="{{view url='Insead_Events/images/email-icon.png'}}" alt="Email Icon" width="40" height="40" />
+                        <p style="color: #006633; font-weight: bold; margin-top: 5px; margin-bottom: 5px;">Registration Questions</p>
+                        <p style="font-size: 12px; margin: 0;"><a href="mailto:events@insead.edu" style="color: #000000; text-decoration: none;">events@insead.edu</a></p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div style="background-color: #f8f8f8; padding: 20px; margin-top: 20px;">
+        <h2 style="color: #006633; text-align: center; margin-top: 0; margin-bottom: 20px;">Registration Details</h2>
+        
+        <p style="text-align: center; margin-bottom: 30px;">Registration ID: {{var registration_id}}</p>
+        
+        <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+            <tbody>
+                <tr>
+                    <td style="padding: 15px; border: 1px solid #ddd; background-color: #fff;">
+                        <p style="margin: 0; color: #006633; font-size: 18px;">{{var event_title}}</p>
+                        <p style="margin: 15px 0 0 0;"><strong>Date:</strong> {{var event_date}}</p>
+                        <p style="margin: 5px 0 0 0;"><strong>Time:</strong> {{var event_time}}</p>
+                        <p style="margin: 5px 0 0 0;"><strong>Venue:</strong> {{var event_venue}}</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div style="margin-top: 30px; text-align: center;">
+        <p>We look forward to seeing you at the event.</p>
+        <p>If you have any questions, please contact us at <a href="mailto:events@insead.edu">events@insead.edu</a>.</p>
+    </div>
+</div>

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="insead_events_email_settings_payment_email_template" label="Payment Confirmation" file="payment_confirmation.html" type="html" module="Insead_Events" area="frontend"/>
+    
+    <!-- Free registration templates -->
+    <template id="insead_events_email_settings_free_registration_email_template" label="Free Event Registration Confirmation" file="free_registration_confirmation.html" type="html" module="Insead_Events" area="frontend"/>
+    
+    <!-- Approval-based templates -->
+    <template id="insead_events_email_settings_registration_pending_email_template" label="Event Registration Pending Approval" file="registration_pending.html" type="html" module="Insead_Events" area="frontend"/>
+    <template id="insead_events_email_settings_registration_approval_email_template" label="Event Registration Approved" file="registration_approval.html" type="html" module="Insead_Events" area="frontend"/>
+    <template id="insead_events_email_settings_registration_rejection_email_template" label="Event Registration Rejected" file="registration_rejection.html" type="html" module="Insead_Events" area="frontend"/>
+</config>
+

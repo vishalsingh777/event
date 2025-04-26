@@ -1,0 +1,47 @@
+<!--@subject {{trans "Event Registration Request: %event_title" event_title=$event_title}} @-->
+<!--@vars {
+"var customer_name":"Customer Name",
+"var event_title":"Event Title",
+"var event_date":"Event Date",
+"var event_time":"Event Time",
+"var event_venue":"Event Venue",
+"var registration_id":"Registration ID"
+} @-->
+
+<p>{{trans "Dear %customer_name," customer_name=$customer_name}}</p>
+
+<p>{{trans "Thank you for your interest in the following event:"}}</p>
+
+<table style="border-collapse: collapse; width: 100%; border: 1px solid #ccc;">
+    <tr>
+        <th style="border: 1px solid #ccc; padding: 10px; text-align: left; background-color: #f2f2f2;">{{trans "Event Details"}}</th>
+        <th style="border: 1px solid #ccc; padding: 10px; text-align: left; background-color: #f2f2f2;"></th>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #ccc; padding: 10px;"><strong>{{trans "Event Title:"}}</strong></td>
+        <td style="border: 1px solid #ccc; padding: 10px;">{{var event_title}}</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #ccc; padding: 10px;"><strong>{{trans "Date:"}}</strong></td>
+        <td style="border: 1px solid #ccc; padding: 10px;">{{var event_date}}</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #ccc; padding: 10px;"><strong>{{trans "Time:"}}</strong></td>
+        <td style="border: 1px solid #ccc; padding: 10px;">{{var event_time}}</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #ccc; padding: 10px;"><strong>{{trans "Venue:"}}</strong></td>
+        <td style="border: 1px solid #ccc; padding: 10px;">{{var event_venue}}</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #ccc; padding: 10px;"><strong>{{trans "Registration ID:"}}</strong></td>
+        <td style="border: 1px solid #ccc; padding: 10px;">{{var registration_id}}</td>
+    </tr>
+</table>
+
+<p>{{trans "Your registration request is currently pending approval. We will review your request and notify you when a decision has been made."}}</p>
+
+<p>{{trans "If you have any questions, please feel free to contact us."}}</p>
+
+<p>{{trans "Best regards,"}}<br/>
+{{trans "The Events Team"}}</p>
